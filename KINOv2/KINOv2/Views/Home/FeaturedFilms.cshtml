@@ -1,0 +1,19 @@
+﻿
+@{
+    List<Film> films = ViewData["Featured"] as List<Film>;
+}
+<div class="container">
+    <div class="row">
+        @for (int i = 0; i < films.Count; i++)
+        {
+            <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[i].LINK">
+                <div class="col-lg-4" style="min-height: 380px;">
+                    @{
+                        <img class="poster-image" src="@Url.Content("~/images/Posters/" + films[i].Poster)" style="clear: both; position: absolute; left: 50%; transform: translate(-50%, 0);"/>
+                        <h3 style="clear:both; color: #fff; position: absolute; top: 310px; text-align: center; width: 100%; margin-left:-15px;">@films[i].Name</h3>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+</div>

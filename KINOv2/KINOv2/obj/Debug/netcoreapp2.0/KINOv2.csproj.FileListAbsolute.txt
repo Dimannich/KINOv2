@@ -1,0 +1,14 @@
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\bin\Debug\netcoreapp2.0\KINOv2.deps.json
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\bin\Debug\netcoreapp2.0\KINOv2.runtimeconfig.json
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\bin\Debug\netcoreapp2.0\KINOv2.runtimeconfig.dev.json
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\bin\Debug\netcoreapp2.0\KINOv2.dll
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\bin\Debug\netcoreapp2.0\KINOv2.pdb
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.csprojResolveAssemblyReference.cache
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.csproj.CoreCompileInputs.cache
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.AssemblyInfoInputs.cache
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.AssemblyInfo.cs
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.dll
+c:\users\дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.pdb
+C:\Users\Дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.Resources.Resource.resources
+C:\Users\Дмитрий\source\repos\KINOv2\KINOv2\obj\Debug\netcoreapp2.0\KINOv2.csproj.GenerateResource.Cache

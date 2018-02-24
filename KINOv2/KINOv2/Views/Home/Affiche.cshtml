@@ -1,0 +1,32 @@
+﻿@using KINOv2.Models.MainModels
+@{
+    ViewData["Title"] = "Афиша";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Message"]</h2>
+
+<div class="container">
+
+    @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
+    {
+        <div class="row film">
+            @{
+                <div class="poster-image" style="background-image: url('@Url.Content("~/images/Posters/" + film.Poster)')"></div>
+                <div class="film-info col-md-6">
+                    <h3><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">@(film.Name + $"({film.ReleaseYear})")</a></h3>
+                    <strong>Жанр: </strong><span>@film.Genre.Name</span><br />
+                    <strong>Ограничение: </strong><span>@film.AgeLimit.Value</span><br />
+                </div>
+            }
+        </div>
+    }
+
+    <form asp-controller="" asp-action=""
+          data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+          data-ajax-failure="onFailed" data-ajax-success="onSuccess"
+          data-ajax="true" data-ajax-method="POST">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <div id="Results"></div>
+    </form>
+</div>

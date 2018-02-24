@@ -1,0 +1,62 @@
+﻿
+<div class="film-container container">
+    <div class="row">
+        <div style="float: left; margin-right: 20px; min-width:400px">
+            <div class="poster-image-large" style="background-image:url('@Url.Content("~/images/Posters/" + (ViewData["Film"] as Film).Poster)'); margin-top:25px;">
+            </div>
+        </div>
+        <div style="float: left;">
+            <h2>@((ViewData["Film"] as Film).Name)</h2>
+            <p>Год: @((ViewData["Film"] as Film).ReleaseYear)</p>
+            <p>Длительность: @((ViewData["Film"] as Film).Duration)</p>
+            <p>Страна: @((ViewData["Film"] as Film).Country.Name)</p>
+            <p>Жанр: @((ViewData["Film"] as Film).Genre.Name)</p>
+            <p>Режиссер: @((ViewData["Film"] as Film).Director.Name) @((ViewData["Film"] as Film).Director.Surname)</p>
+            <p>Ограничения: @((ViewData["Film"] as Film).AgeLimit.Value)</p>
+        </div>
+    </div>
+
+    @{
+        List<List<Session>> sessionSortedByDate = new List<List<Session>>();
+        //IEnumerable<Session> sessions = (ViewData["Sessions"] as IEnumerable<Session>);
+        List<Session> sessionsList = (ViewData["Sessions"] as IEnumerable<Session>).ToList();
+        sessionsList.Sort(new SessionComparer());
+        foreach (Session s in sessionsList)
+        {
+            bool added = false;
+            foreach (List<Session> list in sessionSortedByDate)
+            {
+                if (list.Count > 0 && list[0].SessionTime.ToShortDateString() == s.SessionTime.ToShortDateString())
+                {
+                    list.Add(s);
+                    added = true;
+                    continue;
+                }
+
+            }
+            if (!added)
+            {
+                List<Session> newList = new List<Session>();
+                newList.Add(s);
+                sessionSortedByDate.Add(newList);
+            }
+        }
+        foreach (List<Session> list in sessionSortedByDate)
+        {
+            if (list.Count > 0)
+            {
+                <h3>@list[0].SessionTime.ToShortDateString() (@list[0].SessionTime.DayOfWeek.ToString())</h3>
+                <div class="row">
+                    @{
+                        list.Sort(new SessionComparer());
+                        foreach (Session s in list)
+                        {
+                @*<a href="/Home/Sessions?id=@s.LINK" class="session-link"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>*@
+                            <a class="session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@s.LINK"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>
+                         }
+                      }
+                </div>
+            }
+        }
+    }
+</div>

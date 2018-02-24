@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "Sessions";
+    Session session = ViewData["Session"] as Session;
+}
+
+<h2>Заказ билета</h2>
+
+<p>Фильм: @session.Film.Name</p>
+<p>Зал: @session.Hall.Name</p>
+<p>Дата: @session.SessionTime.ToShortDateString()</p>
+<p>Время: @session.SessionTime.ToShortTimeString()</p>
+
+<hr />
+<p style="text-align:center">Экран</p>
+@{
+    List<Seat> seats = session.Seats.ToList();
+    int rowCount = (int)Math.Sqrt(session.Hall.SeatsNumber / 4);
+
+    <div class="seat-set" style="margin:auto;">
+        @for (int i = 0; i < rowCount; i++)
+        {
+            <div class="seat-row">
+                @for (int j = 0; j < rowCount * rowCount; j++)
+                {
+                    Seat seat = null;
+                    try
+                    {
+                        seat = seats.FirstOrDefault(s => s.Row == i + 1 && s.Number == j + 1);
+                    }
+                    catch
+                    {
+
+                    }
+                    if (seat != null && seat.IsBooked)
+                    {
+                        <div class="seat booked"></div>
+                    }
+                    else
+                    {
+                        <div class="seat" row="@(i+1)" number="@(j+1)"></div>
+
+                    }
+                }
+            </div>
+        }
+    </div>
+    <div class="finalize-block">
+        <form asp-action="CreateOrder" asp-controller="Home">
+            <input type="hidden" class="session-cost" name="session-cost" value=@session.Cost>
+            <input type="hidden" class="session-link" name="session-link" value=@session.LINK>
+            <input type="submit" style="margin:auto" class="btn btn-default make-order-button" value="Заказать">
+        </form>
+    </div>
+}
+
+
+
