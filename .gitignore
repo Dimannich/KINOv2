@@ -234,3 +234,9 @@ _Pvt_Extensions
 .fake/
 /KINOv2/KINOv2/appsettings.json
 /KINOv2/KINOv2/appsettings.json
+/KINOv2/KINOv2/obj/Debug/netcoreapp2.0/KINOv2.csproj.CoreCompileInputs.cache
+/KINOv2/KINOv2/obj/Debug/netcoreapp2.0/KINOv2.csproj.FileListAbsolute.txt
+/KINOv2/KINOv2/obj/Debug/netcoreapp2.0/KINOv2.dll
+/KINOv2/KINOv2/obj/Debug/netcoreapp2.0/KINOv2.pdb
+/KINOv2/.vs/config/applicationhost.config
+/KINOv2/.vs/KINOv2/v15/Server/sqlite3/storage.ide

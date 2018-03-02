@@ -9,6 +9,11 @@ namespace KINOv2.Models.MainModels
 {
     public class Film
     {
+        public Film()
+        {
+            Rating = new List<Rating>();
+        }
+
         [Key]
         public int LINK { get; set; }
         //Название 
@@ -45,5 +50,16 @@ namespace KINOv2.Models.MainModels
         public int? AgeLimitLINK { get; set; }
         //Флаг актуальности
         public bool? Archived { get; set; }
+        //Ссылка на трейлер
+        [Display(Name = "Трейлер")]
+        public string TrailerLink { get; set; }
+        //Глобальный рейтинг (КП)
+        [Display(Name = "Рейтинг Кинопоиска")]
+        public int? GlobalRating { get; set; }
+        //Локальный рейтинг
+        [Display(Name = "Оценка пользователей")]
+        public int? LocalRating { get; set; }
+        //Оценки фильма
+        public ICollection<Rating> Rating { get; set; }
     }
 }
