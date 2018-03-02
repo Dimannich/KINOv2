@@ -1,4 +1,5 @@
 ﻿using KINOv2.Models.MainModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,7 @@ namespace KINOv2.Models.ContentManageViewModels
         public Film Film { get; set; }
         public Session Session { get; set; }
 
-        //[Display(Name = "Файл изображения")]
-        //public HttpPostedFileBase UploadedFile { get; set; }
+        [Display(Name = "Файл изображения")]
+        public IFormFile UploadedFile { get; set; }
     }
 }

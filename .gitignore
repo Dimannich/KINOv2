@@ -232,3 +232,5 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/KINOv2/KINOv2/appsettings.json
+/KINOv2/KINOv2/appsettings.json

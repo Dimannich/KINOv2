@@ -1,0 +1,79 @@
+﻿@model FilmManageViewModel
+@{
+    ViewData["Title"] = "FilmManage";
+}
+
+<h2>FilmManage</h2>
+
+<h4>Добавление фильма</h4>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-1">
+            <form asp-area="" asp-controller="Content" asp-action="FilmManage" method="post" enctype="multipart/form-data" role="form" class="form-horizontal">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Film.Name"></label>
+                    <input asp-for="Film.Name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.DirectorLINK"></label>
+                    <select asp-for="Film.DirectorLINK" asp-items="ViewBag.Directors" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.GenreLINK"></label>
+                    <select asp-for="Film.GenreLINK" asp-items="ViewBag.Genres" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.ReleaseYear"></label>
+                    <input asp-for="Film.ReleaseYear" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.AgeLimitLINK"></label>
+                    <select asp-for="Film.AgeLimitLINK" asp-items="ViewBag.AgeLimits" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.CountryLINK"></label>
+                    <select asp-for="Film.CountryLINK" asp-items="ViewBag.Countries" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.Duration"></label>
+                    <input asp-for="Film.Duration" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Film.Poster"></label>
+                    <input asp-for="Film.Poster" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="UploadedFile"></label>
+                    <input asp-for="UploadedFile" type="file" name="UploadedFile" onchange="SetNewEntry(this.files);" />
+
+                </div>
+                @if (Model.Film != null)
+                {
+                <input asp-for="Film.LINK" type="hidden" />
+                <div class="col-md-offset-4 col-md-8">
+                    <button type="submit" class="btn btn-default">Update</button>
+                </div>
+                }
+                else
+                {
+            <div class="col-md-offset-4 col-md-8">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+                }
+            </form>
+        </div>
+        @{
+            string image = null;
+            if (Model.Film != null)
+            {
+                image = (Url.Content("~/images/Posters/") + Model.Film.Poster);
+            }
+        
+        <div class="col-md-5">
+            <img id="filmimage" class="film-content-image" src=@image />
+        </div>
+        }
+    </div>
+</div>

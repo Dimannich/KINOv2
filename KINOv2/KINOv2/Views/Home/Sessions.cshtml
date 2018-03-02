@@ -28,10 +28,7 @@
                     {
                         seat = seats.FirstOrDefault(s => s.Row == i + 1 && s.Number == j + 1);
                     }
-                    catch
-                    {
-
-                    }
+                    catch { }
                     if (seat != null && seat.IsBooked)
                     {
                         <div class="seat booked"></div>

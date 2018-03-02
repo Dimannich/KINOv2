@@ -25,7 +25,7 @@ namespace KINOv2.Controllers
             UserManager = userManager;
         }
 
-        private ApplicationDbContext DB{ get; set; }
+        private ApplicationDbContext DB { get; set; }
         private UserManager<ApplicationUser> UserManager { get; set; }
 
         public IActionResult Index()
