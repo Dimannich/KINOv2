@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using KINOv2.Data;
 using KINOv2.Models;
 using KINOv2.Services;
+using NonFactors.Mvc.Grid;
 
 namespace KINOv2
 {
@@ -37,6 +38,8 @@ namespace KINOv2
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddMvcGrid();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

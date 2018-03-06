@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KINOv2.Models.AdditionalEFEntities;
 using KINOv2.Models.MainModels;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,7 +13,7 @@ namespace KINOv2.Models
     {
         public ApplicationUser() : base()
         {
-            SelectedFilms = new List<Film>();
+            FilmUsers = new List<FilmUser>();
         }
 
         //Изображение в профиле
@@ -26,6 +27,12 @@ namespace KINOv2.Models
         //Фамилия
         public string SurName { get; set; }
         //Избранные фильмы
-        public ICollection<Film> SelectedFilms { get; set; }
+        public ICollection<FilmUser> FilmUsers { get; set; }
+        //О себе
+        public string About { get; set; }
+        //Отображение избранных фильмов остальным юзерам
+        public bool? SelectedFilmsVisible { get; set; }
+        //Отображение персональной информации остальным юзерам
+        public bool? PersonalInfoVisible { get; set; }
     }
 }

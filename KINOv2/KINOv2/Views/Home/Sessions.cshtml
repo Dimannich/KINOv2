@@ -11,6 +11,20 @@
 <p>Дата: @session.SessionTime.ToShortDateString()</p>
 <p>Время: @session.SessionTime.ToShortTimeString()</p>
 
+@if (User.IsInRole("Admin"))
+{
+    <div class="row">
+        @*@{
+            string hrefEdit = string.Format("/Manage/SessionManage?id={0}", ViewBag.Session.LINK);
+            string hrefDelete = string.Format("/Manage/ArchiveSession?id={0}", ViewBag.Session.LINK);
+        }
+        <p><a class="btn btn-default" style="margin-left:10px; width:150px;" href=@hrefEdit>Редактировать</a></p>
+        <p><a class="btn btn-default" style="margin-left:10px; width:150px;" href=@hrefDelete>Архивировать</a></p>*@
+        <a asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-id="@session.LINK">Редактировать</a>
+        <a asp-area="" asp-controller="Content" asp-action="ArchiveSession" asp-route-id="@session.LINK">Архивировать</a>
+    </div>
+}
+
 <hr />
 <p style="text-align:center">Экран</p>
 @{

@@ -314,12 +314,16 @@ footer {
 .session-button {
     height: 50px;
     width: auto;
-    background: #f6a21c;
-    color: #fff;
+    color: #f6a21c;
+    border: 2px solid #f6a21c;
     width: 200px;
     border-radius: 50px;
     text-align: center;
 }
+    .session-button:hover {
+        color: #fff;
+        background: #f6a21c;
+    }
 
 .session-link {
     float: left;
@@ -401,4 +405,17 @@ footer {
 
 input[type="text"] {
     color: #000;
+}
+
+.age-label {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #f6a21c;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 7px;
+    padding-left: 1px;
+    position: relative;
+    line-height: 15px;
 }

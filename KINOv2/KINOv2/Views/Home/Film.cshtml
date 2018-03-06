@@ -1,4 +1,5 @@
-﻿
+﻿@using System.Globalization
+
 <div class="film-container container">
     <div class="row">
         <div style="float: left; margin-right: 20px; min-width:400px">
@@ -6,19 +7,47 @@
             </div>
         </div>
         <div style="float: left;">
-            <h2>@((ViewData["Film"] as Film).Name)</h2>
-            <p>Год: @((ViewData["Film"] as Film).ReleaseYear)</p>
-            <p>Длительность: @((ViewData["Film"] as Film).Duration)</p>
-            <p>Страна: @((ViewData["Film"] as Film).Country.Name)</p>
-            <p>Жанр: @((ViewData["Film"] as Film).Genre.Name)</p>
-            <p>Режиссер: @((ViewData["Film"] as Film).Director.Name) @((ViewData["Film"] as Film).Director.Surname)</p>
-            <p>Ограничения: @((ViewData["Film"] as Film).AgeLimit.Value)</p>
+            <h1>@((ViewData["Film"] as Film).Name)</h1>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).ReleaseYear)"></label>
+                <span>@((ViewData["Film"] as Film).ReleaseYear)</span>
+            </div>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).Duration)"></label>
+                <span>@((ViewData["Film"] as Film).Duration)</span>
+            </div>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).CountryLINK)"></label>
+                <span>@((ViewData["Film"] as Film).Country.Name)</span>
+            </div>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).GenreLINK)"></label>
+                <span>@((ViewData["Film"] as Film).Genre.Name)</span>
+            </div>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).DirectorLINK)"></label>
+                <span>@((ViewData["Film"] as Film).Director.Name) @((ViewData["Film"] as Film).Director.Surname)</span>
+            </div>
+            <div style="margin-bottom:5px;">
+                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).AgeLimitLINK)"></label>
+                <span class="age-label">@((ViewData["Film"] as Film).AgeLimit.Value)</span>
+            </div>
         </div>
     </div>
 
+    @if (User.IsInRole("Admin"))
+    {
+        <hr />
+        <div class="row">
+            @*<p><a class="btn btn-default col-md-2" style="margin-left:10px;" href="/Manage/SessionManage?film=@ViewBag.Film.LINK">Добавить сеанс</a></p>*@
+            <a asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-film="@((ViewData["Film"] as Film).LINK)">Добавить сеанс</a>
+        </div>
+
+    }
+    <h2>Сеансы</h2>
+    <hr />
     @{
         List<List<Session>> sessionSortedByDate = new List<List<Session>>();
-        //IEnumerable<Session> sessions = (ViewData["Sessions"] as IEnumerable<Session>);
         List<Session> sessionsList = (ViewData["Sessions"] as IEnumerable<Session>).ToList();
         sessionsList.Sort(new SessionComparer());
         foreach (Session s in sessionsList)
@@ -45,18 +74,36 @@
         {
             if (list.Count > 0)
             {
-                <h3>@list[0].SessionTime.ToShortDateString() (@list[0].SessionTime.DayOfWeek.ToString())</h3>
+                <h3>@list[0].SessionTime.ToShortDateString() (@DateTimeFormatInfo.CurrentInfo.GetDayName(list[0].SessionTime.DayOfWeek))</h3>
                 <div class="row">
                     @{
                         list.Sort(new SessionComparer());
                         foreach (Session s in list)
                         {
-                @*<a href="/Home/Sessions?id=@s.LINK" class="session-link"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>*@
                             <a class="session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@s.LINK"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>
-                         }
-                      }
+                        }
+                    }
                 </div>
             }
         }
     }
+
+
+    <h2>Трейлер</h2>
+    <hr />
+    <section class="row">
+        <center>
+            <iframe width="700" height="400" src="@((ViewData["Film"] as Film).TrailerLink)" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+        </center>
+    </section>
+
+    <hr />
+    <form asp-area="" asp-controller="Home" asp-action="SendMessage" method="post" enctype="multipart/form-data">
+        <center>
+        <div style="width:700px">
+            <textarea id="message" name="example" placeholder="Напишите ответ..."></textarea>
+        </div>
+        <button class="btn btn-default" type="submit" style="position:relative; left:200px; top:-35px; z-index:inherit">Send</button>
+            </center>
+    </form>
 </div>

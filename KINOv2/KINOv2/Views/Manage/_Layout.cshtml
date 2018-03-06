@@ -12,7 +12,9 @@
             @await Html.PartialAsync("_ManageNav")
         </div>
         <div class="col-md-9">
-            @RenderBody()
+            <div id="Result">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </div>

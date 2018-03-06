@@ -32,6 +32,19 @@ namespace KINOv2.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<FilmUser>()
+                .HasKey(k => new { k.ApplicationUserId, k.FilmLINK });
+
+            builder.Entity<FilmUser>()
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.FilmUsers)
+                .HasForeignKey(x => x.ApplicationUserId);
+
+            builder.Entity<FilmUser>()
+                .HasOne(x => x.Film)
+                .WithMany(x => x.FilmUsers)
+                .HasForeignKey(x => x.FilmLINK);
         }
 
         public DbSet<Hall> Halls { get; set; }
@@ -43,6 +56,8 @@ namespace KINOv2.Data
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         public static List<UserOrdersHistoryModel> GetUserHistoryAsync(string userID)
         {

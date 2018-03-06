@@ -8,6 +8,15 @@
 
 <div class="container">
 
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row">
+            @*<p><a class="btn btn-default col-md-2 col-md-offset-10" href="/Manage/FilmManage">Добавить фильм</a></p>*@
+            <a asp-area="" asp-controller="Content" asp-action="FilmManage" class="btn btn-default">Добавить фильм</a>
+        </div>
+
+    }
+
     @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
     {
         <div class="row film">
@@ -22,11 +31,29 @@
         </div>
     }
 
-    <form asp-controller="" asp-action=""
-          data-ajax-begin="onBegin" data-ajax-complete="onComplete"
-          data-ajax-failure="onFailed" data-ajax-success="onSuccess"
-          data-ajax="true" data-ajax-method="POST">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <div id="Results"></div>
-    </form>
+    @*<form asp-controller="" asp-action=""
+              data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+              data-ajax-failure="onFailed" data-ajax-success="onSuccess"
+              data-ajax="true" data-ajax-method="POST">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <div id="Results"></div>
+        </form>*@
+
+    <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
+
+    @(Html
+            .Grid(ViewData["Films"] as IEnumerable<Film>)
+            .Build(columns =>
+            {
+                columns.Add(m => m.Name).Titled("Name");
+                columns.Add(model => model.Duration).Titled("Surname");
+
+                columns.Add(model => model.Archived).Titled("Age");
+                columns.Add(model => model.Poster).Titled("Birth date");
+                columns.Add(model => model.LINK).Titled("Employed");
+            })
+            .Filterable()
+            .Sortable()
+            .Pageable()
+    )
 </div>

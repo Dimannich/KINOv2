@@ -152,55 +152,52 @@ namespace KINOv2.Controllers
             SelectList hallsList = new SelectList(DB.Halls.ToList(), "LINK", "Name");
             ViewBag.Halls = hallsList;
 
-            SessionManageViewModel model = new SessionManageViewModel();
-            model.Session = session;
-
-            return View(model);
+            return View(session);
         }
 
         //
         //POST: /Content/SessionManage
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> SesionManage(SessionManageViewModel model)
+        public async Task<IActionResult> SessionManage(Session model)
         {
             //var context = ApplicationDbContext.Create();
 
-            string dateString = Request.Query["date_field"].ToString();
-            bool isDateValid = DateTime.TryParse(dateString, out DateTime date);
-            if (ModelState.IsValid && isDateValid)
+            //string dateString = Request.Query["date_field"].ToString();
+            //bool isDateValid = DateTime.TryParse(dateString, out DateTime date);
+            if (ModelState.IsValid)// && isDateValid)
             {
-                model.Session.SessionTime = date;
-                var session = await DB.Sessions.FindAsync(model.Session.LINK);
+                //model.SessionTime = date;
+                var session = await DB.Sessions.FindAsync(model.LINK);
                 if (session != null)
                 {
                     foreach (var prop in session.GetType().GetProperties())
                     {
-                        prop.SetValue(session, model.Session.GetType().GetProperty(prop.Name).GetValue(model.Session));
+                        prop.SetValue(session, model.GetType().GetProperty(prop.Name).GetValue(model));
                     }
 
                     DB.Entry(session).State = EntityState.Modified;
                 }
                 else
                 {
-                    DB.Entry(model.Session).State = EntityState.Added;
+                    DB.Entry(model).State = EntityState.Added;
                 }
             }
-            else
-            {
-                if (!isDateValid)
-                {
-                    model.Session.SessionTime = DateTime.Now;
-                }
-                else model.Session.SessionTime = date;
-                SelectList filmsList = new SelectList(DB.Films.Where(x => x.Archived != true).ToList(), "LINK", "Name");
-                ViewBag.Films = filmsList;
-                SelectList hallsList = new SelectList(DB.Halls.ToList(), "LINK", "Name");
-                ViewBag.Halls = hallsList;
-                if (model.Session.FilmLINK != null)
-                    model.Session.Film = await DB.Films.FindAsync(model.Session.FilmLINK);
-                return View(model);
-            }
+            //else
+            //{
+                //if (!isDateValid)
+                //{
+                //    model.SessionTime = DateTime.Now;
+                //}
+                //else model.SessionTime = date;
+                //SelectList filmsList = new SelectList(DB.Films.Where(x => x.Archived != true).ToList(), "LINK", "Name");
+                //ViewBag.Films = filmsList;
+                //SelectList hallsList = new SelectList(DB.Halls.ToList(), "LINK", "Name");
+                //ViewBag.Halls = hallsList;
+                //if (model.FilmLINK != null)
+                //    model.Film = await DB.Films.FindAsync(model.FilmLINK);
+                //return View(model);
+            //}
             await DB.SaveChangesAsync();
 
             return RedirectToAction("Affiche", "Home");
@@ -254,7 +251,7 @@ namespace KINOv2.Controllers
         }
 
         //
-        //GET /Content/ArchiveSession
+        //GET: /Content/ArchiveSession
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> ArchiveSession(int? id)

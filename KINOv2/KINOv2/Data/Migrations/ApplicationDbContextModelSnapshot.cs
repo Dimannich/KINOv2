@@ -20,12 +20,31 @@ namespace KINOv2.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("KINOv2.Models.AdditionalEFEntities.FilmUser", b =>
+                {
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int?>("FilmLINK");
+
+                    b.HasKey("ApplicationUserId", "FilmLINK");
+
+                    b.HasIndex("FilmLINK");
+
+                    b.ToTable("FilmUser");
+                });
+
             modelBuilder.Entity("KINOv2.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("About");
+
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<int?>("Age");
+
+                    b.Property<string>("City");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -39,6 +58,8 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -47,11 +68,19 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<bool?>("PersonalInfoVisible");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("ProfileImage");
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<bool?>("SelectedFilmsVisible");
+
+                    b.Property<string>("SurName");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -71,6 +100,32 @@ namespace KINOv2.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("KINOv2.Models.MainModels.Comment", b =>
+                {
+                    b.Property<int>("LINK")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int?>("BaseCommentLINK");
+
+                    b.Property<DateTime?>("Date");
+
+                    b.Property<int?>("FilmLINK");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("LINK");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BaseCommentLINK");
+
+                    b.HasIndex("FilmLINK");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("KINOv2.Models.MainModels.Film", b =>
                 {
                     b.Property<int>("LINK")
@@ -82,12 +137,18 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<int?>("CountryLINK");
 
+                    b.Property<string>("Description");
+
                     b.Property<int?>("DirectorLINK");
 
                     b.Property<string>("Duration")
                         .IsRequired();
 
                     b.Property<int?>("GenreLINK");
+
+                    b.Property<int?>("GlobalRating");
+
+                    b.Property<int?>("LocalRating");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -96,6 +157,8 @@ namespace KINOv2.Data.Migrations
                         .IsRequired();
 
                     b.Property<int>("ReleaseYear");
+
+                    b.Property<string>("TrailerLink");
 
                     b.HasKey("LINK");
 
@@ -128,6 +191,30 @@ namespace KINOv2.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("KINOv2.Models.MainModels.Rating", b =>
+                {
+                    b.Property<int>("LINK")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<int?>("CommentLINK");
+
+                    b.Property<int?>("FilmLINK");
+
+                    b.Property<int>("Value");
+
+                    b.HasKey("LINK");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CommentLINK");
+
+                    b.HasIndex("FilmLINK");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("KINOv2.Models.MainModels.Seat", b =>
@@ -356,6 +443,34 @@ namespace KINOv2.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("KINOv2.Models.AdditionalEFEntities.FilmUser", b =>
+                {
+                    b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("FilmUsers")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("KINOv2.Models.MainModels.Film", "Film")
+                        .WithMany("FilmUsers")
+                        .HasForeignKey("FilmLINK")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KINOv2.Models.MainModels.Comment", b =>
+                {
+                    b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("KINOv2.Models.MainModels.Comment", "BaseComment")
+                        .WithMany()
+                        .HasForeignKey("BaseCommentLINK");
+
+                    b.HasOne("KINOv2.Models.MainModels.Film", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmLINK");
+                });
+
             modelBuilder.Entity("KINOv2.Models.MainModels.Film", b =>
                 {
                     b.HasOne("KINOv2.Models.ReferenceBooks.AgeLimit", "AgeLimit")
@@ -380,6 +495,21 @@ namespace KINOv2.Data.Migrations
                     b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("KINOv2.Models.MainModels.Rating", b =>
+                {
+                    b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("KINOv2.Models.MainModels.Comment")
+                        .WithMany("Rating")
+                        .HasForeignKey("CommentLINK");
+
+                    b.HasOne("KINOv2.Models.MainModels.Film")
+                        .WithMany("Rating")
+                        .HasForeignKey("FilmLINK");
                 });
 
             modelBuilder.Entity("KINOv2.Models.MainModels.Seat", b =>

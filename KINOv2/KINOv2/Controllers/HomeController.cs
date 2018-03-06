@@ -35,7 +35,8 @@ namespace KINOv2.Controllers
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
-                .Where(x => x.Archived != true);
+                .Where(x => x.Archived != true)
+                .Take(1);
 
             IEnumerable<Hall> halls = DB.Halls;
 
@@ -54,7 +55,7 @@ namespace KINOv2.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            //ViewData["Message"] = "Your contact page.";
 
             return View();
         }
@@ -88,17 +89,26 @@ namespace KINOv2.Controllers
             
         }
 
-        public IActionResult Affiche()
+        public async Task<IActionResult> Affiche(int page = 1)
         {
-            IEnumerable<Film> films = DB.Films
+            int pageSize = 3;
+
+            IQueryable<Film> films = DB.Films
                 .Include(x => x.Genre)
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
                 .Where(x => x.Archived != true);
 
-            ViewData["Films"] = films;
-            return View();
+            var count = await films.CountAsync();
+            var selectedFilms = await films.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageViewModel pageView = new PageViewModel(count, page, pageSize);
+
+            ViewData["Films"] = selectedFilms;
+            ViewData["PageView"] = pageView;
+
+             return View();
         }
 
         public IActionResult Halls()
@@ -196,6 +206,12 @@ namespace KINOv2.Controllers
                 }
                 return key;
             }
+        }
+
+        [HttpPost]
+        public IActionResult SendMessage(string example)
+        {
+            return null;
         }
     }
 }

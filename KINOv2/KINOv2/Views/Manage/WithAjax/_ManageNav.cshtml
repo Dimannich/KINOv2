@@ -1,0 +1,16 @@
+﻿@using KINOv2.Views.Manage
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><button type="submit" class="btn btn-default" name="Button" value="Profile">Update password</button></li>
+    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><button type="submit" class="btn btn-default" name="Button" value="Password">Update password</button></li>
+    @if (hasExternalLogins)
+    {
+        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><button type="submit" class="btn btn-default" name="Button" value="External">Update password</button></li>
+    }
+    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><button type="submit" class="btn btn-default" name="Button" value="2fa">Update password</button></li>
+</ul>
+

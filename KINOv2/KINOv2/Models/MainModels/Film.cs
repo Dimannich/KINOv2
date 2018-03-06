@@ -1,4 +1,5 @@
-﻿using KINOv2.Models.ReferenceBooks;
+﻿using KINOv2.Models.AdditionalEFEntities;
+using KINOv2.Models.ReferenceBooks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,7 @@ namespace KINOv2.Models.MainModels
         public Film()
         {
             Rating = new List<Rating>();
+            FilmUsers = new List<FilmUser>();
         }
 
         [Key]
@@ -25,12 +27,12 @@ namespace KINOv2.Models.MainModels
         [Required]
         public string Poster { get; set; }
         //Год выпуска
-        [Display(Name = "Год выхода на экран")]
+        [Display(Name = "Год выпуска")]
         [Required]
         public int ReleaseYear { get; set; }
         //Страна
         public virtual Country Country { get; set; }
-        [Display(Name = "Страна производитель")]
+        [Display(Name = "Страна")]
         public int? CountryLINK { get; set; }
         //Жанр
         public virtual Genre Genre { get; set; }
@@ -41,7 +43,7 @@ namespace KINOv2.Models.MainModels
         [Display(Name = "Режиссер")]
         public int? DirectorLINK { get; set; }
         //Продолжительность
-        [Display(Name = "Длительность (в минутах)")]
+        [Display(Name = "Длительность")]
         [Required]
         public string Duration { get; set; }
         //Возрастное ограничение 
@@ -50,8 +52,12 @@ namespace KINOv2.Models.MainModels
         public int? AgeLimitLINK { get; set; }
         //Флаг актуальности
         public bool? Archived { get; set; }
+        //Описание фильма
+        [Display(Name = "Описание")]
+        public string Description { get; set; }
         //Ссылка на трейлер
         [Display(Name = "Трейлер")]
+        [Url]
         public string TrailerLink { get; set; }
         //Глобальный рейтинг (КП)
         [Display(Name = "Рейтинг Кинопоиска")]
@@ -61,5 +67,7 @@ namespace KINOv2.Models.MainModels
         public int? LocalRating { get; set; }
         //Оценки фильма
         public ICollection<Rating> Rating { get; set; }
+        //Пользователи, добавившие фильм в избранное
+        public ICollection<FilmUser> FilmUsers { get; set; }
     }
 }

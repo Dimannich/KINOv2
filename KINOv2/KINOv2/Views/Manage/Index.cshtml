@@ -1,45 +1,50 @@
 ﻿@model IndexViewModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Профиль";
     ViewData.AddActivePage(ManageNavPages.Index);
+    string imgPath = "";
+    if (Model.ProfileImage is null)
+    {
+        imgPath = Url.Content("~/images/Profiles/default.png");
+    }
+    else
+    {
+        imgPath = Url.Content("~/images/Profiles" + Model.ProfileImage);
+    }
 }
 
-<h4>@ViewData["Title"]</h4>
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+<h3>@ViewData["Title"]</h3>
 <div class="row">
+    <div class="col-md-3">
+        <img height="200" width="200" src="@imgPath" />
+    </div>
     <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                @if (Model.IsEmailConfirmed)
-                {
-                    <div class="input-group">
-                        <input asp-for="Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                    </div>
-                }
-                else
-                {
-                    <input asp-for="Email" class="form-control" />
-                    <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-                }
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Save</button>
-        </form>
+        <div style="margin-bottom:5px;">
+            <span>@Model.Username</span>
+        </div>
+        <div style="margin-bottom:5px;">
+            <span>@Model.Name @Model.SurName, @Model.Age</span>
+        </div>
+        <div style="margin-bottom:5px;">
+            <label class="text-info" style="width:60px" asp-for="@Model.City"></label>
+            <span>@Model.City</span>
+        </div>
+        <div style="margin-bottom:5px;">
+            <label class="text-info" style="width:60px" asp-for="@Model.Email"></label>
+            <span>@Model.Email</span>
+        </div>
+        <div style="margin-bottom:5px;">
+            <label class="text-info" style="width:60px" asp-for="@Model.About"></label>
+            <p style="word-break:break-all">@Model.About</p>
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+<h4>Избранные фильмы</h4>
+<div class="row">
+    <form>
+
+    </form>
+</div>
+
+

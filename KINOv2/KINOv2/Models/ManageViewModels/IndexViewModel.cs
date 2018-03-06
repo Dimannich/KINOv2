@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KINOv2.Models.MainModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace KINOv2.Models.ManageViewModels
 {
     public class IndexViewModel
     {
+        [Display(Name = "Имя пользователя")]
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -17,8 +19,27 @@ namespace KINOv2.Models.ManageViewModels
         public string Email { get; set; }
 
         [Phone]
-        [Display(Name = "Phone number")]
+        [Display(Name = "Номер телефона")]
         public string PhoneNumber { get; set; }
+
+        [Display(Name = "Город")]
+        public string City { get; set; }
+
+        [Display(Name = "Возраст")]
+        public int? Age { get; set; }
+
+        [Display(Name = "Имя")]
+        public string Name { get; set; }
+
+        [Display(Name = "Фамилия")]
+        public string SurName { get; set; }
+
+        [Display(Name = "О себе")]
+        public string About { get; set; }
+
+        public List<Film> Films { get; set; }
+
+        public string ProfileImage { get; set; }
 
         public string StatusMessage { get; set; }
     }

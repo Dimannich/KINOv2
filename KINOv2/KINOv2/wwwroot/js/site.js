@@ -93,3 +93,156 @@ function hideUpButtonClick() {
 }
 document.addEventListener("scroll", hideUpButtonClick);
 document.addEventListener("DOMContentLoaded", hideUpButtonClick);
+
+
+//$(function () {
+
+//    $("#prSecond").click(function (e) {
+//        e.preventDefault();
+//        $('#' + $(this).data("target")).load($(this).attr("href"));
+//        $(".profile-menu").removeClass("active");
+//        $(".second").addClass("active");
+//        $("#prSecond").addClass("menu-item-active");
+//        $("#prSecond").blur();
+//    });
+    
+//});
+
+$(function () {
+
+    $("#prThird").click(function (e) {
+        e.preventDefault();
+        $('#' + $(this).data("target")).load($(this).attr("href"));
+        $(".profile-menu").removeClass("active");
+        $(".third").addClass("active");
+        $("#prThird").addClass("menu-item-active");
+        $("#prThird").blur();
+    });
+
+});
+
+function OnLinkClick(e) {
+    e.preventDefault();
+    $('#' + $(this).data("target")).load($(this).attr("href"));
+    $(".profile-menu").removeClass("active");
+}
+
+$('#message').richText({
+
+    // text formatting
+    bold: true,
+    italic: true,
+    underline: true,
+
+    // text alignment
+    leftAlign: true,
+    centerAlign: true,
+    rightAlign: true,
+
+    // lists
+    ol: true,
+    ul: true,
+
+    // title
+    heading: true,
+
+    // colors
+    fontColor: true,
+
+    // uploads
+    imageUpload: true,
+    fileUpload: false,
+
+    // link
+    urls: true,
+
+    // tables
+    table: false,
+
+    // code
+    removeStyles: false,
+    code: false,
+
+    // colors
+    colors: [],
+
+    // media
+    videoEmbed: false,
+
+    translations: {
+        'title': 'Title',
+        'white': 'White',
+        'black': 'Черный',
+        'brown': 'Brown',
+        'beige': 'Beige',
+        'darkBlue': 'Dark Blue',
+        'blue': 'Blue',
+        'lightBlue': 'Light Blue',
+        'darkRed': 'Dark Red',
+        'red': 'Red',
+        'darkGreen': 'Dark Green',
+        'green': 'Green',
+        'purple': 'Purple',
+        'darkTurquois': 'Dark Turquois',
+        'turquois': 'Turquois',
+        'darkOrange': 'Dark Orange',
+        'orange': 'Orange',
+        'yellow': 'Yellow',
+        'imageURL': 'Image URL',
+        'fileURL': 'File URL',
+        'linkText': 'Link text',
+        'url': 'URL',
+        'size': 'Size',
+        'responsive': 'Responsive',
+        'text': 'Text',
+        'openIn': 'Open in',
+        'sameTab': 'Same tab',
+        'newTab': 'New tab',
+        'align': 'Align',
+        'left': 'Left',
+        'center': 'Центр',
+        'right': 'Right',
+        'rows': 'Rows',
+        'columns': 'Columns',
+        'add': 'Add',
+        'pleaseEnterURL': 'Please enter an URL',
+        'videoURLnotSupported': 'Video URL not supported',
+        'pleaseSelectImage': 'Please select an image',
+        'pleaseSelectFile': 'Please select a file',
+        'bold': 'Bold',
+        'italic': 'Italic',
+        'underline': 'Underline',
+        'alignLeft': 'Align left',
+        'alignCenter': 'Align centered',
+        'alignRight': 'Align right',
+        'addOrderedList': 'Add ordered list',
+        'addUnorderedList': 'Add unordered list',
+        'addHeading': 'Add Heading/title',
+        'addFont': 'Выбрать шрифт',
+        'addFontColor': 'Выбрать цвет шрифта',
+        'addImage': 'Прикрепить изображение',
+        'addVideo': 'Прикрепить видео',
+        'addFile': 'Прикрепить файл',
+        'addURL': 'Добавить ссылку',
+        'addTable': 'Вставить таблицу',
+        'removeStyles': 'Убрать стили',
+        'code': 'Показать HTML код',
+        'undo': 'Отменить',
+        'redo': 'Вернуть',
+        'close': 'Закрыть'
+    },
+
+    // dropdowns
+    fileHTML: '',
+    imageHTML: ''
+
+    
+});
+
+//$(document).ready(function () {
+//    $('form').find("input[type=textarea], input[type=password], textarea").each(function (ev) {
+//        if (!$(this).val()) {
+//            $(this).attr("placeholder", "Type your answer here");
+//        }
+//    });
+//});

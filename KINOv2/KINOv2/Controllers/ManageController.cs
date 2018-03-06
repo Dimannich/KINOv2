@@ -60,15 +60,23 @@ namespace KINOv2.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                Age = user.Age,
+                City = user.City,
+                Name = user.Name,
+                SurName = user.SurName,
+                ProfileImage = user.ProfileImage,
+                About = user.About                
             };
+
+            //var films = user.FilmUsers.Select(x => x.FilmLINK);
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model)
+        public async Task<IActionResult> Index(IndexViewModel model, string button)
         {
             if (!ModelState.IsValid)
             {
@@ -145,7 +153,7 @@ namespace KINOv2.Controllers
             }
 
             var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
-            return View(model);
+            return PartialView("ChangePasswordPartial", model);
         }
 
         [HttpPost]
@@ -322,7 +330,7 @@ namespace KINOv2.Controllers
                 RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user),
             };
 
-            return View(model);
+            return PartialView("TwoFactorAuthenticationPartial", model);
         }
 
         [HttpGet]

@@ -26,6 +26,8 @@ namespace KINOv2.Models.MainModels
         //Ссылка на другой коммент
         public Comment BaseComment { get; set; }
         public int? BaseCommentLINK { get; set; }
+        //Дата
+        public DateTime? Date { get; set; }
         //Оценки
         public ICollection<Rating> Rating { get; set; }
     }
