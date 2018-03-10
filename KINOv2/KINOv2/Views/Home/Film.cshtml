@@ -1,38 +1,58 @@
 ﻿@using System.Globalization
 
-<div class="film-container container">
-    <div class="row">
-        <div style="float: left; margin-right: 20px; min-width:400px">
-            <div class="poster-image-large" style="background-image:url('@Url.Content("~/images/Posters/" + (ViewData["Film"] as Film).Poster)'); margin-top:25px;">
+@{
+    var film = (ViewData["Film"] as Film);
+    bool flag = (Convert.ToBoolean(ViewData["Favorite"]));
+}
+
+<div class="film-container">
+    <div class="row" style="margin:auto; max-width: 1000px;">
+        <div class="col-sm-3" style="float: left; margin-right: 20px; min-width:400px">
+            <div class="poster-image-large" style="background-image:url('@Url.Content("~/images/Posters/" + film.Poster)'); margin-top:25px;">
             </div>
+            <div id="film-rating" class="">
+                <input type="hidden" class="votes" value="@(film.Rating.Count )" />
+                <input type="hidden" class="val" value="@film.LocalRating" />
+                <input type="hidden" class="vote-id" value="@film.LINK" />
+            </div>
+
         </div>
-        <div style="float: left;">
-            <h1>@((ViewData["Film"] as Film).Name)</h1>
+        <div style="float: left;" class="col-sm-6">
+            <h1>
+                @film.Name
+                <a style="margin-top:40px; margin-left:20px" href="#" id="favorite" class=""><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(flag == true ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(flag == true ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
+            </h1>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).ReleaseYear)"></label>
-                <span>@((ViewData["Film"] as Film).ReleaseYear)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.ReleaseYear"></label>
+                <span>@film.ReleaseYear</span>
             </div>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).Duration)"></label>
-                <span>@((ViewData["Film"] as Film).Duration)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.Duration"></label>
+                <span>@film.Duration</span>
             </div>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).CountryLINK)"></label>
-                <span>@((ViewData["Film"] as Film).Country.Name)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.CountryLINK"></label>
+                <span>@film.Country.Name</span>
             </div>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).GenreLINK)"></label>
-                <span>@((ViewData["Film"] as Film).Genre.Name)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.GenreLINK"></label>
+                <span>@film.Genre.Name</span>
             </div>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).DirectorLINK)"></label>
-                <span>@((ViewData["Film"] as Film).Director.Name) @((ViewData["Film"] as Film).Director.Surname)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.DirectorLINK"></label>
+                <span>@film.Director.Name @film.Director.Surname</span>
             </div>
             <div style="margin-bottom:5px;">
-                <label class="text-info" style="width:250px;" asp-for="@((ViewData["Film"] as Film).AgeLimitLINK)"></label>
-                <span class="age-label">@((ViewData["Film"] as Film).AgeLimit.Value)</span>
+                <label class="text-info" style="width:250px;" asp-for="@film.AgeLimitLINK"></label>
+                <span class="age-label">@film.AgeLimit.Value</span>
             </div>
+            <h3>О фильме</h3>
+            <p style="word-break:break-word; max-width:500px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
+                @film.Description
+            </p>
         </div>
+        @*<a href="#" id="favorite" class="btn"><i class="fa fa-bookmark"></i></a>*@
+
     </div>
 
     @if (User.IsInRole("Admin"))
@@ -40,7 +60,7 @@
         <hr />
         <div class="row">
             @*<p><a class="btn btn-default col-md-2" style="margin-left:10px;" href="/Manage/SessionManage?film=@ViewBag.Film.LINK">Добавить сеанс</a></p>*@
-            <a asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-film="@((ViewData["Film"] as Film).LINK)">Добавить сеанс</a>
+            <a asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-film="@film.LINK">Добавить сеанс</a>
         </div>
 
     }
@@ -80,7 +100,7 @@
                         list.Sort(new SessionComparer());
                         foreach (Session s in list)
                         {
-                            <a class="session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@s.LINK"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>
+                            <a class="session-link col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@s.LINK"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>
                         }
                     }
                 </div>
@@ -91,19 +111,110 @@
 
     <h2>Трейлер</h2>
     <hr />
-    <section class="row">
-        <center>
-            <iframe width="700" height="400" src="@((ViewData["Film"] as Film).TrailerLink)" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+    <section class="row" style="max-width:800px; margin:auto;">
+        <center class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="@film.TrailerLink" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
         </center>
     </section>
 
-    <hr />
-    <form asp-area="" asp-controller="Home" asp-action="SendMessage" method="post" enctype="multipart/form-data">
-        <center>
-        <div style="width:700px">
-            <textarea id="message" name="example" placeholder="Напишите ответ..."></textarea>
-        </div>
-        <button class="btn btn-default" type="submit" style="position:relative; left:200px; top:-35px; z-index:inherit">Send</button>
+    <div id="comments">
+        @await Html.PartialAsync("Comments")
+    </div>
+    @*<h2>Комментарии <b class="text-primary" style="color:#f6a21c">15</b></h2>
+        <hr />
+
+        @*<div style=" margin:auto; width:50%" class="row">
+                <div style="display:block; border: 2px solid #fff; padding:5px;">
+                    <div style="position:relative; float:left;"  class="col-md-3">
+                        <img style="position:relative" width="140" height="140" src="~/images/Profiles/default.png" />
+                        <p style="margin-top:10px; text-align:center;">@User.Identity.Name</p>
+                    </div>
+                    <div style=" float:left;" class="col-md-6">
+                        <p style="width:50%">123</p>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row comment" style="max-width:700px; border-top: 2px solid #f6a21c; margin-right:auto; margin-left:auto; margin-bottom:20px; padding-bottom:15px;">
+
+            <div>
+                <div style="margin-bottom:5px;">
+                    @*<h4 style="color:#f6a21c; display:inline-block; margin:5px 10px;">1</h4>*@
+    @*<span style="margin-left:25px;">@User.Identity.Name</span>
+                    <span style="display:inline-block; min-width:120px; text-align:center; margin-left:15px;">@User.Identity.Name</span>
+                    <span style="margin-left:10px;">@DateTime.Now</span>
+                    <div style="display:inline; float:right; margin-right:10px;" data-comment-id="1">
+                        <a class="comment-rate like" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-up"></i></a>
+                        <span>-1</span>
+                        <a class="comment-rate dislike" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-down"></i></a>
+                    </div>
+                </div>
+            </div>
+            <center>
+                <div style="float:left; margin-left:15px;" class="col-lg-2">
+                    <img class="img-responsive img-thumbnail" width="100" src="~/images/Profiles/default.png" />
+                </div>
             </center>
-    </form>
+            <div style="float:left;" class="col-md-9">
+                <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">Здесь был Ваня</p>
+            </div>
+
+        </div>
+        <div class="row" style="max-width:700px; border-top: 2px solid #f6a21c; margin-right:auto; margin-left:auto; margin-bottom:20px; ">
+
+            <div>
+                <div style="margin-bottom:5px;">
+                    @*<h4 style="color:#f6a21c; display:inline-block; margin:5px 10px;">1</h4>*@
+    @*<span style="margin-left:25px;">@User.Identity.Name</span>
+                    <span style="display:inline-block; min-width:120px; text-align:center; margin-left:15px;">@User.Identity.Name</span>
+                    <span style="margin-left:10px;">@DateTime.Now</span>
+                    <div style="display:inline; float:right; margin-right:10px;">
+                        <a href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-up"></i></a>
+                        <span>0</span>
+                        <a href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-down"></i></a>
+                    </div>
+                </div>
+            </div>
+            <center>
+                <div style="float:left; margin-left:15px;" class="col-lg-2">
+                    <img class="img-responsive img-thumbnail" width="100" src="~/images/Profiles/default.png" />
+                </div>
+            </center>
+            <div style="float:left;" class="col-md-9">
+                <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">Здесь был Ваня</p>
+            </div>
+
+        </div>*@
+   
+    <div class="row" style="max-width:700px;  margin-right:auto; margin-left:auto;">
+        <h3>Написать сообщение</h3>
+        <div style=" display:flow-root; margin-bottom:20px; box-shadow:inset 0 0 10px #000000; background-color:#ffffff; padding:10px;">
+            <form asp-area="" asp-controller="Home" asp-action="SendMessage" asp-route-id="@film.LINK" enctype="multipart/form-data" data-ajax="true" data-ajax-method="POST" data-ajax-update="#comments" data-ajax-mode="replace" >
+                @*<div style="text-align:center;">
+                        <div style="display:inline-block; border: 2px solid #fff; padding:5px;">
+                            <div style="position:relative; float:left; margin-right:5px;">
+                                <img width="140" height="140" src="~/images/Profiles/default.png" />
+
+                            </div>
+                            <div style="width:500px; margin:auto; float:left; text-align:left;">
+                                <textarea id="message" name="example" placeholder="Напишите ответ..." style="text-align:left" maxlength="5"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <center>
+                        <button class="btn btn-info" type="submit" style=" background-color:#f6a21c; border-color:#f6a21c">Отправить</button>
+                    </center>*@
+                <div style="float:left; z-index:100;" class="col-lg-3">
+                    <img class="img-responsive img-thumbnail" width="150" src="~/images/Profiles/default.png" />
+                    <p style="margin-top:10px; color:#3B708F; text-align:center;">@User.Identity.Name</p>
+                </div>
+                <div class="col-lg-9" style="position:relative;">
+                    <textarea id="message" name="msg" placeholder="Напишите ответ..." style="text-align:left">Ваня, </textarea>
+                    <button class="btn btn-info" type="submit" style="position:absolute; bottom:5px; left:55%; background-color:#f6a21c; border-color:#f6a21c; ">Отправить</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>

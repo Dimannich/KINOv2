@@ -479,7 +479,8 @@
                 $('<div />', {class: 'richText-toolbar'})
                     .append($('<a />', {class: 'richText-undo is-disabled', html: '<span class="fa fa-undo"></span>', 'title': settings.translations.undo}))
                     .append($('<a />', {class: 'richText-redo is-disabled', html: '<span class="fa fa-repeat"></span>', 'title': settings.translations.redo}))
-                    .append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
+                    //.append($('<a />', {class: 'richText-help', html: '<span class="fa fa-question-circle"></span>'}))
+                    //.append($('<button />', { class: 'btn btn-default btn-comm', html: 'Отправить' }))
             );
 
             if(settings.height && settings.height > 0) {

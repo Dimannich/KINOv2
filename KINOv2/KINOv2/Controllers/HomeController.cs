@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Primitives;
+using KINOv2.Models.AdditionalEFEntities;
 
 namespace KINOv2.Controllers
 {
@@ -75,15 +76,27 @@ namespace KINOv2.Controllers
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
+                .Include(x => x.FilmUsers)
+                .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id).SingleAsync();
 
             IEnumerable<Session> sessions = DB.Sessions
                 .Include(x => x.Hall)
                 .Where(x => x.FilmLINK == film.LINK && x.Archived != true);
 
+            List<Comment> comments = await DB.Comments
+                .Include(x => x.ApplicationUser)
+                .Include(x => x.BaseComment)
+                .Include(x => x.Rating)
+                .Where(x => x.FilmLINK == film.LINK)
+                .ToListAsync();
+            
             ViewData["Film"] = film;
             ViewData["Sessions"] = sessions;
             ViewData["Title"] = film.Name;
+            ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
+            ViewData["CommentsCount"] = comments.Count;
+            ViewData["Comments"] = comments;
 
             return View();
             
@@ -209,8 +222,119 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendMessage(string example)
+        public async Task<IActionResult> SendMessage(int id, string msg)
         {
+            var film = await DB.Films.FindAsync(id);
+
+            if (film == null)
+                return null;
+
+            Comment comment = new Comment
+            {
+                FilmLINK = film.LINK,
+                ApplicationUserId = UserManager.GetUserId(User),
+                Text = msg
+            };
+
+            await DB.Comments.AddAsync(comment);
+            await DB.SaveChangesAsync();
+
+            var comments = await DB.Comments
+                .Include(x => x.ApplicationUser)
+                .Include(x => x.BaseComment)
+                .Include(x => x.Rating)
+                .Where(x => x.FilmLINK == id)
+                .OrderBy(x => x.LINK)
+                .ToListAsync();
+
+            ViewData["Comments"] = comments;
+            ViewData["CommentsCount"] = comments.Count;
+
+            return PartialView("Comments");
+        }
+
+        [HttpGet]
+        public IActionResult ToggleFavorite(int id)
+        {
+            var film = DB.Films.Include(x => x.FilmUsers)
+                .ThenInclude(x => x.ApplicationUser)
+                .Where(x => x.LINK == id)
+                .Single();
+
+            var user = DB.Users.Find(UserManager.GetUserId(User));
+            if(film.FilmUsers.Count > 0)
+            if (film.FilmUsers.First(x => x.ApplicationUserId == user.Id) == null)
+            {
+                film.FilmUsers.Add(new FilmUser { ApplicationUserId = user.Id, FilmLINK = Convert.ToInt32(id) });
+                DB.Entry(film).State = EntityState.Modified;
+            }
+            else
+            {
+                film.FilmUsers.Remove(film.FilmUsers.Where(x => x.ApplicationUserId == user.Id && x.FilmLINK == film.LINK).Single());
+                DB.Entry(film).State = EntityState.Modified;
+            }
+            else
+            {
+                film.FilmUsers.Add(new FilmUser { ApplicationUserId = user.Id, FilmLINK = Convert.ToInt32(id) });
+                DB.Entry(film).State = EntityState.Modified;
+            }
+
+            DB.SaveChanges();
+
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult RateFilm(int id, double score)
+        {
+            string status = "";
+            string msg = "";
+
+            var film = DB.Films.Find(id);
+            var rating = film.Rating
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Single();
+
+            if(rating != null)
+            {
+                status = "ERR";
+                msg = "Вы уже голосовали";
+            }
+            else
+            {
+                Rating rate = new Rating();
+                rate.Value = score;
+                rate.ApplicationUserId = UserManager.GetUserId(User);
+                film.Rating.Add(rate);
+
+                DB.SaveChanges();
+                status = "ОК";
+                msg = "Ваш голос учтен";
+            }
+
+            return Json((status, msg));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RateComment(int id, bool value)
+        {
+            var comment = await DB.Comments.FindAsync(id);
+            var rating = comment.Rating
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Single();
+
+            if (rating != null)
+                return null;
+
+            Rating rate = new Rating
+            {
+                Value = (value) ? 1 : -1,
+                ApplicationUserId = UserManager.GetUserId(User)
+            };
+
+            comment.Rating.Add(rate);
+            await DB.SaveChangesAsync();
+
             return null;
         }
     }

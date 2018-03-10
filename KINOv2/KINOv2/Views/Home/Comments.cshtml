@@ -1,0 +1,39 @@
+﻿@{ 
+    double rating = 0;
+
+}
+<h2>Комментарии <b class="text-primary" style="color:#f6a21c">@ViewData["CommentsCount"]</b></h2>
+<hr />
+
+@if (ViewData["Comments"] as List<Comment> != null)
+{
+    foreach (var comment in ViewData["Comments"] as List<Comment>)
+    {
+<div class="row comment" style="max-width:700px; border-top: 2px solid #f6a21c; margin-right:auto; margin-left:auto; margin-bottom:20px; padding-bottom:15px;">
+
+    <div>
+        <div style="margin-bottom:5px;">
+            <span style="display:inline-block; min-width:120px; text-align:center; margin-left:15px;">@comment.ApplicationUser.UserName</span>
+            <span style="margin-left:10px;">@comment.Date</span>
+            <div style="display:inline; float:right; margin-right:10px;" data-comment-id="@comment.LINK">
+                <a class="comment-rate like" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-up"></i></a>
+                @foreach (var rate in comment.Rating)
+                {
+                    rating += rate.Value;
+                }
+                <span>@rating</span>
+                <a class="comment-rate dislike" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-down"></i></a>
+            </div>
+        </div>
+    </div>
+    <center>
+        <div style="float:left; margin-left:15px;" class="col-lg-2">
+            <img class="img-responsive img-thumbnail" width="100" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
+        </div>
+    </center>
+    <div style="float:left;" class="col-md-9">
+        <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@comment.Text</p>
+    </div>
+</div>
+    }
+}

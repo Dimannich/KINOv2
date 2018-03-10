@@ -204,7 +204,7 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<int?>("FilmLINK");
 
-                    b.Property<int>("Value");
+                    b.Property<double>("Value");
 
                     b.HasKey("LINK");
 

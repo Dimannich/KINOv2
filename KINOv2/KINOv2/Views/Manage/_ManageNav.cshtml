@@ -6,7 +6,7 @@
 
 <ul class="nav nav-pills nav-stacked">
     <li class="profile-menu first active"><a asp-action="Index">Profile</a></li>
-    <li class="profile-menu second"><a onclick="OnLinkClick(jQuery.Event)" asp-action="ChangePassword" data-target="Result" id="prSecond">Password</a></li>
+    <li class="profile-menu second"><a asp-action="ChangePassword" data-target="Result" id="prSecond">Password</a></li>
     @if (hasExternalLogins)
     {
         <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins" data-target="Result" id="aUpdate">External logins</a></li>

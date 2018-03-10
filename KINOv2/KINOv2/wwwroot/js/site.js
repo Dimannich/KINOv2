@@ -15,6 +15,8 @@ function SetNewEntry(files) {
     //}
 }
 
+$('.mvc-grid').mvcgrid();
+$('#film-rating').rating();
 
 var results = $("#Results");
 var onBegin = function () {
@@ -95,28 +97,55 @@ document.addEventListener("scroll", hideUpButtonClick);
 document.addEventListener("DOMContentLoaded", hideUpButtonClick);
 
 
-//$(function () {
+// отправка get запроса без параметров
+$('#favorite').click(function (e) {
+    e.preventDefault();
+    $.get('/Home/ToggleFavorite/' + $('#flag').data("film-id"));
+    $('#flag').toggleClass('fa-bookmark').toggleClass('fa-bookmark-o');
+    $('.fa-bookmark').attr('title', 'Убрать из избранного');
+    $('.fa-bookmark-o').attr('title', 'Добавить в избранное');
+});
 
-//    $("#prSecond").click(function (e) {
-//        e.preventDefault();
-//        $('#' + $(this).data("target")).load($(this).attr("href"));
-//        $(".profile-menu").removeClass("active");
-//        $(".second").addClass("active");
-//        $("#prSecond").addClass("menu-item-active");
-//        $("#prSecond").blur();
-//    });
+$(function () {
+    $('.comment-rate').click(function (e) {
+        e.preventDefault();
+
+        if ($(this).hasClass('.like')) {
+            var flag = true;
+        }
+        else flag = false;
+
+        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag });
+        $(this).find('i').css('color', '#f6a21c');
+        var value = $(this).parent().find('span').text();
+        $(this).parent().find('span').text(++value);
+    });
+});
+
+$(function () {
+
+    $("#prSecond").click(function (e) {
+        e.preventDefault();
+        $('#' + $(this).data("target")).load($(this).attr("href"));
+        $(".profile-menu").removeClass("active");
+        $(".second").addClass("active");
+        $("#prSecond").addClass("menu-item-active");
+        $("#prSecond").blur();
+    });
     
-//});
+});
 
 $(function () {
 
     $("#prThird").click(function (e) {
+        $(this).blur();
+        $(this).addClass("menu-item-active");
         e.preventDefault();
         $('#' + $(this).data("target")).load($(this).attr("href"));
         $(".profile-menu").removeClass("active");
         $(".third").addClass("active");
-        $("#prThird").addClass("menu-item-active");
-        $("#prThird").blur();
+        //$("#prThird").addClass("menu-item-active");
+        //$("#prThird").blur();
     });
 
 });
@@ -135,16 +164,18 @@ $('#message').richText({
     underline: true,
 
     // text alignment
-    leftAlign: true,
-    centerAlign: true,
-    rightAlign: true,
+    leftAlign: false,
+    centerAlign: false,
+    rightAlign: false,
 
     // lists
     ol: true,
     ul: true,
 
     // title
-    heading: true,
+    heading: false,
+
+    fonts: false,
 
     // colors
     fontColor: true,
@@ -238,6 +269,12 @@ $('#message').richText({
 
     
 });
+
+//$("textarea[maxlength]").on("propertychange input", function () {
+//    if (this.value.length > this.maxlength) {
+//        this.value = this.value.substring(0, this.maxlength);
+//    }
+//});
 
 //$(document).ready(function () {
 //    $('form').find("input[type=textarea], input[type=password], textarea").each(function (ev) {

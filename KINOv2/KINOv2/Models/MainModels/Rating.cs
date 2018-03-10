@@ -11,7 +11,7 @@ namespace KINOv2.Models.MainModels
         [Key]
         public int LINK { get; set; }
         //Значение 
-        public int Value { get; set; }
+        public double Value { get; set; }
         //Пользователь
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
