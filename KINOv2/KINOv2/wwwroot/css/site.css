@@ -36,7 +36,7 @@
 
 @font-face {
     font-family: "NEXTART";
-    src: url(/lib/fonts/NEXTART.otf) format('opentype');
+    src: url('../lib/fonts/NEXTART.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
@@ -423,3 +423,8 @@ input[type="text"] {
 /*.comment:hover {
     box-shadow: inset 0 0 2px #f6a21c;
 }*/
+.rate-disabled .comment-rate,
+.rate-disabled .vote-hover {
+    cursor: not-allowed;
+}
+

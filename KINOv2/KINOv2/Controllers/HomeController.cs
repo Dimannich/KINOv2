@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Primitives;
 using KINOv2.Models.AdditionalEFEntities;
+using System.Net;
 
 namespace KINOv2.Controllers
 {
@@ -43,7 +44,7 @@ namespace KINOv2.Controllers
 
             ViewData["Halls"] = halls;
             ViewData["Featured"] = films.ToList();
-
+      
             return View();
         }
 
@@ -316,19 +317,26 @@ namespace KINOv2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RateComment(int id, bool value)
+        [Authorize]
+        public async Task<IActionResult> RateComment(int id, bool? value)
         {
-            var comment = await DB.Comments.FindAsync(id);
-            var rating = comment.Rating
-                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
-                .Single();
+            if (value is null)
+                return null;
 
-            if (rating != null)
+            var comment = await DB.Comments
+                .Include(x => x.Rating)
+                .Where(x => x.LINK == id)
+                .FirstAsync();
+
+            var rating = comment.Rating
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User));
+
+            if (rating.Count() > 0)
                 return null;
 
             Rating rate = new Rating
             {
-                Value = (value) ? 1 : -1,
+                Value = (value == true) ? 1 : -1,
                 ApplicationUserId = UserManager.GetUserId(User)
             };
 

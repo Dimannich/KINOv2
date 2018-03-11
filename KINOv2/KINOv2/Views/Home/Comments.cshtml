@@ -1,6 +1,5 @@
 ﻿@{ 
     double rating = 0;
-
 }
 <h2>Комментарии <b class="text-primary" style="color:#f6a21c">@ViewData["CommentsCount"]</b></h2>
 <hr />
@@ -9,30 +8,38 @@
 {
     foreach (var comment in ViewData["Comments"] as List<Comment>)
     {
+        rating = 0;
 <div class="row comment" style="max-width:700px; border-top: 2px solid #f6a21c; margin-right:auto; margin-left:auto; margin-bottom:20px; padding-bottom:15px;">
-
+    
     <div>
         <div style="margin-bottom:5px;">
-            <span style="display:inline-block; min-width:120px; text-align:center; margin-left:15px;">@comment.ApplicationUser.UserName</span>
-            <span style="margin-left:10px;">@comment.Date</span>
-            <div style="display:inline; float:right; margin-right:10px;" data-comment-id="@comment.LINK">
-                <a class="comment-rate like" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-up"></i></a>
-                @foreach (var rate in comment.Rating)
-                {
-                    rating += rate.Value;
-                }
-                <span>@rating</span>
-                <a class="comment-rate dislike" href="#" style="margin:auto 5px;"><i style="font-size:25px; color:#3B708F" class="fa fa-caret-down"></i></a>
+            <div class="col-md-8 col-xs-12">
+                <span  style="margin-left:10px;">@comment.ApplicationUser.UserName</span>
+                <span style="margin-left:20px;">@DateTime.Now</span>
+            </div>
+            <div>
+                <a class="col-md-offset-0 col-md-2 col-xs-4 col-xs-offset-4"  href="#">Ответить</a>
+                <div style="padding-left:30px;"  data-comment-id="@comment.LINK" class="col-md-2 col-xs-4 @(User.Identity.IsAuthenticated ? "" : "rate-disabled")" @(User.Identity.IsAuthenticated ? "" : "disabled")>
+                    <a class="comment-rate like" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-up"></i></a>
+                    @foreach (var rate in comment.Rating)
+                     {
+                            rating += rate.Value;
+                     }
+                    <span style="padding-bottom:5px;">@rating</span>
+                    <a class="comment-rate dislike" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-down"></i></a>
+                </div>
             </div>
         </div>
     </div>
-    <center>
-        <div style="float:left; margin-left:15px;" class="col-lg-2">
+        <div class="col-md-2 col-xs-4">
             <img class="img-responsive img-thumbnail" width="100" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
         </div>
-    </center>
-    <div style="float:left;" class="col-md-9">
-        <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@comment.Text</p>
+   
+    <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-md-10 col-xs-8" >
+        @{
+            HtmlString text = new HtmlString(comment.Text);
+        }
+        <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@text</p>
     </div>
 </div>
     }

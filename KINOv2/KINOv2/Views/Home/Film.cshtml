@@ -7,20 +7,24 @@
 
 <div class="film-container">
     <div class="row" style="margin:auto; max-width: 1000px;">
-        <div class="col-sm-3" style="float: left; margin-right: 20px; min-width:400px">
-            <div class="poster-image-large" style="background-image:url('@Url.Content("~/images/Posters/" + film.Poster)'); margin-top:25px;">
-            </div>
-            <div id="film-rating" class="">
+        <div class="col-md-5 col-xs-12" style=" margin-right: 20px;">
+            @*<div class="poster-image-large img-responsive" style="background-image:url('@Url.Content("~/images/Posters/" + film.Poster)'); margin-top:25px;">
+
+            </div>*@
+            <img style="padding-top: 25px;" class="img-responsive" src="@Url.Content("~/images/Posters/" + film.Poster)" />
+            <div id="film-rating" class="col-xs-12 col-md-12 @(User.Identity.IsAuthenticated ? "":"rate-disabled")">
                 <input type="hidden" class="votes" value="@(film.Rating.Count )" />
                 <input type="hidden" class="val" value="@film.LocalRating" />
                 <input type="hidden" class="vote-id" value="@film.LINK" />
             </div>
-
         </div>
-        <div style="float: left;" class="col-sm-6">
+        <div class="col-md-6 col-xs-12">
             <h1>
                 @film.Name
+                @if (User.Identity.IsAuthenticated)
+                {
                 <a style="margin-top:40px; margin-left:20px" href="#" id="favorite" class=""><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(flag == true ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(flag == true ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
+                }
             </h1>
             <div style="margin-bottom:5px;">
                 <label class="text-info" style="width:250px;" asp-for="@film.ReleaseYear"></label>
@@ -185,36 +189,46 @@
             </div>
 
         </div>*@
-   
-    <div class="row" style="max-width:700px;  margin-right:auto; margin-left:auto;">
-        <h3>Написать сообщение</h3>
-        <div style=" display:flow-root; margin-bottom:20px; box-shadow:inset 0 0 10px #000000; background-color:#ffffff; padding:10px;">
-            <form asp-area="" asp-controller="Home" asp-action="SendMessage" asp-route-id="@film.LINK" enctype="multipart/form-data" data-ajax="true" data-ajax-method="POST" data-ajax-update="#comments" data-ajax-mode="replace" >
-                @*<div style="text-align:center;">
-                        <div style="display:inline-block; border: 2px solid #fff; padding:5px;">
-                            <div style="position:relative; float:left; margin-right:5px;">
-                                <img width="140" height="140" src="~/images/Profiles/default.png" />
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row" style="max-width:700px;  margin-right:auto; margin-left:auto;">
+            <h3>Написать сообщение</h3>
+            <div style=" display:flow-root; margin-bottom:20px; box-shadow:inset 0 0 10px #000000; background-color:#ffffff; padding:10px;">
+                <form asp-area="" asp-controller="Home" asp-action="SendMessage" asp-route-id="@film.LINK" enctype="multipart/form-data" data-ajax="true" data-ajax-method="POST" data-ajax-update="#comments" data-ajax-mode="replace">
+                    @*<div style="text-align:center;">
+                            <div style="display:inline-block; border: 2px solid #fff; padding:5px;">
+                                <div style="position:relative; float:left; margin-right:5px;">
+                                    <img width="140" height="140" src="~/images/Profiles/default.png" />
 
+                                </div>
+                                <div style="width:500px; margin:auto; float:left; text-align:left;">
+                                    <textarea id="message" name="example" placeholder="Напишите ответ..." style="text-align:left" maxlength="5"></textarea>
+                                </div>
                             </div>
-                            <div style="width:500px; margin:auto; float:left; text-align:left;">
-                                <textarea id="message" name="example" placeholder="Напишите ответ..." style="text-align:left" maxlength="5"></textarea>
-                            </div>
+
                         </div>
-
+                        <center>
+                            <button class="btn btn-info" type="submit" style=" background-color:#f6a21c; border-color:#f6a21c">Отправить</button>
+                        </center>*@
+                    <div style="float:left; z-index:100;" class="col-lg-3">
+                        <img class="img-responsive img-thumbnail" width="150" src="~/images/Profiles/default.png" />
+                        <p style="margin-top:10px; color:#3B708F; text-align:center;">@User.Identity.Name</p>
                     </div>
-                    <center>
-                        <button class="btn btn-info" type="submit" style=" background-color:#f6a21c; border-color:#f6a21c">Отправить</button>
-                    </center>*@
-                <div style="float:left; z-index:100;" class="col-lg-3">
-                    <img class="img-responsive img-thumbnail" width="150" src="~/images/Profiles/default.png" />
-                    <p style="margin-top:10px; color:#3B708F; text-align:center;">@User.Identity.Name</p>
-                </div>
-                <div class="col-lg-9" style="position:relative;">
-                    <textarea id="message" name="msg" placeholder="Напишите ответ..." style="text-align:left">Ваня, </textarea>
-                    <button class="btn btn-info" type="submit" style="position:absolute; bottom:5px; left:55%; background-color:#f6a21c; border-color:#f6a21c; ">Отправить</button>
-                </div>
+                    <div class="col-lg-9" style="position:relative;">
+                        <textarea id="message" name="msg" placeholder="Напишите ответ..." style="text-align:left"></textarea>
+                        <button id="msg-sender" class="btn btn-info" type="submit" style="position:absolute; bottom:5px; left:55%; background-color:#f6a21c; border-color:#f6a21c; ">Отправить</button>
+                    </div>
 
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-push-2 text-center">
+                <span> Только авторизованные пользователи могут оставлять комментарии.</span><a asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@(Url.RouteUrl(new { controller = "Home", action = "Film", id = film.LINK }))"> Войдите, пожалуйста.</a>
+            </div>
+        </div>
+    }
 </div>

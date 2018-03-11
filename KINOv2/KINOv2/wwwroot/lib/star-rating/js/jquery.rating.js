@@ -53,6 +53,9 @@
             this.options.readOnly = true;
             this.vote_success.html('Спасибо за ваш голос!');
         }
+        else if ($("#film-rating").hasClass("rate-disabled")) {
+            this.options.readOnly = true;
+        }
         else {
             this.options.readOnly = false;
         }

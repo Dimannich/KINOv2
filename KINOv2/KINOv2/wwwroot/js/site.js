@@ -109,17 +109,33 @@ $('#favorite').click(function (e) {
 $(function () {
     $('.comment-rate').click(function (e) {
         e.preventDefault();
-
-        if ($(this).hasClass('.like')) {
-            var flag = true;
+        if ($(this).parent().attr('disabled')) {
+            return;
         }
-        else flag = false;
-
+        if ($(this).hasClass('like')) {
+            flag = true;
+        }
+        else {
+            flag = false;
+        }
         $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag });
         $(this).find('i').css('color', '#f6a21c');
         var value = $(this).parent().find('span').text();
         $(this).parent().find('span').text(++value);
     });
+});
+
+$(function () {
+    $('.comment-rate').ready(function () {
+        if ($('.comment-rate').parent().attr('disabled')) {
+            $('.comment-rate').parent().find('a').prop('disabled', true);
+        }
+    });
+});
+
+$('#msg-sender').click(function () {
+    $(this).parent().find('textarea').text("");
+    $(this).parent().find('textarea').html("");
 });
 
 $(function () {
