@@ -232,6 +232,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/KINOv2/KINOv2/bin
 /KINOv2/KINOv2/appsettings.json
 /KINOv2/KINOv2/appsettings.json
 /KINOv2/KINOv2/obj/Debug/netcoreapp2.0/KINOv2.csproj.CoreCompileInputs.cache

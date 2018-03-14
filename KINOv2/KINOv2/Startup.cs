@@ -66,6 +66,7 @@ namespace KINOv2
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
     }
 }
