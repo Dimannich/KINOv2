@@ -77,13 +77,22 @@ namespace KINOv2.Controllers
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
+                .Include(x => x.Rating)
                 .Include(x => x.FilmUsers)
                 .ThenInclude(x => x.ApplicationUser)
-                .Where(x => x.LINK == id).SingleAsync();
+                .Where(x => x.LINK == id)
+                .SingleAsync();
 
-            IEnumerable<Session> sessions = DB.Sessions
+            List<Session> sessions = DB.Sessions
                 .Include(x => x.Hall)
-                .Where(x => x.FilmLINK == film.LINK && x.Archived != true);
+                .Where(x => x.FilmLINK == film.LINK && x.Archived != true && x.SessionTime.Date == new DateTime(2017, 09, 28).Date)
+                .ToList();
+
+            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
+            foreach(Hall hall in DB.Halls)
+            {
+                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).ToList());
+            }
 
             List<Comment> comments = await DB.Comments
                 .Include(x => x.ApplicationUser)
@@ -93,11 +102,13 @@ namespace KINOv2.Controllers
                 .ToListAsync();
             
             ViewData["Film"] = film;
-            ViewData["Sessions"] = sessions;
+            ViewData["SelectedDate"] = new DateTime(2017, 09, 28).Date;
+            ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
             ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
             ViewData["CommentsCount"] = comments.Count;
             ViewData["Comments"] = comments;
+            ViewData["FilmRated"] = film.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
 
             return View();
             
@@ -223,19 +234,22 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage(int id, string msg)
+        public async Task<IActionResult> SendMessage(int id, string msg, int replyid)
         {
             var film = await DB.Films.FindAsync(id);
 
             if (film == null)
                 return null;
-
+            
             Comment comment = new Comment
             {
                 FilmLINK = film.LINK,
                 ApplicationUserId = UserManager.GetUserId(User),
-                Text = msg
+                Text = msg                
             };
+
+            if (replyid != -1)
+                comment.BaseCommentLINK = replyid;
 
             await DB.Comments.AddAsync(comment);
             await DB.SaveChangesAsync();
@@ -286,15 +300,20 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
-        public JsonResult RateFilm(int id, double score)
+        public JsonResult RateFilm(int id, string score)
         {
             string status = "";
             string msg = "";
+            
 
-            var film = DB.Films.Find(id);
+            var film = DB.Films
+                .Include(x => x.Rating)
+                .Where(x => x.LINK == id)
+                .FirstOrDefault();
+
             var rating = film.Rating
                 .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
-                .Single();
+                .FirstOrDefault();
 
             if(rating != null)
             {
@@ -304,7 +323,7 @@ namespace KINOv2.Controllers
             else
             {
                 Rating rate = new Rating();
-                rate.Value = score;
+                rate.Value = Convert.ToDouble(score.Replace('.', ','));
                 rate.ApplicationUserId = UserManager.GetUserId(User);
                 film.Rating.Add(rate);
 
@@ -318,10 +337,15 @@ namespace KINOv2.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> RateComment(int id, bool? value)
+        public async Task<JsonResult> RateComment(int id, bool? value)
         {
+            string status = "";
+            int msg = 0;
+
             if (value is null)
-                return null;
+            {
+                status = "ERR";
+            }
 
             var comment = await DB.Comments
                 .Include(x => x.Rating)
@@ -332,7 +356,9 @@ namespace KINOv2.Controllers
                 .Where(x => x.ApplicationUserId == UserManager.GetUserId(User));
 
             if (rating.Count() > 0)
-                return null;
+            {
+                status = "ERR";
+            }
 
             Rating rate = new Rating
             {
@@ -343,7 +369,16 @@ namespace KINOv2.Controllers
             comment.Rating.Add(rate);
             await DB.SaveChangesAsync();
 
-            return null;
+            status = "OK";
+            DB.Comments
+                .Include(x => x.Rating)
+                .Where(x => x.LINK == id)
+                .FirstOrDefault()
+                .Rating
+                .ToList()
+                .ForEach(x => msg += Convert.ToInt32(x.Value));
+
+            return Json((status, msg));
         }
     }
 }

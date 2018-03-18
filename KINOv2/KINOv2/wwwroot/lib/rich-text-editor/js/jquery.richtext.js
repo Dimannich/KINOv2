@@ -143,7 +143,7 @@
         var $inputElement = $(this);
         $inputElement.addClass("richText-initial");
         var $editor,
-            $toolbarList = $('<ul />'),
+            $toolbarList = $('<ul />', { class: "text-center" }),
             $toolbarElement = $('<li />'),
             $btnBold = $('<a />', {class: "richText-btn fa fa-bold", "data-command": "bold", "title": settings.translations.bold}), // bold
             $btnItalic = $('<a />', {class: "richText-btn fa fa-italic", "data-command": "italic", "title": settings.translations.italic}), // italic
@@ -164,6 +164,7 @@
             $btnRemoveStyles = $('<a />', {class: "richText-btn fa fa-recycle", "data-command": "removeFormat", "title": settings.translations.removeStyles}), // clean up styles
             $btnCode = $('<a />', {class: "richText-btn fa fa-code", "data-command": "toggleCode", "title": settings.translations.code}); // code
 
+      
         
         /* prepare toolbar dropdowns */
         var $dropdownOuter = $('<div />', {class: "richText-dropdown-outer"});
@@ -511,6 +512,8 @@
 
             // save history
             history.push($editor.find("textarea").val());
+
+           
         }
 
         // initialize editor
@@ -1061,7 +1064,15 @@
             $button.parents('li.is-selected').removeClass('is-selected');
         });
 
-
+        
+        $(document).on("click", ".comment-reply", function (event) {
+            event.preventDefault();
+            $('input[name=replyid]').val($(this).next().data('comment-id'));
+            $('.richText-editor').empty();
+            $('.richText-editor').focus();
+            var text = $(this).data('user-name');
+            pasteHTMLAtCaret(text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()+ ',&nbsp');
+        });
 
         /** INTERNAL METHODS **/
 

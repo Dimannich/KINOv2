@@ -1,7 +1,9 @@
-﻿@{ 
+﻿@inject UserManager<ApplicationUser> UserManager
+@{
     double rating = 0;
+    double commentRateValue = 0;
 }
-<h2>Комментарии <b class="text-primary" style="color:#f6a21c">@ViewData["CommentsCount"]</b></h2>
+<h2>Комментарии <b class="text-info">@ViewData["CommentsCount"]</b></h2>
 <hr />
 
 @if (ViewData["Comments"] as List<Comment> != null)
@@ -9,38 +11,43 @@
     foreach (var comment in ViewData["Comments"] as List<Comment>)
     {
         rating = 0;
-<div class="row comment" style="max-width:700px; border-top: 2px solid #f6a21c; margin-right:auto; margin-left:auto; margin-bottom:20px; padding-bottom:15px;">
-    
-    <div>
-        <div style="margin-bottom:5px;">
-            <div class="col-md-8 col-xs-12">
-                <span  style="margin-left:10px;">@comment.ApplicationUser.UserName</span>
-                <span style="margin-left:20px;">@DateTime.Now</span>
-            </div>
-            <div>
-                <a class="col-md-offset-0 col-md-2 col-xs-4 col-xs-offset-4"  href="#">Ответить</a>
-                <div style="padding-left:30px;"  data-comment-id="@comment.LINK" class="col-md-2 col-xs-4 @(User.Identity.IsAuthenticated ? "" : "rate-disabled")" @(User.Identity.IsAuthenticated ? "" : "disabled")>
-                    <a class="comment-rate like" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-up"></i></a>
-                    @foreach (var rate in comment.Rating)
-                     {
+        commentRateValue = 0;
+        <div class="row comment mx-auto" style="max-width:700px; border-top: 2px solid #f6a21c; margin-bottom:20px; padding-bottom:15px;">
+
+            <div class="row mx-auto">
+                    <div class="col-md-8 col-8">
+                        <span>@comment.ApplicationUser.UserName</span>
+                    </div>
+                    <div class="col-8 order-2">
+                         <span>@DateTime.Now</span>
+                    </div>
+                    <a class="comment-reply col-md-2 col-4 order-3 text-info text-right" data-user-name="@comment.ApplicationUser.UserName" href="#">Ответить</a>
+                    @if (!(comment.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).FirstOrDefault() is null))
+                    {
+                        commentRateValue = comment.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).FirstOrDefault().Value;
+                    }
+                    <div data-comment-id="@comment.LINK" class="col-md-2 col-4 order-1 text-right @(User.Identity.IsAuthenticated ? "" : "rate-disabled disabled") @(commentRateValue == 0 ? "": "rate-disabled disabled")">
+                        <a class="comment-rate like @(commentRateValue == 1 ? "comment-rate-selected" : "")" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-up"></i></a>
+                        @foreach (var rate in comment.Rating)
+                        {
                             rating += rate.Value;
-                     }
-                    <span style="padding-bottom:5px;">@rating</span>
-                    <a class="comment-rate dislike" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-down"></i></a>
-                </div>
+                        }
+                        <span style="padding-bottom:5px;">@rating</span>
+                        <a class="comment-rate dislike @(commentRateValue == -1 ? "comment-rate-selected" : "")" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-down"></i></a>
+                    </div>
             </div>
-        </div>
-    </div>
-        <div class="col-md-2 col-xs-4">
-            <img class="img-responsive img-thumbnail" width="100" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
-        </div>
-   
-    <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-md-10 col-xs-8" >
-        @{
+             <div class="w-100 mb-2"></div>
+                <div class="col-4">
+                    <img class="img-thumbnail" width="200" height="200" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
+                </div>
+
+                <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-8">
+                    @{
             HtmlString text = new HtmlString(comment.Text);
-        }
-        <p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@text</p>
-    </div>
-</div>
+                    }
+                    @*<p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@text</p>*@
+                    @text
+                </div>
+        </div>
     }
 }

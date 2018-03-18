@@ -106,9 +106,15 @@ $('#favorite').click(function (e) {
     $('.fa-bookmark-o').attr('title', 'Добавить в избранное');
 });
 
+$('#msg-sender').click(function () {
+    $('input[name=replyid]').val(-1);
+    $('.richText-editor').empty();
+});
+
 $(function () {
     $('.comment-rate').click(function (e) {
-        e.preventDefault();
+        e.preventDefault(); 
+        var self = this;
         if ($(this).parent().attr('disabled')) {
             return;
         }
@@ -118,12 +124,25 @@ $(function () {
         else {
             flag = false;
         }
-        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag });
-        $(this).find('i').css('color', '#f6a21c');
-        var value = $(this).parent().find('span').text();
-        $(this).parent().find('span').text(++value);
+        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
+            if (data.item1 == "OK") {
+                $(self).parent().find('span').text(data.item2);
+            }
+        });
+        $(this).find('i').addClass('comment-rate-selected')
     });
 });
+
+
+//$(function () {
+//    $('.comment-reply').click(function (e) {
+//        e.preventDefault(); 
+//        $('input[name=replyid]').val($(this).next().data('comment-id'));
+//        $('.richText-editor').empty();
+//        $('.richText-editor').focus();
+//        $('.richText-editor').text('ИНВАН, ');
+//    });
+//});
 
 $(function () {
     $('.comment-rate').ready(function () {
@@ -132,6 +151,15 @@ $(function () {
         }
     });
 });
+
+//(function ($) {
+//    $.fn.focusToEnd = function () {
+//        return this.each(function () {
+//            var v = $(this).val();
+//            $(this).focus().val("").val(v);
+//        });
+//    };
+//})(jQuery);
 
 $('#msg-sender').click(function () {
     $(this).parent().find('textarea').text("");
@@ -281,9 +309,10 @@ $('#message').richText({
 
     // dropdowns
     fileHTML: '',
-    imageHTML: ''
+    imageHTML: '',
 
-    
+    id: "testing",
+    useParagraph: true
 });
 
 //$("textarea[maxlength]").on("propertychange input", function () {

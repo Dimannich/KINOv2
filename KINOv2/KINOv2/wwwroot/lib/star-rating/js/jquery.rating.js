@@ -38,7 +38,7 @@
 		this.votes = parseInt($('.votes',e).val()) || '0';
 		this.voteID = $('.vote-id',e).val() || '';
 
-		this.vote_wrap = $('<div class="vote-wrap"></div>');
+		this.vote_wrap = $('<div class="vote-wrap col-md-offset-1"></div>');
 		this.vote_block = $('<div class="vote-block"></div>');
         this.vote_hover = $('<div class="vote-hover"></div>');
 		this.vote_stars = $('<div class="vote-stars"></div>');
@@ -189,8 +189,8 @@
     	send: function(score){
     		
     		var self = this;
-            this.vote_result.html(this.loader);
-            
+            this.vote_result.html(this.loader); 
+
     		$.ajax({
     			url: self.options.url,
     			type: self.options.type,

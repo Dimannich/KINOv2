@@ -46,9 +46,10 @@ html {
 }
 
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
     /*padding-bottom: 20px;*/
-    font-family: "NEXTART", Arial;
+    /*font-family: "NEXTART", Arial;*/
+    padding-top: 5rem;
     background: #161a23;
     color: #fff;
     min-height: 100vh;
@@ -99,9 +100,10 @@ body {
         font-size: 20px;
         cursor: pointer;
         opacity: 1;
-        padding-top: 10px;
+        padding-top: 0.3rem;
         transition: opacity 0.2s ease-in-out;
         z-index: 10001;
+        border: 1px solid rgba(0, 0, 0, 0.8);
     }
 }
 /* Set padding to keep content from hitting the edges */
@@ -134,6 +136,7 @@ textarea {
 .navbar {
     background: #161a23;
     min-height: 60px;
+    border-bottom: 1px solid rgba(16, 16, 16, 1);
 }
 
 .nav > li > a {
@@ -160,12 +163,12 @@ footer {
     height: 120px;
     margin-top: -120px;
     color: #fff !important;
-    /*
-    position: absolute;
-    left: 0;
+    
+    /*position: absolute;
+    /*left: 0;
     right: 0;
-    bottom: 0;
-        */
+    bottom: 0;*/
+        
 }
 
     footer li {
@@ -312,11 +315,10 @@ footer {
 }
 
 .session-button {
-    height: 50px;
+    height: 2rem;
     width: auto;
     color: #f6a21c;
     border: 2px solid #f6a21c;
-    width: 200px;
     border-radius: 50px;
     text-align: center;
 }
@@ -428,3 +430,15 @@ input[type="text"] {
     cursor: not-allowed;
 }
 
+.comment-rate-selected i {
+    color:#f6a21c !important;
+}
+
+.session-dropdown {
+    background: #161a23;
+    border:1px solid black;
+}
+
+.session-dropdown > a {
+    color:#fff;
+}
