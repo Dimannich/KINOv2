@@ -94,25 +94,25 @@
     }
     <h2>Сеансы</h2>
     <hr />
-    <ul class="nav">
+    <ul class="nav" data-film-id="@film.LINK">
         <li class="nav-item w-25">
-            <a class="nav-link text-center h-25" href="#">Сегодня 29.09</a>
+            <a class="nav-link text-center h-25 session-date" href="#" data-target="sessions">Сегодня 29.09</a>
         </li>
         <li class="nav-item dropdown d-md-none w-50 text-center">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
             <div class="dropdown-menu session-dropdown">
-                <a class="dropdown-item" href="#">Завтра 30.09</a>
-                <a class="dropdown-item" href="#">Послезавтра 31.09</a>
+                <a asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" class="dropdown-item session-date" data-target="sessions">Завтра 30.09</a>
+                <a class="dropdown-item session-date" data-target="sessions">Послезавтра 31.09</a>
             </div>
         </li>
         <li class="nav-item d-none d-sm-flex">
-            <a class="nav-link" href="#">Завтра</a>
+            <a class="nav-link session-date" href="#">Завтра</a>
         </li>
         <li class="nav-item d-none d-sm-flex">
-            <a class="nav-link" href="#">Послезавтра</a>
+            <a class="nav-link session-date" href="#">Послезавтра</a>
         </li>
         <li class="nav-item w-25">
-            <a class="nav-link" href="#">На дату</a>
+            <a class="nav-link session-date" href="#" data-target="sessions">На дату</a>
         </li>
     </ul>
 

@@ -106,6 +106,13 @@ $('#favorite').click(function (e) {
     $('.fa-bookmark-o').attr('title', 'Добавить в избранное');
 });
 
+$('.session-date').click(function (e) {
+    e.preventDefault();
+    $('#' + $(this).data("target")).load($(this).attr("href"));
+    $('.session-date').removeClass('active');
+    $(this).addClass('active');
+});
+
 $('#msg-sender').click(function () {
     $('input[name=replyid]').val(-1);
     $('.richText-editor').empty();

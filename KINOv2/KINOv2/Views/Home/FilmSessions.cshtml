@@ -1,53 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@*@{
-        List<List<Session>> sessionSortedByDate = new List<List<Session>>();
-        List<Session> sessionsList = (ViewData["Sessions"] as IEnumerable<Session>).ToList();
-        sessionsList.Sort(new SessionComparer());
-        foreach (Session s in sessionsList)
-        {
-            bool added = false;
-            foreach (List<Session> list in sessionSortedByDate)
-            {
-                if (list.Count > 0 && list[0].SessionTime.ToShortDateString() == s.SessionTime.ToShortDateString())
-                {
-                    list.Add(s);
-                    added = true;
-                    continue;
-                }
-
-            }
-            if (!added)
-            {
-                List<Session> newList = new List<Session>();
-                newList.Add(s);
-                sessionSortedByDate.Add(newList);
-            }
-        }
-        foreach (List<Session> list in sessionSortedByDate)
-        {
-            if (list.Count > 0)
-            {
-                <h3>@list[0].SessionTime.ToShortDateString() (@DateTimeFormatInfo.CurrentInfo.GetDayName(list[0].SessionTime.DayOfWeek))</h3>
-                <div class="row">
-                    @{
-                        list.Sort(new SessionComparer());
-                        foreach (Session s in list)
-                        {
-                            <a class="session-link col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@s.LINK"><div class="session-button">@s.SessionTime.ToShortTimeString()<br />Зал: @s.Hall.Name</div></a>
-                        }
-                    }
-                </div>
-            }
-        }
-    }*@
-@*<h3 class="col">@(Convert.ToDateTime(ViewData["SelectedDate"]).ToShortDateString())</h3>*@
-<div class="col-12 mb-2">
+﻿<div class="col-12 mb-2">
     @if (ViewData["FilmSessions"] is null)
     {
-        <p>Сеансы отсутсвуют</p>
+        <div class="text-center text-info my-1">Сеансы отсутствуют</div>
     }
     else
     {
@@ -59,7 +13,7 @@
                 <div class="row mb-2">
                     @foreach (var session in pair.Value)
                     {
-                        <a class=" col-4 col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
                         <a class="col-4 col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
                         <a class="col-4 col-md-2" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
                     }

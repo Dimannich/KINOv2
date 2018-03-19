@@ -19,7 +19,7 @@
                         <span>@comment.ApplicationUser.UserName</span>
                     </div>
                     <div class="col-8 order-2">
-                         <span>@DateTime.Now</span>
+                         <span>@comment.Date.Value.ToShortDateString() @comment.Date.Value.ToShortTimeString()</span>
                     </div>
                     <a class="comment-reply col-md-2 col-4 order-3 text-info text-right" data-user-name="@comment.ApplicationUser.UserName" href="#">Ответить</a>
                     @if (!(comment.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).FirstOrDefault() is null))
@@ -43,7 +43,7 @@
 
                 <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-8">
                     @{
-            HtmlString text = new HtmlString(comment.Text);
+                        HtmlString text = new HtmlString(comment.Text);
                     }
                     @*<p style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="">@text</p>*@
                     @text

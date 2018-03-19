@@ -91,7 +91,7 @@ namespace KINOv2.Controllers
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
             {
-                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).ToList());
+                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
             }
 
             List<Comment> comments = await DB.Comments
@@ -102,7 +102,7 @@ namespace KINOv2.Controllers
                 .ToListAsync();
             
             ViewData["Film"] = film;
-            ViewData["SelectedDate"] = new DateTime(2017, 09, 28).Date;
+            //ViewData["SelectedDate"] = new DateTime(2017, 09, 28).Date;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
             ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
@@ -240,12 +240,13 @@ namespace KINOv2.Controllers
 
             if (film == null)
                 return null;
-            
+
             Comment comment = new Comment
             {
                 FilmLINK = film.LINK,
                 ApplicationUserId = UserManager.GetUserId(User),
-                Text = msg                
+                Text = msg,
+                Date = DateTime.Now
             };
 
             if (replyid != -1)
@@ -379,6 +380,30 @@ namespace KINOv2.Controllers
                 .ForEach(x => msg += Convert.ToInt32(x.Value));
 
             return Json((status, msg));
+        }
+
+        [HttpGet]
+        public IActionResult FilmSessions(int filmid, string date)
+        {
+            if (!DateTime.TryParse(date, out DateTime selectedDate))
+                return null;
+
+            List<Session> sessions = DB.Sessions
+                .Include(x => x.Hall)
+                .Where(x => x.FilmLINK == filmid && x.Archived != true && x.SessionTime.Date == selectedDate.Date)
+                .ToList();
+
+            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
+            foreach (Hall hall in DB.Halls)
+            {
+                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
+            }
+
+            if (sessions.Count == 0)
+                sessionsByHall = null;
+
+            ViewData["FilmSessions"] = sessionsByHall;
+            return PartialView("FilmSessions");
         }
     }
 }
