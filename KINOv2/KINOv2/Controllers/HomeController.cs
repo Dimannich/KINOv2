@@ -381,8 +381,8 @@ namespace KINOv2.Controllers
 
             return Json((status, msg));
         }
+        
 
-        [HttpGet]
         public IActionResult FilmSessions(int filmid, string date)
         {
             if (!DateTime.TryParse(date, out DateTime selectedDate))

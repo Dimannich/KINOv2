@@ -2,14 +2,41 @@
 @{
     ViewData["Title"] = "Sessions";
     Session session = ViewData["Session"] as Session;
+    int rowCount = (int)Math.Sqrt(session.Hall.SeatsNumber / 4);
 }
 
-<h2>Заказ билета</h2>
 
-<p>Фильм: @session.Film.Name</p>
+
+@*<p>Фильм: @session.Film.Name</p>
 <p>Зал: @session.Hall.Name</p>
 <p>Дата: @session.SessionTime.ToShortDateString()</p>
-<p>Время: @session.SessionTime.ToShortTimeString()</p>
+<p>Время: @session.SessionTime.ToShortTimeString()</p>*@
+
+<div class="row">
+    <h2 class="col-12">Заказ билета</h2>
+    <div class="col-12">
+        <div style="margin-bottom:5px;" class="row">
+            <label class="text-info col" asp-for="@session.Film.Name"></label>
+            <span class="col">@session.Film.Name</span>
+        </div>
+        <div style="margin-bottom:5px;" class="row">
+            <label class="text-info col">Зал</label>
+            <span class="col">@session.Hall.Name</span>
+        </div>
+        <div style="margin-bottom:5px;" class="row">
+            <label class="text-info col">Дата</label>
+            <span class="col">@session.SessionTime.ToShortDateString()</span>
+        </div>
+        <div style="margin-bottom:5px;" class="row">
+            <label class="text-info col">Время</label>
+            <span class="col">@session.SessionTime.ToShortTimeString()</span>
+        </div>
+        <div style="margin-bottom:5px;" class="row">
+            <label class="text-info col">Цена билета</label>
+            <span class="col">@session.Cost р.</span>
+        </div>
+    </div>
+</div>
 
 @if (User.IsInRole("Admin"))
 {
@@ -29,7 +56,6 @@
 <p style="text-align:center">Экран</p>
 @{
     List<Seat> seats = session.Seats.ToList();
-    int rowCount = (int)Math.Sqrt(session.Hall.SeatsNumber / 4);
 
     <div class="seat-set" style="margin:auto;">
         @for (int i = 0; i < rowCount; i++)
@@ -56,11 +82,24 @@
             </div>
         }
     </div>
+    <div class="col-3 col-md-2 mx-auto mt-2 border rounded border-info d-flex p-2">
+        <div class="legend d-inline-block" style="height:1.5rem; width:1rem;">
+        </div>
+        <span class="m-auto" style="font-size:0.8rem;">- Занято</span>
+    </div>
     <div class="finalize-block">
-        <form asp-action="CreateOrder" asp-controller="Home">
+        <form class="row" asp-action="CreateOrder" asp-controller="Home">
             <input type="hidden" class="session-cost" name="session-cost" value=@session.Cost>
             <input type="hidden" class="session-link" name="session-link" value=@session.LINK>
-            <input type="submit" style="margin:auto" class="btn btn-default make-order-button" value="Заказать">
+            <div class="w-100 delimetr mb-2"></div>
+            <ul class="col-12 list-group">
+                @for (int i = 0; i < rowCount; i++)
+                {
+                    <li class="d-none list-group-item border-0 bg-transparent py-0" id="row-@(i+1)">Ряд @(i+1), место:</li>
+                }
+            </ul>
+            <p class="col mb-0 m-auto">Итоговая стоимость: <span id="total-cost" class="text-orange">0</span> p.</p>
+            <input type="submit" class="btn border-orange make-order-button col-3 mr-3" value="Заказать">
         </form>
     </div>
 }

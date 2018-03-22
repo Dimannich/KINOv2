@@ -1067,6 +1067,7 @@
         
         $(document).on("click", ".comment-reply", function (event) {
             event.preventDefault();
+            $(this).blur();
             $('input[name=replyid]').val($(this).next().data('comment-id'));
             $('.richText-editor').empty();
             $('.richText-editor').focus();

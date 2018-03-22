@@ -140,7 +140,7 @@ textarea {
 }
 
 .nav > li > a {
-    color: #fff !important;
+    color: #fff;
 }
 
     .nav > li > a:hover {
@@ -327,15 +327,10 @@ footer {
         background: #f6a21c;
     }
 
-.session-link {
-    float: left;
-    margin-right: 20px;
-}
 
     .session-link:hover,
     .session-link:visited {
         text-decoration: none;
-        color: #fff;
     }
 
 
@@ -348,6 +343,7 @@ footer {
     display: table-row;
 }
 
+.legend,
 .seat {
     display: table-cell;
     width: 30px;
@@ -357,6 +353,10 @@ footer {
     border-color: #fff;
     background: #161a23;
     border-radius: 5px;
+}
+
+.legend {
+    background:#b7b7b7 !important;
 }
 
 .booked {
@@ -373,12 +373,9 @@ footer {
 
 .ticket {
     text-align: center;
-    height: 130px;
-    width: 100px;
-    border: 10px solid #fff;
-    float: left;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    box-shadow: 0px 10px 30px 3px rgba(0,0,0,0.45);
+    max-width: 6rem;
+    min-width: 5rem;
 }
 
 .make-order-button {
@@ -386,25 +383,45 @@ footer {
     clear: both;
 }
 
-#datetimepicker1 {
+/*#datetimepicker4 {
     color: #000;
 }
 
 .input-group-addon {
     width: initial;
     max-height: 34px;
-}
+}*/
 
-#datetimepicker1 > .form-control {
+.bootstrap-datetimepicker-widget {
     min-width: 240px;
+    color: #fff;
+    background-color: #161a23;
+    border: 1px solid black;
 }
 
-@media (max-width: 350px) {
-    #datetimepicker1 > .form-control {
+td.day.active {
+    background-color:#f6a21c !important;
+}
+.day:focus {
+    background-color: #161a23;
+}
+
+th.next:hover,
+th.prev:hover {
+    background-color: #f6a21c !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    border-bottom-color: #17a2b8 !important;
+}
+.selected {
+    color:#f6a21c !important;
+}
+/*@media (max-width: 350px) {
+    #datetimepicker4 > .form-control {
         min-width: initial;
     }
-}
-
+}*/
 input[type="text"] {
     color: #000;
 }
@@ -442,3 +459,18 @@ input[type="text"] {
 .session-dropdown > a {
     color:#fff;
 }
+
+.text-orange {
+    color: rgba(246, 162, 28, 1) !important;
+}
+
+.border-orange {
+    background-color: transparent;
+    color: rgba(255,255,255,1);
+    border: 1px solid rgba(246, 162, 28, 1);
+}
+
+    .border-orange:hover {
+        background-color: rgba(246, 162, 28, 1);
+        color: rgba(255,255,255,1);
+    }

@@ -96,13 +96,13 @@
     <hr />
     <ul class="nav" data-film-id="@film.LINK">
         <li class="nav-item w-25">
-            <a class="nav-link text-center h-25 session-date" href="#" data-target="sessions">Сегодня 29.09</a>
+            <a class="nav-link text-center h-25 session-date selected" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="28/09/2017" data-target="sessions">Сегодня 29.09</a>
         </li>
-        <li class="nav-item dropdown d-md-none w-50 text-center">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
+        <li class="nav-item dropdown d-md-none w-50 text-center mt-2">
+            <a id="session-drop" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
             <div class="dropdown-menu session-dropdown">
                 <a asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" class="dropdown-item session-date" data-target="sessions">Завтра 30.09</a>
-                <a class="dropdown-item session-date" data-target="sessions">Послезавтра 31.09</a>
+                <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" data-target="sessions">Послезавтра 31.09</a>
             </div>
         </li>
         <li class="nav-item d-none d-sm-flex">
@@ -112,9 +112,19 @@
             <a class="nav-link session-date" href="#">Послезавтра</a>
         </li>
         <li class="nav-item w-25">
-            <a class="nav-link session-date" href="#" data-target="sessions">На дату</a>
+            <a class="nav-link date-picker" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" data-target="sessions">
+                <div class="form-group mt-2">
+                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                        <input type="hidden" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                        <div class="input-group-append mx-auto" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                            <div class=""><span class="d-none d-md-inline">Выбрать дату</span><i class="fa fa-calendar d-md-none"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </li>
     </ul>
+
 
     <div class="row mx-auto" id="sessions">
         @await Html.PartialAsync("FilmSessions")
@@ -219,12 +229,12 @@
                         <button class="btn btn-info" type="submit" style=" background-color:#f6a21c; border-color:#f6a21c">Отправить</button>
                     </center>*@
                 <input id="reply-comment" type="hidden" name="replyid" value="-1" />
-                
+
                 <div class="">
                     @*<div class="col-5 mt-3" style="position:absolute; z-index:100;">
-                        <img class="img-fluid img-thumbnail" width="150" src="~/images/Profiles/default.png" />
-                        <p style="color:#3B708F; text-align:center;">@User.Identity.Name</p>
-                    </div>*@
+                            <img class="img-fluid img-thumbnail" width="150" src="~/images/Profiles/default.png" />
+                            <p style="color:#3B708F; text-align:center;">@User.Identity.Name</p>
+                        </div>*@
                     <textarea id="message" name="msg" placeholder="Напишите ответ..." style="text-align:left"></textarea>
                     <button id="msg-sender" class="btn btn-info" type="submit" style=" z-index:1; position:absolute; bottom:0px; left:55%; background-color:#f6a21c; border-color:#f6a21c; ">Отправить</button>
                 </div>
