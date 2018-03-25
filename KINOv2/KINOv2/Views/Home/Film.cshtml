@@ -23,13 +23,16 @@
             </div>
         </div>
         <div class="col-md-7 col-12">
-            <h1 style="padding-left:-5px;">
+            <h1 class="position-relative">
                 @film.Name
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a style="margin-top:40px; margin-left:20px" href="#" id="favorite" class="ml-0 ml-md-3"><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(favorite ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(favorite ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
+                     <a href="#" id="favorite" class="ml-3 ml-md-3 position-absolute" style="top:-5px; right:auto"><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(favorite ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(favorite ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
                 }
+
             </h1>
+           
+           
             <div style="margin-bottom:5px;" class="row">
                 <label class="text-info col" asp-for="@film.ReleaseYear"></label>
                 <span class="col">@film.ReleaseYear</span>

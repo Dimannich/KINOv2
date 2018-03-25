@@ -346,6 +346,7 @@ namespace KINOv2.Controllers
             if (value is null)
             {
                 status = "ERR";
+                return Json((status, msg));
             }
 
             var comment = await DB.Comments
@@ -359,6 +360,7 @@ namespace KINOv2.Controllers
             if (rating.Count() > 0)
             {
                 status = "ERR";
+                return Json((status, msg));
             }
 
             Rating rate = new Rating

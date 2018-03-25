@@ -1,0 +1,16 @@
+﻿@using KINOv2.Views.Manage
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="profile-menu first active"><a asp-action="Index">Profile</a></li>
+    <li class="profile-menu second"><a asp-action="ChangePassword" data-target="Result" id="prSecond">Password</a></li>
+    @if (hasExternalLogins)
+    {
+        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins" data-target="Result" id="aUpdate">External logins</a></li>
+    }
+    <li class="profile-menu third" ><a asp-action="TwoFactorAuthentication" data-target="Result" id="prThird">Two-factor authentication</a></li>
+</ul>
+

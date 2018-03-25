@@ -474,3 +474,17 @@ input[type="text"] {
         background-color: rgba(246, 162, 28, 1);
         color: rgba(255,255,255,1);
     }
+
+.history-table-body {
+    display:table-row-group;
+}
+
+.history-table-header {
+    display:table-header-group;
+}
+
+@media (max-width: 576px) {
+    .history-table-body, .history-table-header {
+        display: block;
+    }
+}
