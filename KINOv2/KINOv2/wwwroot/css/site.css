@@ -127,7 +127,7 @@ body {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,*/
 select,
 textarea {
     max-width: 280px;
@@ -487,4 +487,51 @@ input[type="text"] {
     .history-table-body, .history-table-header {
         display: block;
     }
+}
+
+.dropdown-fix {
+    left: -5px !important;
+}
+
+.h_iframe iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.h_iframe {
+    height: 100%;
+    width: 100%;
+}
+
+
+.image-container {
+    position: relative;
+    padding-bottom: 150%; /* ratio of image height to width */
+    height: 0;
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.text-orange:hover,
+.text-orange:visited {
+    text-decoration: none;
+}
+
+.swiper-container-featured {
+    width:auto;
+    height: 500px;
+}
+
+.swiper-slide-selected {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    height: 200px !important;
 }

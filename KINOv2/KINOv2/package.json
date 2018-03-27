@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "popper.js": "^1.9.9",
+    "swiper": "^4.2.0",
     "tempusdominus-bootstrap-4": "^5.0.0-alpha18"
   }
 }

@@ -83,6 +83,7 @@ namespace KINOv2.Controllers
                 films.Add(item.Film);
             }
             model.Films = films;
+            model.ChangePasswordModel = new ChangePasswordViewModel();
 
             return View(model);
         }

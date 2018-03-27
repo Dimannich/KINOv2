@@ -22,6 +22,8 @@ $('#datetimepicker4').datetimepicker({
     locale: 'ru',
     useCurrent: false
 });
+
+$('#history-table').footable();
 //var results = $("#Results");
 //var onBegin = function () {
 //    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");
@@ -371,3 +373,34 @@ $('#message').richText({
 //        }
 //    });
 //});
+
+$(document).ready(function () {
+    //initialize swiper when document ready
+    var mySwiper = new Swiper('.swiper-container-featured', {
+        // Optional parameters
+        loop: true,
+        slidesPerView: "auto",
+        freeMode: true,
+        grabCursor: true,
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination-featured',
+            clickable: true,
+        },
+    })
+});
+
+
+$(document).ready(function () {
+    //initialize swiper when document ready
+    var mySwiper = new Swiper('.swiper-container-selected', {
+        // Optional parameters
+        slidesPerView: 2,
+        slidesPerColumn: 2,
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination-selected',
+            clickable: true,
+        },
+    })
+});
