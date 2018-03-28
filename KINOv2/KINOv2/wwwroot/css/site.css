@@ -46,9 +46,10 @@ html {
 }
 
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
     /*padding-bottom: 20px;*/
-    font-family: "NEXTART", Arial;
+    /*font-family: "NEXTART", Arial;*/
+    padding-top: 5rem;
     background: #161a23;
     color: #fff;
     min-height: 100vh;
@@ -99,9 +100,10 @@ body {
         font-size: 20px;
         cursor: pointer;
         opacity: 1;
-        padding-top: 10px;
+        padding-top: 0.3rem;
         transition: opacity 0.2s ease-in-out;
         z-index: 10001;
+        border: 1px solid rgba(0, 0, 0, 0.8);
     }
 }
 /* Set padding to keep content from hitting the edges */
@@ -125,7 +127,7 @@ body {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,*/
 select,
 textarea {
     max-width: 280px;
@@ -134,10 +136,11 @@ textarea {
 .navbar {
     background: #161a23;
     min-height: 60px;
+    border-bottom: 1px solid rgba(16, 16, 16, 1);
 }
 
 .nav > li > a {
-    color: #fff !important;
+    color: #fff;
 }
 
     .nav > li > a:hover {
@@ -160,12 +163,12 @@ footer {
     height: 120px;
     margin-top: -120px;
     color: #fff !important;
-    /*
-    position: absolute;
-    left: 0;
+    
+    /*position: absolute;
+    /*left: 0;
     right: 0;
-    bottom: 0;
-        */
+    bottom: 0;*/
+        
 }
 
     footer li {
@@ -312,11 +315,10 @@ footer {
 }
 
 .session-button {
-    height: 50px;
+    height: 2rem;
     width: auto;
     color: #f6a21c;
     border: 2px solid #f6a21c;
-    width: 200px;
     border-radius: 50px;
     text-align: center;
 }
@@ -325,15 +327,10 @@ footer {
         background: #f6a21c;
     }
 
-.session-link {
-    float: left;
-    margin-right: 20px;
-}
 
     .session-link:hover,
     .session-link:visited {
         text-decoration: none;
-        color: #fff;
     }
 
 
@@ -346,6 +343,7 @@ footer {
     display: table-row;
 }
 
+.legend,
 .seat {
     display: table-cell;
     width: 30px;
@@ -355,6 +353,10 @@ footer {
     border-color: #fff;
     background: #161a23;
     border-radius: 5px;
+}
+
+.legend {
+    background:#b7b7b7 !important;
 }
 
 .booked {
@@ -371,12 +373,9 @@ footer {
 
 .ticket {
     text-align: center;
-    height: 130px;
-    width: 100px;
-    border: 10px solid #fff;
-    float: left;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    box-shadow: 0px 10px 30px 3px rgba(0,0,0,0.45);
+    max-width: 6rem;
+    min-width: 5rem;
 }
 
 .make-order-button {
@@ -384,25 +383,45 @@ footer {
     clear: both;
 }
 
-#datetimepicker1 {
+/*#datetimepicker4 {
     color: #000;
 }
 
 .input-group-addon {
     width: initial;
     max-height: 34px;
-}
+}*/
 
-#datetimepicker1 > .form-control {
+.bootstrap-datetimepicker-widget {
     min-width: 240px;
+    color: #fff;
+    background-color: #161a23;
+    border: 1px solid black;
 }
 
-@media (max-width: 350px) {
-    #datetimepicker1 > .form-control {
+td.day.active {
+    background-color:#f6a21c !important;
+}
+.day:focus {
+    background-color: #161a23;
+}
+
+th.next:hover,
+th.prev:hover {
+    background-color: #f6a21c !important;
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    border-bottom-color: #17a2b8 !important;
+}
+.selected {
+    color:#f6a21c !important;
+}
+/*@media (max-width: 350px) {
+    #datetimepicker4 > .form-control {
         min-width: initial;
     }
-}
-
+}*/
 input[type="text"] {
     color: #000;
 }
@@ -428,3 +447,91 @@ input[type="text"] {
     cursor: not-allowed;
 }
 
+.comment-rate-selected i {
+    color:#f6a21c !important;
+}
+
+.session-dropdown {
+    background: #161a23;
+    border:1px solid black;
+}
+
+.session-dropdown > a {
+    color:#fff;
+}
+
+.text-orange {
+    color: rgba(246, 162, 28, 1) !important;
+}
+
+.border-orange {
+    background-color: transparent;
+    color: rgba(255,255,255,1);
+    border: 1px solid rgba(246, 162, 28, 1);
+}
+
+    .border-orange:hover {
+        background-color: rgba(246, 162, 28, 1);
+        color: rgba(255,255,255,1);
+    }
+
+.history-table-body {
+    display:table-row-group;
+}
+
+.history-table-header {
+    display:table-header-group;
+}
+
+@media (max-width: 576px) {
+    .history-table-body, .history-table-header {
+        display: block;
+    }
+}
+
+.dropdown-fix {
+    left: -5px !important;
+}
+
+.h_iframe iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.h_iframe {
+    height: 100%;
+    width: 100%;
+}
+
+
+.image-container {
+    position: relative;
+    padding-bottom: 150%; /* ratio of image height to width */
+    height: 0;
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.text-orange:hover,
+.text-orange:visited {
+    text-decoration: none;
+}
+
+.swiper-container-featured {
+    width:auto;
+    height: 500px;
+}
+
+.swiper-slide-selected {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    height: 200px !important;
+}

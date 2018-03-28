@@ -1,7 +1,6 @@
 ﻿@model IndexViewModel
 @{
     ViewData["Title"] = "Профиль";
-    ViewData.AddActivePage(ManageNavPages.Index);
     string imgPath = "";
     if (Model.ProfileImage is null)
     {
@@ -13,38 +12,317 @@
     }
 }
 
-<h3>@ViewData["Title"]</h3>
-<div class="row">
-    <div class="col-md-3">
-        <img height="200" width="200" src="@imgPath" />
-    </div>
-    <div class="col-md-6">
-        <div style="margin-bottom:5px;">
-            <span>@Model.Username</span>
+
+<h2>Профиль</h2>
+
+<div class="d-md-flex flex-md-row">
+    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2" id="myTab" role="tablist">
+        <li class="nav-item w-25">
+            <a class="nav-link text-center px-0 active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">Профиль</a>
+        </li>
+        <li class="nav-item w-25">
+            <a class="nav-link text-center px-0" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history">История</a>
+        </li>
+        <li class="nav-item dropdown d-md-none text-center w-50">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
+            <div class="dropdown-menu dropdown-fix" >
+                <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">Сменить пароль</a>
+                <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
+                <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content py-3 px-md-3 py-md-0 w-100" id="myTabContent">
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <img class="img-fluid img-thumbnail w-75 d-block mx-auto" src="@imgPath" />
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-center mb-1">
+                        <span class="h4 text-orange">@Model.Username</span>
+                    </div>
+                    <div class="text-center mb-1">
+                        <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
+                    </div>
+                    <div class="row">
+                        <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
+                        <span class="col">@Model.City</span>
+                    </div>
+                    <div class="row">
+                        <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
+                        <span class="col">@Model.Email</span>
+                    </div>
+                    <div class="row">
+                        <label class="text-info col-4 text-right" style="width:60px" asp-for="@Model.About"></label>
+                        <p class="col" style="word-break:break-all">@Model.About 123 2334</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Избранные фильмы</h3>
+            @*<div class="row" style="height:600px;">*@
+                <h1 class="mx-auto">Типа слайдер</h1>
+
+                <div class="swiper-container swiper-container-selected" style="max-width:800px;">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide swiper-slide-selected"><img class="img-fluid" src="@imgPath" /></div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 2</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 3</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 4</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 5</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 6</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 7</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 8</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 9</div>
+                        <div class="swiper-slide swiper-slide-selected">Slide 10</div>
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination swiper-pagination-selected"></div>
+                </div>
+
+            @*</div>*@
         </div>
-        <div style="margin-bottom:5px;">
-            <span>@Model.Name @Model.SurName, @Model.Age</span>
+        <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <table class="table">
+                <thead class="float-left float-md-none history-table-header " style="clear:both">
+                    <tr>
+                        <th class="d-block d-md-table-cell border-bottom-0">Дата заказа</th>
+                        <th class="d-block d-md-table-cell border-bottom-0">Дата сеанса</th>
+                        <th class="d-block d-md-table-cell border-bottom-0">Фильм</th>
+                        <th class="d-block d-md-table-cell border-bottom-0">Зал</th>
+                        <th class="d-block d-md-table-cell border-bottom-0">Стоимость</th>
+                        <th class="d-block d-md-table-cell border-bottom-0">Билеты (шт.)</th>
+                    </tr>
+                </thead>
+                <tbody class="float-md-none position-relative history-table-body" style="overflow-x:auto; white-space:nowrap; max-width:250px; ">
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">1</td>
+                        <td class="d-block d-md-table-cell">Mark</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">2</td>
+                        <td class="d-block d-md-table-cell">Jacob</td>
+                        <td class="d-block d-md-table-cell">Thornton</td>
+                        <td class="d-block d-md-table-cell">fat</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">3</td>
+                        <td class="d-block d-md-table-cell">Larry</td>
+                        <td class="d-block d-md-table-cell">the Bird</td>
+                        <td class="d-block d-md-table-cell">twitter</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">3</td>
+                        <td class="d-block d-md-table-cell">Larry</td>
+                        <td class="d-block d-md-table-cell">the Bird</td>
+                        <td class="d-block d-md-table-cell">twitter</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">3</td>
+                        <td class="d-block d-md-table-cell">Larry</td>
+                        <td class="d-block d-md-table-cell">the Bird</td>
+                        <td class="d-block d-md-table-cell">twitter</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">3</td>
+                        <td class="d-block d-md-table-cell">Larry</td>
+                        <td class="d-block d-md-table-cell">the Bird</td>
+                        <td class="d-block d-md-table-cell">twitter</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                    <tr class=" float-md-none d-inline-block d-md-table-row">
+                        <td class="d-block d-md-table-cell">3</td>
+                        <td class="d-block d-md-table-cell">Larry</td>
+                        <td class="d-block d-md-table-cell">the Bird</td>
+                        <td class="d-block d-md-table-cell">twitter</td>
+                        <td class="d-block d-md-table-cell">Otto</td>
+                        <td class="d-block d-md-table-cell">mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table id="history-table" class="table bg-dark">
+                <thead>
+                    <tr>
+                        <th data-breakpoints="xs">ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th data-breakpoints="xs">Job Title</th>
+                        <th data-breakpoints="xs sm">Started On</th>
+                        <th data-breakpoints="xs sm md" data-title="DOB">Date of Birth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-expanded="false">
+                        <td>1</td>
+                        <td>Dennise</td>
+                        <td>Fuhrman</td>
+                        <td>High School History Teacher</td>
+                        <td>November 8th 2011</td>
+                        <td>July 25th 1960</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Elodia</td>
+                        <td>Weisz</td>
+                        <td>Wallpaperer Helper</td>
+                        <td>October 15th 2010</td>
+                        <td>March 30th 1982</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Raeann</td>
+                        <td>Haner</td>
+                        <td>Internal Medicine Nurse Practitioner</td>
+                        <td>November 28th 2013</td>
+                        <td>February 26th 1966</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Junie</td>
+                        <td>Landa</td>
+                        <td>Offbearer</td>
+                        <td>October 31st 2010</td>
+                        <td>March 29th 1966</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Solomon</td>
+                        <td>Bittinger</td>
+                        <td>Roller Skater</td>
+                        <td>December 29th 2011</td>
+                        <td>September 22nd 1964</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Bar</td>
+                        <td>Lewis</td>
+                        <td>Clown</td>
+                        <td>November 12th 2012</td>
+                        <td>August 4th 1991</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Usha</td>
+                        <td>Leak</td>
+                        <td>Ships Electronic Warfare Officer</td>
+                        <td>August 14th 2012</td>
+                        <td>November 20th 1979</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Lorriane</td>
+                        <td>Cooke</td>
+                        <td>Technical Services Librarian</td>
+                        <td>September 21st 2010</td>
+                        <td>April 7th 1969</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div style="margin-bottom:5px;">
-            <label class="text-info" style="width:60px" asp-for="@Model.City"></label>
-            <span>@Model.City</span>
+        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+            <div class="row">
+                <h4>Смена пароля</h4>
+                <div class="col-12">
+                    <form asp-action="ChangePassword" asp-controller="Manage" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="ChangePasswordModel.OldPassword"></label>
+                            <input asp-for="ChangePasswordModel.OldPassword" class="form-control" />
+                            <span asp-validation-for="ChangePasswordModel.OldPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ChangePasswordModel.NewPassword"></label>
+                            <input asp-for="ChangePasswordModel.NewPassword" class="form-control" />
+                            <span asp-validation-for="ChangePasswordModel.NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ChangePasswordModel.ConfirmPassword"></label>
+                            <input asp-for="ChangePasswordModel.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ChangePasswordModel.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn border-orange">Update password</button>
+                    </form>
+                    @*<form asp-controller="" asp-action=""
+                                  data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                        data-ajax-failure="onFailed" data-ajax-success="onSuccess"
+                                  data-ajax="true" data-ajax-method="POST">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <div id="Results"></div>
+                            </form>*@
+                </div>
+            </div>
+
         </div>
-        <div style="margin-bottom:5px;">
-            <label class="text-info" style="width:60px" asp-for="@Model.Email"></label>
-            <span>@Model.Email</span>
+
+        <div class="tab-pane fade" id="">
+
         </div>
-        <div style="margin-bottom:5px;">
-            <label class="text-info" style="width:60px" asp-for="@Model.About"></label>
-            <p style="word-break:break-all">@Model.About</p>
-        </div>
+        @*<div class="position-relative">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="float-left float-md-none" style="clear:both">
+                            <tr>
+                                <th class="d-block d-md-table-cell">#</th>
+                                <th class="d-block d-md-table-cell">First</th>
+                                <th class="d-block d-md-table-cell">Last</th>
+                                <th class="d-block d-md-table-cell">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody class="float-left  float-md-none">
+                            <tr class="float-left float-md-none ">
+                                <td class="d-block d-md-table-cell">1</td>
+                                <td class="d-block d-md-table-cell">Mark</td>
+                                <td class="d-block d-md-table-cell">Otto</td>
+                                <td class="d-block d-md-table-cell">mdo</td>
+                            </tr>
+                            <tr class="float-left float-md-none ">
+                                <td class="d-block d-md-table-cell">2</td>
+                                <td class="d-block d-md-table-cell">Jacob</td>
+                                <td class="d-block d-md-table-cell">Thornton</td>
+                                <td class="d-block d-md-table-cell">fat</td>
+                            </tr>
+                            <tr class="float-left float-md-none ">
+                                <td class="d-block d-md-table-cell">3</td>
+                                <td class="d-block d-md-table-cell">Larry</td>
+                                <td class="d-block d-md-table-cell">the Bird</td>
+                                <td class="d-block d-md-table-cell">twitter</td>
+                            </tr>
+                            <tr class="float-left float-md-none ">
+                                <td class="d-block d-md-table-cell">3</td>
+                                <td class="d-block d-md-table-cell">Larry</td>
+                                <td class="d-block d-md-table-cell">the Bird</td>
+                                <td class="d-block d-md-table-cell">twitter</td>
+                            </tr>
+                            <tr class="float-left float-md-none ">
+                                <td class="d-block d-md-table-cell">3</td>
+                                <td class="d-block d-md-table-cell">Larry</td>
+                                <td class="d-block d-md-table-cell">the Bird</td>
+                                <td class="d-block d-md-table-cell">twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>*@
     </div>
 </div>
 
-<h4>Избранные фильмы</h4>
-<div class="row">
-    <form>
-
-    </form>
-</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
 
 

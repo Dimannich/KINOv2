@@ -15,12 +15,12 @@
 
   <ItemGroup>
     <PackageReference Include="Font.Awesome" Version="5.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="NonFactors.Grid.Mvc6" Version="2.3.0" />
-    <PackageReference Include="StoredProcedureEFCore" Version="0.3.4" />
+    <PackageReference Include="StoredProcedureEFCore" Version="0.3.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +48,6 @@
     <Folder Include="wwwroot\images\Profiles\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,0 +1,42 @@
+﻿<div class="col-12 mb-2">
+    @if (ViewData["FilmSessions"] is null)
+    {
+        <div class="text-center text-info my-1">Сеансы отсутствуют</div>
+    }
+    else
+    {
+        foreach (var pair in ViewData["FilmSessions"] as Dictionary<string, List<Session>>)
+        {
+            if (pair.Value.Count > 0)
+            {
+                <div class="text-center text-info my-1">@pair.Key</div>
+                <div class="row mb-2">
+                    @foreach (var session in pair.Value)
+                    {
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                    }
+                </div>
+
+                <div class="row mb-2">
+                    @foreach (var session in pair.Value)
+                    {
+                        <a class=" col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                    }
+                </div>
+                <div class="row mb-2">
+                    @foreach (var session in pair.Value)
+                    {
+                        <a class=" col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                    }
+                </div>
+            }
+        }
+    }
+    
+</div>

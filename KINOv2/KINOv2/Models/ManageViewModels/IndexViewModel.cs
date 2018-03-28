@@ -42,5 +42,7 @@ namespace KINOv2.Models.ManageViewModels
         public string ProfileImage { get; set; }
 
         public string StatusMessage { get; set; }
+
+        public ChangePasswordViewModel ChangePasswordModel { get; set; }
     }
 }

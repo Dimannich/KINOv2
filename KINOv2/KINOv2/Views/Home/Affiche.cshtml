@@ -6,7 +6,7 @@
 <h2>@ViewData["Title"]</h2>
 <h2>@ViewData["Message"]</h2>
 
-<div >
+<div>
 
     @if (User.IsInRole("Admin"))
     {
@@ -17,19 +17,65 @@
 
     }
 
-    @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
+        <div class="row">
+            @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
     {
-        <div class="row film">
+        <div class="col-9 col-md-4 mb-3 mx-auto">
             @{
-                <div class="poster-image" style="background-image: url('@Url.Content("~/images/Posters/" + film.Poster)')"></div>
-                <div class="film-info col-md-6">
-                    <h3><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">@(film.Name + $"({film.ReleaseYear})")</a></h3>
-                    <strong>Жанр: </strong><span>@film.Genre.Name</span><br />
-                    <strong>Ограничение: </strong><span>@film.AgeLimit.Value</span><br />
+                @*<div class="poster-image" style="background-image: url('@Url.Content("~/images/Posters/" + film.Poster)')"></div>
+            <div class="film-info col-md-6">
+                <h3><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">@(film.Name + $"({film.ReleaseYear})")</a></h3>
+                <strong>Жанр: </strong><span>@film.Genre.Name</span><br />
+                <strong>Ограничение: </strong><span>@film.AgeLimit.Value</span><br />
+            </div>*@
+                <div>
+                    <a class="text-orange" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
+                        <div class="image-container" ><img class="img-fluid"  src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
+                        <div class="h2 text-center text-orange">
+                            @(film.Name)
+                        </div>
+                    </a>
                 </div>
             }
         </div>
-    }
+        <div class="col-12 col-md-4 mb-3">
+            @{
+                @*<div class="poster-image" style="background-image: url('@Url.Content("~/images/Posters/" + film.Poster)')"></div>
+            <div class="film-info col-md-6">
+                <h3><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">@(film.Name + $"({film.ReleaseYear})")</a></h3>
+                <strong>Жанр: </strong><span>@film.Genre.Name</span><br />
+                <strong>Ограничение: </strong><span>@film.AgeLimit.Value</span><br />
+            </div>*@
+                <div>
+                    <a class="text-orange" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
+                        <div class="image-container"><img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
+                        <div class=" h3 text-center text-orange">
+                            @(film.Name)
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+            @{
+                @*<div class="poster-image" style="background-image: url('@Url.Content("~/images/Posters/" + film.Poster)')"></div>
+            <div class="film-info col-md-6">
+                <h3><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">@(film.Name + $"({film.ReleaseYear})")</a></h3>
+                <strong>Жанр: </strong><span>@film.Genre.Name</span><br />
+                <strong>Ограничение: </strong><span>@film.AgeLimit.Value</span><br />
+            </div>*@
+                <div>
+                    <a class="text-orange" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
+                        <div class="image-container"><img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
+                        <div class=" h3 text-center text-orange">
+                            @(film.Name)
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+}
+        </div>
 
     @*<form asp-controller="" asp-action=""
               data-ajax-begin="onBegin" data-ajax-complete="onComplete"
@@ -38,22 +84,7 @@
             <input type="submit" value="Save" class="btn btn-primary" />
             <div id="Results"></div>
         </form>*@
-        <nav>
-            <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
-        </nav>
-    @(Html
-            .Grid(ViewData["Films"] as IEnumerable<Film>)
-            .Build(columns =>
-            {
-                columns.Add(m => m.Name).Titled("Name");
-                columns.Add(model => model.Duration).Titled("Surname");
-
-                columns.Add(model => model.Archived).Titled("Age");
-                columns.Add(model => model.Poster).Titled("Birth date");
-                columns.Add(model => model.LINK).Titled("Employed");
-            })
-            .Filterable()
-            .Sortable()
-            .Pageable()
-    )
+    <nav>
+        <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
+    </nav>
 </div>

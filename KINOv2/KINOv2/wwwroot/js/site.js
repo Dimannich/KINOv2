@@ -17,23 +17,29 @@ function SetNewEntry(files) {
 
 $('.mvc-grid').mvcgrid();
 $('#film-rating').rating();
+$('#datetimepicker4').datetimepicker({
+    format: 'L',
+    locale: 'ru',
+    useCurrent: false
+});
 
-var results = $("#Results");
-var onBegin = function () {
-    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");
-};
+$('#history-table').footable();
+//var results = $("#Results");
+//var onBegin = function () {
+//    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");
+//};
 
-var onComplete = function () {
-    results.html("");
-};
+//var onComplete = function () {
+//    results.html("");
+//};
 
-var onSuccess = function (context) {
-    alert(context);
-};
+//var onSuccess = function (context) {
+//    alert(context);
+//};
 
-var onFailed = function (context) {
-    alert("Failed");
-};
+//var onFailed = function (context) {
+//    alert("Failed");
+//};
 
 var seatsIds = []
 function setSeatsClickable() {
@@ -56,15 +62,18 @@ function setSeatsClickable() {
     });
 }
 function onClickSeat(row, number) {
-    var cost = jQuery(".session-cost").attr("value");
-    console.log(cost);
-    var content = "<p>" + row + " ряд</p>";
-    content += "<p>" + number + " место</p>";
-    content += "<p>" + cost + "р</p>";
     var id = "ticket-row" + row + "-number" + number;
     var value = row * 1000 + Number.parseInt(number);
-    jQuery(".make-order-button").before("<div class='ticket' id='" + id + "'>" + content + "<input type='hidden' name='"+id+"' value=" + value + "></div>");
+    var ticketRow = $('#row-' + row);
+    if ($(ticketRow).hasClass('d-none'))
+        $(ticketRow).removeClass('d-none');
+    var content = "<span id='" + id + "'>" +" " + number + "<input type='hidden' name='" + id + "' value=" + value + "></span>";
+    $(ticketRow).append(content);
     seatsIds.push(id);
+    var cost = $(".session-cost").attr("value");
+    var totalCost = Number($('#total-cost').text()) + Number(cost);
+    $('#total-cost').text(totalCost);
+        
 }
 function onDeactivateSeat(row, number) {
     var id = "ticket-row" + row + "-number" + number;
@@ -72,6 +81,11 @@ function onDeactivateSeat(row, number) {
     id = "#" + id;
     jQuery(id).detach();
     seatsIds.splice(index);
+    if ($('#row-' + row).find('span').length == 0)
+        $('#row-' + row).addClass('d-none');
+    var cost = $(".session-cost").attr("value");
+    var totalCost = $('#total-cost').text() - cost;
+    $('#total-cost').text(totalCost);
 }
 document.addEventListener("DOMContentLoaded", setSeatsClickable);
 
@@ -106,9 +120,35 @@ $('#favorite').click(function (e) {
     $('.fa-bookmark-o').attr('title', 'Добавить в избранное');
 });
 
+$('.session-date').click(function (e) {
+    e.preventDefault();
+    $('#' + $(this).data("target")).load($(this).attr("href"));
+    $('.session-date').removeClass('selected');
+    $(this).addClass('selected');
+    $('#datetimepicker4').datetimepicker('hide');
+    if ($('#session-drop').hasClass('selected'))
+        $('#session-drop').removeClass('selected');
+    if ($(this).parent().hasClass('session-dropdown'))
+        $('#session-drop').addClass('selected');
+});
+
+$('#session-drop').click(function (e) {
+    $('#datetimepicker4').datetimepicker('hide');
+})
+
+$('#datetimepicker4').on("change.datetimepicker", function (e) {
+    $('#' + $(this).closest('a').data("target")).load($(this).closest('a').attr("href"), { date: e.date.format("D, M, YYYY") });
+});
+
+$('#msg-sender').click(function () {
+    $('input[name=replyid]').val(-1);
+    $('.richText-editor').empty();
+});
+
 $(function () {
     $('.comment-rate').click(function (e) {
-        e.preventDefault();
+        e.preventDefault(); 
+        var self = this;
         if ($(this).parent().attr('disabled')) {
             return;
         }
@@ -118,12 +158,25 @@ $(function () {
         else {
             flag = false;
         }
-        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag });
-        $(this).find('i').css('color', '#f6a21c');
-        var value = $(this).parent().find('span').text();
-        $(this).parent().find('span').text(++value);
+        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
+            if (data.item1 == "OK") {
+                $(self).parent().find('span').text(data.item2);
+            }
+        });
+        $(this).find('i').addClass('comment-rate-selected')
     });
 });
+
+
+//$(function () {
+//    $('.comment-reply').click(function (e) {
+//        e.preventDefault(); 
+//        $('input[name=replyid]').val($(this).next().data('comment-id'));
+//        $('.richText-editor').empty();
+//        $('.richText-editor').focus();
+//        $('.richText-editor').text('ИНВАН, ');
+//    });
+//});
 
 $(function () {
     $('.comment-rate').ready(function () {
@@ -132,6 +185,26 @@ $(function () {
         }
     });
 });
+
+$(".date-picker").click(function (e) {
+    e.preventDefault();
+    $('#datetimepicker4').datetimepicker('toggle');
+    $('.session-date').removeClass('selected');
+    //$(this).addClass('selected');
+    //$('#datetimepicker4').datetimepicker('hide');
+    //if ($('#session-drop').hasClass('selected'))
+    //    $('#session-drop').removeClass('selected');
+    //if ($(this).parent().hasClass('session-dropdown'))
+    //    $('#session-drop').addClass('selected');
+});
+//(function ($) {
+//    $.fn.focusToEnd = function () {
+//        return this.each(function () {
+//            var v = $(this).val();
+//            $(this).focus().val("").val(v);
+//        });
+//    };
+//})(jQuery);
 
 $('#msg-sender').click(function () {
     $(this).parent().find('textarea').text("");
@@ -281,9 +354,10 @@ $('#message').richText({
 
     // dropdowns
     fileHTML: '',
-    imageHTML: ''
+    imageHTML: '',
 
-    
+    id: "testing",
+    useParagraph: true
 });
 
 //$("textarea[maxlength]").on("propertychange input", function () {
@@ -299,3 +373,34 @@ $('#message').richText({
 //        }
 //    });
 //});
+
+$(document).ready(function () {
+    //initialize swiper when document ready
+    var mySwiper = new Swiper('.swiper-container-featured', {
+        // Optional parameters
+        loop: true,
+        slidesPerView: "auto",
+        freeMode: true,
+        grabCursor: true,
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination-featured',
+            clickable: true,
+        },
+    })
+});
+
+
+$(document).ready(function () {
+    //initialize swiper when document ready
+    var mySwiper = new Swiper('.swiper-container-selected', {
+        // Optional parameters
+        slidesPerView: 2,
+        slidesPerColumn: 2,
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination-selected',
+            clickable: true,
+        },
+    })
+});
