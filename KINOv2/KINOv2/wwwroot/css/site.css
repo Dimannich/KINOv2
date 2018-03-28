@@ -368,7 +368,7 @@ footer {
 }
 
 .active-seat {
-    background: #f6a21c;
+    background: #f6a21c !important;
 }
 
 .ticket {
@@ -381,6 +381,12 @@ footer {
 .make-order-button {
     display: block;
     clear: both;
+}
+
+@media (hover: none) {
+    .seat:hover {
+        background: #161a23;
+    }
 }
 
 /*#datetimepicker4 {

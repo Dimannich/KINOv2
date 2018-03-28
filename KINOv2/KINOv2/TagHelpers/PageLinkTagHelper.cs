@@ -57,6 +57,8 @@ namespace KINOv2.TagHelpers
         {
             TagBuilder item = new TagBuilder("li");
             TagBuilder link = new TagBuilder("a");
+            item.AddCssClass("page-item");
+            link.AddCssClass("page-link");
             if (pageNumber == this.PageModel.PageNumber)
             {
                 item.AddCssClass("active");
