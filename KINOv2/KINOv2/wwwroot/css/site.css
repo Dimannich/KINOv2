@@ -564,3 +564,15 @@ input[type="text"] {
 .bg-dark-blue {
     background:#161a23 !important;
 }
+
+.control {
+    background: #161a23;
+    color: #fff !important;
+}
+
+    .control:focus {
+        border-color: #f6a21c;
+        background: #161a23;
+        box-shadow: 0 0 0 0.1rem rgba(246, 163, 30, 0.53);
+    }
+

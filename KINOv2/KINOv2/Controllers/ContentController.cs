@@ -34,23 +34,18 @@ namespace KINOv2.Controllers
         //GET: /Content/FilmManage
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> FilmManage()
+        public async Task<IActionResult> FilmManage(int? id)
         {
             Film film = null;
-            var link = Request.Query["id"].ToString();
-            if (!(link is null) && link != String.Empty)
+
+            if (!(id is null))
             {
-                if (!Int32.TryParse(link.ToString(), out int l))
-                {
-                    return View("Error");
-                }
-                film = await DB.Films.FindAsync(l);
-                if (film == null)
-                    return View("Error");
-                if (film.Archived == true)
+                film = await DB.Films.FindAsync(id);
+
+                if (film is null)
                     return View("Error");
             }
-
+            
             SelectList genresList = new SelectList(DB.Genres.ToList(), "LINK", "Name");
             ViewBag.Genres = genresList;
             SelectList directorsList = new SelectList(DB.Directors.ToList(), "LINK", "Name");
@@ -108,9 +103,9 @@ namespace KINOv2.Controllers
                 && (model.UploadedFile.FileName.EndsWith(".jpg")))
             //model.UploadedFile.SaveAs(Server.MapPath("~/Content/Images/Posters/" + model.Film.Poster));
             {
-                using (var fileStream = new FileStream(Url.Content("~/images/Posters/" + model.UploadedFile.FileName), FileMode.Create))
+                using (var fileStream = new FileStream((AppEnvironment.WebRootPath + "/images/Posters/" + model.Film.Poster), FileMode.Create))
                 {
-                    await model.UploadedFile.CopyToAsync(fileStream);
+                   await model.UploadedFile.CopyToAsync(fileStream);
                 }
             }
 
@@ -122,30 +117,44 @@ namespace KINOv2.Controllers
         //GET: /Content/SessionManage
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> SessionManage()
+        public async Task<IActionResult> SessionManage(int? id, int? film)
         {
-            //var context = ApplicationDbContext.Create();
             Session session = null;
-            int film;
-            if (int.TryParse(Request.Query["id"].ToString(), out film))
+
+            if(!(id is null))
             {
-                ViewBag.film = film;
-                ViewBag.FilmName = DB.Films.Find(film).Name;
+                session = await DB.Sessions
+                    .Where(x => x.LINK == id)
+                    .Include(x => x.Film)
+                    .FirstOrDefaultAsync();
+
+                if (session.LINK == -1)
+                    return View("Error");
             }
-            string link = Request.Query["id"].ToString();
-            if (link != null)
+
+            if(!(film is null))
             {
-                if (!Int32.TryParse(link, out int l))
-                {
-                    return View("Error");
-                }
-                session = await DB.Sessions.FindAsync(l);
-                if (session == null)
-                    return View("Error");
-                if (session.Archived == true)
-                    return View("Error");
-                session.Film = await DB.Films.FindAsync(session.FilmLINK);
+                ViewBag.Film = DB.Films.Find(film);
             }
+            //if (int.TryParse(Request.Query["id"].ToString(), out film))
+            //{
+            //    ViewBag.film = film;
+            //    ViewBag.FilmName = DB.Films.Find(film).Name;
+            //}
+            //string link = Request.Query["id"].ToString();
+            //if (link != null)
+            //{
+            //    if (!Int32.TryParse(link, out int l))
+            //    {
+            //        return View("Error");
+            //    }
+            //    session = await DB.Sessions.FindAsync(l);
+            //    if (session == null)
+            //        return View("Error");
+            //    if (session.Archived == true)
+            //        return View("Error");
+            //    session.Film = await DB.Films.FindAsync(session.FilmLINK);
+            //}
 
             SelectList filmsList = new SelectList(DB.Films.Where(x => x.Archived != true).ToList(), "LINK", "Name");
             ViewBag.Films = filmsList;

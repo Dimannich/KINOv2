@@ -7,85 +7,87 @@
 
 <h3>@ViewData["Message"]</h3>
 <hr />
-<form asp-area="" asp-controller="Content" asp-action="SessionManage" method="post" role="form" class="form-horizontal">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    @if (Model is null)
-    {
-        if (!(ViewBag.Film is null))
+<div class="row">
+    <form asp-area="" asp-controller="Content" asp-action="SessionManage" method="post" role="form" class="form-horizontal w-100 col-lg-4 offset-lg-1">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @if (Model is null)
         {
-            <input asp-for="FilmLINK" type="hidden" />
-            <div class="form-group">
-                <label asp-for="FilmLINK"></label>
-                <input asp-for="FilmLINK" disabled />
-            </div>
+            if (!(ViewBag.Film is null))
+            {
+                <input value="@ViewBag.Film.LINK" type="hidden" />
+                <div class="form-group">
+                    <label class="text-info" asp-for="FilmLINK"></label>
+                    <input class="form-control control" value="@ViewBag.Film.Name" disabled style="background-color:rgba(133, 136, 146, 0.6); cursor:not-allowed;" />
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label class="text-info" asp-for="FilmLINK"></label>
+                    <select asp-for="FilmLINK" asp-items="ViewBag.Films" class="form-control control"></select>
+                </div>
+            }
         }
         else
         {
+            <input asp-for="FilmLINK" type="hidden" />
             <div class="form-group">
-                <label asp-for="FilmLINK"></label>
-                <select asp-for="FilmLINK" asp-items="ViewBag.Films" class="form-control"></select>
+                <label class="text-info" asp-for="FilmLINK"></label>
+                <input asp-for="Film.Name" class="form-control control" disabled />
             </div>
         }
-    }
-    else
-    {
-        <input asp-for="FilmLINK" type="hidden" />
         <div class="form-group">
-            <label asp-for="FilmLINK"></label>
-            <input asp-for="Film.Name" class="form-control" disabled />
+            <label class="text-info" asp-for="SessionTime"></label>
+            <input asp-for="SessionTime" type="datetime-local" class="form-control control" />
         </div>
-    }
-    <div class="form-group">
-        <label asp-for="SessionTime"></label>
-        <input asp-for="SessionTime" type="datetime-local" class="form-control"/>
-    </div>
-    @*<div>
-        <label asp-for="SessionTime"></label>
-        <div class="col-md-10">
-            <div class="input-group" id="datetimepicker1">
-                <input type="text" class="form-control" name="date_field" data-val-required="Требуется поле Дата." />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
+        @*<div>
+                <label asp-for="SessionTime"></label>
+                <div class="col-md-10">
+                    <div class="input-group" id="datetimepicker1">
+                        <input type="text" class="form-control" name="date_field" data-val-required="Требуется поле Дата." />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
+
+            <script>
+                        $(function () {
+                            $('#datetimepicker1').datetimepicker({
+                                locale: 'ru'
+
+                            });
+                            @{
+                                string dateString = "";
+                            }
+                            @if (Model != null) {
+                                dateString = Model.SessionTime.ToShortDateString() + " " + Model.SessionTime.ToShortTimeString();
+                            }
+                            else {
+                                //dateString = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
+                            }
+                            $('#datetimepicker1').data("DateTimePicker").date('@dateString');
+                        });
+            </script>*@
+
+        <div class="form-group">
+            <label class="text-info" asp-for="HallLINK"></label>
+            <select asp-for="HallLINK" asp-items="ViewBag.Halls" class="form-control control"></select>
         </div>
-    </div>
+        <div class="form-group">
+            <label class="text-info" asp-for="Cost"></label>
+            <input asp-for="Cost" type="number" class="form-control control" />
+        </div>
 
-    <script>
-                $(function () {
-                    $('#datetimepicker1').datetimepicker({
-                        locale: 'ru'
-
-                    });
-                    @{
-                        string dateString = "";
-                    }
-                    @if (Model != null) {
-                        dateString = Model.SessionTime.ToShortDateString() + " " + Model.SessionTime.ToShortTimeString();
-                    }
-                    else {
-                        //dateString = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-                    }
-                    $('#datetimepicker1').data("DateTimePicker").date('@dateString');
-                });
-    </script>*@
-   
-    <div class="form-group">
-        <label asp-for="HallLINK"></label>
-        <select asp-for="HallLINK" asp-items="ViewBag.Halls" class="form-control"></select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Cost"></label>
-        <input asp-for="Cost" type="number" class="form-control" />
-    </div>
-
-    @if (Model is null)
-    {
-        <button type="submit" class="btn btn-default">Save</button>
-    }
-    else
-    {
-        <input asp-for="LINK" type="hidden" />
-        <button type="submit" class="btn btn-default">Update</button>
-    }
-</form>
+        @if (Model is null)
+        {
+            <button type="submit" class="btn border-orange w-100 mt-2">Сохранить</button>
+        }
+        else
+        {
+            <input asp-for="LINK" type="hidden" />
+            <button type="submit" class="btn border-orange w-100 mt-2">Обновить</button>
+        }
+    </form>
+</div>
