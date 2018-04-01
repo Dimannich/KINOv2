@@ -14,22 +14,22 @@
         commentRateValue = 0;
         <div class="row comment mx-auto" style="max-width:700px; border-top: 2px solid #f6a21c; margin-bottom:20px; padding-bottom:15px;">
 
-            <div class="row mx-auto">
-                    <div class="col-md-8 col-8">
-                        <span>@comment.ApplicationUser.UserName</span>
+            <div class="row mx-auto mx-sm-0 w-100">
+                     <div class="col-8 col-sm-8 col-md-10">
+                        <a class="text-orange" asp-area="" asp-controller="Home" asp-action="Profile" asp-route-username="@comment.ApplicationUser.UserName">@comment.ApplicationUser.UserName</a>
                     </div>
-                    <div class="col-8 order-2">
+                    <div class="col-8 col-sm-8 col-md-10 order-2">
                         @if (comment.Date != null)
                         {
                          <span>@comment.Date.Value.ToShortDateString() @comment.Date.Value.ToShortTimeString()</span>
                         }
                     </div>
-                    <a class="comment-reply col-md-2 col-4 order-3 text-info text-right" data-user-name="@comment.ApplicationUser.UserName" href="#">Ответить</a>
+                    <a class="comment-reply col-4 col-sm-4 col-md-2  order-3 text-info text-right" data-user-name="@comment.ApplicationUser.UserName" href="#">Ответить</a>
                     @if (!(comment.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).FirstOrDefault() is null))
                     {
                         commentRateValue = comment.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).FirstOrDefault().Value;
                     }
-                    <div data-comment-id="@comment.LINK" class="col-md-2 col-4 order-1 text-right @(User.Identity.IsAuthenticated ? "" : "rate-disabled disabled") @(commentRateValue == 0 ? "": "rate-disabled disabled")">
+                    <div data-comment-id="@comment.LINK" class="col-4 col-sm-4 col-md-2 order-1 text-right @(User.Identity.IsAuthenticated ? "" : "rate-disabled disabled") @(commentRateValue == 0 ? "": "rate-disabled disabled")">
                         <a class="comment-rate like @(commentRateValue == 1 ? "comment-rate-selected" : "")" href="#" style="margin:auto 5px; padding-bottom:5px;"><i style="font-size:20px; color:#3B708F" class="fa fa-caret-up"></i></a>
                         @foreach (var rate in comment.Rating)
                         {
@@ -40,11 +40,11 @@
                     </div>
             </div>
              <div class="w-100 mb-2"></div>
-                <div class="col-4">
+                <div class="col-4 col-sm-3 col-md-3">
                     <img class="img-thumbnail" width="200" height="200" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
                 </div>
 
-                <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-8">
+                <div style="font-family: Calibri,Verdana,Helvetica,sans-serif;" class="col-8 col-sm-9 col-md-9">
                     @{
                         HtmlString text = new HtmlString(comment.Text);
                     }

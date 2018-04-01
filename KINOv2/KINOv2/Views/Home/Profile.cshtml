@@ -1,0 +1,64 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Профиль";
+    string imgPath = "";
+    if (Model.ProfileImage is null)
+    {
+        imgPath = Url.Content("~/images/Profiles/default.png");
+    }
+    else
+    {
+        imgPath = Url.Content("~/images/Profiles" + Model.ProfileImage);
+    }
+}
+<h1>Профиль</h1>
+
+<div class="row">
+    <div class="col-12 col-md-6">
+        <img class="img-fluid img-thumbnail w-75 d-block mx-auto" src="@imgPath" />
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="text-center mb-1">
+            <span class="h4 text-orange">@Model.Username</span>
+        </div>
+        <div class="text-center mb-1">
+            <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
+        </div>
+        <div class="row">
+            <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
+            <span class="col">@Model.Email</span>
+        </div>
+        <div class="row">
+            <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
+            <span class="col">@Model.City</span>
+        </div>
+        <div class="row">
+            <label class="text-info col-4 text-right" style="width:60px" asp-for="@Model.About"></label>
+            <p class="col" style="word-break:break-all">@Model.About</p>
+        </div>
+    </div>
+    <h2 class="col-12">Избранные фильмы</h2>
+    <div class="col-12">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <td>Название фильма</td>
+                    <td>Локальный рейтинг</td>
+                    <td>Рейтинг</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td><a class="text-orange" href="#">PLACEHOLDER</a></td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+</div>

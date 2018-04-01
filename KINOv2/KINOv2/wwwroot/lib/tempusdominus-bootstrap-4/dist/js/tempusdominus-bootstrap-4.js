@@ -1310,7 +1310,8 @@ var DateTimePicker = function ($) {
         };
 
         DateTimePicker.prototype.clear = function clear() {
-            this._setValue(null); //todo
+            this._viewDate = null;
+            //this._setValue(null); //todo
         };
 
         DateTimePicker.prototype.keyBinds = function keyBinds(_keyBinds) {

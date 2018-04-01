@@ -2,7 +2,6 @@
 @{
     List<Film> films = ViewData["Featured"] as List<Film>;
 }
-<div class="container">
     <div class="row">
         @*@for (int i = 0; i < films.Count; i++)
         {
@@ -20,12 +19,37 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
                 <!-- Slides -->
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
-                <div class="swiper-slide col-12 col-md-4"><img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" /></div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+                <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
+                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
+                    </a>
+                </div>
+
             </div>
             <!-- If we need pagination -->
             <div class="swiper-pagination swiper-pagination-featured"></div>
@@ -38,4 +62,3 @@
             @*<div class="swiper-scrollbar"></div>*@
         </div>
     </div>
-</div>

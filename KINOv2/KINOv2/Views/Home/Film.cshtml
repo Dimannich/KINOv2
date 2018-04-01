@@ -8,7 +8,7 @@
 
 <div class="film-container">
     <div class="row mx-auto" style="max-width: 1000px;">
-        <div class="col-md-5 col-12" style=" ">
+        <div class="col-12 col-sm-5 col-md-5 " style=" ">
             @*<div class="poster-image-large img-responsive" style="background-image:url('@Url.Content("~/images/Posters/" + film.Poster)'); margin-top:25px;">
 
                 </div>*@
@@ -22,17 +22,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7 col-12">
+        <div class="col-12 col-sm-7 col-md-7 ">
             <h1 class="position-relative">
                 @film.Name
                 @if (User.Identity.IsAuthenticated)
                 {
-                     <a href="#" id="favorite" class="ml-3 ml-md-3 position-absolute" style="top:-5px; right:auto"><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(favorite ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(favorite ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
+                    <a href="#" id="favorite" class="ml-3 ml-md-3 position-absolute" style="top:auto; right:auto"><i data-film-id="@film.LINK" id="flag" style="font-size:40px; color:#f6a21c; margin-top:10px;" title="@(favorite ? "Убрать из избранного" : "Добавить в избранное")" class="fa @(favorite ? "fa-bookmark" : "fa-bookmark-o" )"></i></a>
                 }
 
             </h1>
-           
-           
+
+
             <div style="margin-bottom:5px;" class="row">
                 <label class="text-info col" asp-for="@film.ReleaseYear"></label>
                 <span class="col">@film.ReleaseYear</span>
@@ -97,49 +97,51 @@
     }
     <h2>Сеансы</h2>
     <hr />
-    <ul class="nav" data-film-id="@film.LINK">
-        <li class="nav-item w-25">
-            <a class="nav-link text-center h-25 session-date selected" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="28/09/2017" data-target="sessions">Сегодня 29.09</a>
-        </li>
-        <li class="nav-item dropdown d-md-none w-50 text-center mt-2">
-            <a id="session-drop" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
-            <div class="dropdown-menu session-dropdown">
-                <a asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" class="dropdown-item session-date" data-target="sessions">Завтра 30.09</a>
-                <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" data-target="sessions">Послезавтра 31.09</a>
-            </div>
-        </li>
-        <li class="nav-item d-none d-sm-flex">
-            <a class="nav-link session-date" href="#">Завтра</a>
-        </li>
-        <li class="nav-item d-none d-sm-flex">
-            <a class="nav-link session-date" href="#">Послезавтра</a>
-        </li>
-        <li class="nav-item w-25">
-            <a class="nav-link date-picker" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" data-target="sessions">
-                <div class="form-group mt-2">
-                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                        <input type="hidden" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                        <div class="input-group-append mx-auto" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                            <div class=""><span class="d-none d-md-inline">Выбрать дату</span><i class="fa fa-calendar d-md-none"></i></div>
+    <div class="d-md-flex flex-md-row">
+        <ul class="nav d-md-inline-flex align-self-md-start flex-md-column ml-md-5" data-film-id="@film.LINK">
+            <li class="nav-item w-25">
+                <a class="nav-link text-center session-date selected" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="28/09/2017" data-target="sessions">Сегодня 29.09</a>
+            </li>
+            <li class="nav-item dropdown d-md-none w-50 text-center mt-2">
+                <a id="session-drop" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
+                <div class="dropdown-menu session-dropdown">
+                    <a asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" class="dropdown-item session-date" data-target="sessions">Завтра 30.09</a>
+                    <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" data-target="sessions">Послезавтра 31.09</a>
+                </div>
+            </li>
+            <li class="nav-item d-none d-md-flex">
+                <a class="nav-link session-date" href="#">Завтра</a>
+            </li>
+            <li class="nav-item d-none d-md-flex">
+                <a class="nav-link session-date" href="#">Послезавтра</a>
+            </li>
+            <li class="nav-item w-25">
+                <a class="nav-link date-picker" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" data-target="sessions">
+                    <div class="form-group mt-2">
+                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                            <input type="hidden" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                            <div class="input-group-append mx-auto" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                <div class=""><span class="d-none d-md-inline">Выбрать дату</span><i class="fa fa-calendar d-md-none"></i></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </li>
-    </ul>
+                </a>
+            </li>
+        </ul>
 
-
-    <div class="row mx-auto" id="sessions">
-        @await Html.PartialAsync("FilmSessions")
+        <div class="row w-100 mx-auto mx-md-0 align-content-md-center" id="sessions">
+            @await Html.PartialAsync("FilmSessions")
+        </div>
     </div>
 
     <h2>Трейлер</h2>
     <hr />
     <section class="row" style="max-width:800px; margin:auto;">
-        <center class="embed-responsive embed-responsive-16by9">
+        <center class="embed-responsive embed-responsive-16by9 col-md-9 col-lg-12 mx-auto">
             <iframe class="embed-responsive-item" src="@film.TrailerLink" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
         </center>
     </section>
+
 
     <div id="comments" class="mt-2">
         @await Html.PartialAsync("Comments")

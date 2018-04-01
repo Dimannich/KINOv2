@@ -11,23 +11,30 @@
         imgPath = Url.Content("~/images/Profiles" + Model.ProfileImage);
     }
 }
-
-
 <h1>Профиль</h1>
 
 <div class="d-md-flex flex-md-row">
-    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2" id="myTab" role="tablist">
-        <li class="nav-item w-25">
-            <a class="nav-link text-center px-0 active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">Профиль</a>
+    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-lg-2" id="myTab" role="tablist">
+        <li class="nav-item w-100" style="max-width:90px;">
+            <a class="nav-link text-center px-0 px-md-3 active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">Профиль</a>
         </li>
-        <li class="nav-item w-25">
-            <a class="nav-link text-center px-0" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history">История</a>
+        <li class="nav-item w-100" style="max-width:90px;">
+            <a class="nav-link text-center px-0 px-md-3" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history">История</a>
         </li>
-        <li class="nav-item dropdown d-md-none text-center w-50">
+        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+            <a class="nav-link text-center px-0 px-md-3" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">Настройка профиля</a>
+        </li>
+        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+            <a class="nav-link text-center px-0 px-md-3" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">Сменить пароль</a>
+        </li>
+        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+            <a class="nav-link text-center px-0 px-md-3" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
+        </li>
+        <li class="nav-item dropdown d-md-none text-center w-100" style="max-width:135px;">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
-            <div class="dropdown-menu dropdown-fix" >
+            <div class="dropdown-menu dropdown-fix">
+                <a class="dropdown-item" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">Настройка профиля</a>
                 <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">Сменить пароль</a>
-                <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
                 <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
             </div>
         </li>
@@ -35,10 +42,10 @@
     <div class="tab-content py-3 px-md-3 py-md-0 w-100" id="myTabContent">
         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-sm-5 col-md-6 col-lg-4">
                     <img class="img-fluid img-thumbnail w-75 d-block mx-auto" src="@imgPath" />
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-sm-7 col-md-6">
                     <div class="text-center mb-1">
                         <span class="h4 text-orange">@Model.Username</span>
                     </div>
@@ -46,111 +53,125 @@
                         <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
                     </div>
                     <div class="row">
-                        <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
-                        <span class="col">@Model.City</span>
-                    </div>
-                    <div class="row">
                         <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
                         <span class="col">@Model.Email</span>
                     </div>
                     <div class="row">
+                        <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
+                        <span class="col">@Model.City</span>
+                    </div>
+                    <div class="row">
                         <label class="text-info col-4 text-right" style="width:60px" asp-for="@Model.About"></label>
-                        <p class="col" style="word-break:break-all">@Model.About 123 2334</p>
+                        <p class="col" style="word-break:break-all">@Model.About</p>
                     </div>
                 </div>
-            </div>
-
-            <h2>Избранные фильмы</h2>
-            <div class="row">
-                <h1 class="mx-auto">Типа таблица</h1>
-
+                <h2 class="col-12">Избранные фильмы</h2>
+                <div class="col-12">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <td>Название фильма</td>
+                                <td class="w-25 text-center">Локальный рейтинг</td>
+                                <td class="w-25 text-center">Рейтинг</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < 5; i++)
+                        {
+                            <tr>
+                                <td><a class="text-orange" href="#">PLACEHOLDER</a></td>
+                                <td class="text-center">0.0</td>
+                                <td class="text-center">0.00</td>
+                            </tr>
+                    }
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
             <h2>История заказов</h2>
-            <table id="history-table" class="table bg-dark">
+            <table id="history-table" class="table table-hover bg-dark-blue">
                 <thead>
                     <tr>
-                        <th data-breakpoints="xs">ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th data-breakpoints="xs">Job Title</th>
-                        <th data-breakpoints="xs sm">Started On</th>
-                        <th data-breakpoints="xs sm md" data-title="DOB">Date of Birth</th>
+                        <th data-breakpoints="xs sm">Зал</th>
+                        <th>Фильм</th>
+                        <th>Дата сеанса</th>
+                        <th data-breakpoints="xs sm">Количество билетов</th>
+                        <th data-breakpoints="xs ">Стоимость</th>
+                        <th data-breakpoints="xs sm md">Дата оформления</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-expanded="false">
-                        <td>1</td>
-                        <td>Dennise</td>
-                        <td>Fuhrman</td>
-                        <td>High School History Teacher</td>
-                        <td>November 8th 2011</td>
-                        <td>July 25th 1960</td>
-                    </tr>
+                    @for (int i = 0; i < 5; i++)
+                {
                     <tr>
-                        <td>2</td>
-                        <td>Elodia</td>
-                        <td>Weisz</td>
-                        <td>Wallpaperer Helper</td>
-                        <td>October 15th 2010</td>
-                        <td>March 30th 1982</td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
+                        <td>PLACEHOLDER</td>
                     </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Raeann</td>
-                        <td>Haner</td>
-                        <td>Internal Medicine Nurse Practitioner</td>
-                        <td>November 28th 2013</td>
-                        <td>February 26th 1966</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Junie</td>
-                        <td>Landa</td>
-                        <td>Offbearer</td>
-                        <td>October 31st 2010</td>
-                        <td>March 29th 1966</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Solomon</td>
-                        <td>Bittinger</td>
-                        <td>Roller Skater</td>
-                        <td>December 29th 2011</td>
-                        <td>September 22nd 1964</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Bar</td>
-                        <td>Lewis</td>
-                        <td>Clown</td>
-                        <td>November 12th 2012</td>
-                        <td>August 4th 1991</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Usha</td>
-                        <td>Leak</td>
-                        <td>Ships Electronic Warfare Officer</td>
-                        <td>August 14th 2012</td>
-                        <td>November 20th 1979</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Lorriane</td>
-                        <td>Cooke</td>
-                        <td>Technical Services Librarian</td>
-                        <td>September 21st 2010</td>
-                        <td>April 7th 1969</td>
-                    </tr>
+            }
                 </tbody>
             </table>
+        </div>
+        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="row">
+                <h2 class="col-12">Настройка профиля</h2>
+                <div class="col-12 col-sm-6 mx-sm-auto col-lg-4"><img id="profile-image" class="img-fluid img-thumbnail w-75 d-block mx-auto" style="max-height:250px;" src="@imgPath" /></div>
+                <form class="col-12 col-sm-8 mx-sm-auto col-lg-6" asp-action="ChangeProfileSettings" asp-controller="Manage" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group text-center">
+                        <input class="text-center" asp-for="ProfileUploaded" type="file" name="ProfileUploaded" onchange="ChangeImage(this.files);" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" style="color:#000000" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SurName"></label>
+                        <input asp-for="SurName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Age"></label>
+                        <input asp-for="Age" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="City"></label>
+                        <input asp-for="City" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="About"></label>
+                        <textarea asp-for="About" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PersonalInfoVisible"></label>
+                        <input asp-for="PersonalInfoVisible" class="form-check-inline" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SelectedFilmsVisible"></label>
+                        <input asp-for="SelectedFilmsVisible" class="form-check-inline" />
+                    </div>
+                    <button type="submit" class="btn border-orange float-right px-5">Сохранить</button>
+                </form>
+            </div>
         </div>
         <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
             <div class="row">
                 <h2 class="col-12">Смена пароля</h2>
-                <div class="col-12">
+                <div class="col-12 col-sm-9 mx-sm-auto col-lg-4">
                     <form asp-action="ChangePassword" asp-controller="Manage" method="post">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
@@ -168,13 +189,10 @@
                             <input asp-for="ChangePasswordModel.ConfirmPassword" class="form-control" />
                             <span asp-validation-for="ChangePasswordModel.ConfirmPassword" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn border-orange float-right">Update password</button>
+                        <button type="submit" class="btn border-orange float-right">Обновить пароль</button>
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="tab-pane fade" id="">
-
         </div>
     </div>
 </div>

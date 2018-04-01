@@ -1,4 +1,5 @@
 ﻿using KINOv2.Models.MainModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,7 @@ namespace KINOv2.Models.ManageViewModels
 
         [Display(Name = "Город")]
         public string City { get; set; }
-
+        
         [Display(Name = "Возраст")]
         public int? Age { get; set; }
 
@@ -35,6 +36,7 @@ namespace KINOv2.Models.ManageViewModels
         public string SurName { get; set; }
 
         [Display(Name = "О себе")]
+        [DataType(DataType.MultilineText)]
         public string About { get; set; }
 
         public List<Film> Films { get; set; }
@@ -42,7 +44,16 @@ namespace KINOv2.Models.ManageViewModels
         public string ProfileImage { get; set; }
 
         public string StatusMessage { get; set; }
+        
+        [Display(Name = "Отображать избранные фильмы")]
+        public bool SelectedFilmsVisible { get; set; }
+
+        [Display(Name = "Отображать личную информацию")]
+        public bool PersonalInfoVisible { get; set; }
 
         public ChangePasswordViewModel ChangePasswordModel { get; set; }
+
+        [Display(Name = "Изображение")]
+        public IFormFile ProfileUploaded { get; set; }
     }
 }

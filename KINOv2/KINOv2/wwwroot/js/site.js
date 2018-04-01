@@ -15,6 +15,11 @@ function SetNewEntry(files) {
     //}
 }
 
+function ChangeImage(files) {
+    var img = document.getElementById('profile-image');
+    img.src = window.URL.createObjectURL(files[0]);
+}
+
 $('.mvc-grid').mvcgrid();
 $('#film-rating').rating();
 $('#datetimepicker4').datetimepicker({
@@ -130,6 +135,8 @@ $('.session-date').click(function (e) {
         $('#session-drop').removeClass('selected');
     if ($(this).parent().hasClass('session-dropdown'))
         $('#session-drop').addClass('selected');
+    $('.date-picker').removeClass('selected');
+    //$('#datetimepicker4').datetimepicker('viewDate', "01.01.1990 0:00:00");
 });
 
 $('#session-drop').click(function (e) {
@@ -137,7 +144,9 @@ $('#session-drop').click(function (e) {
 })
 
 $('#datetimepicker4').on("change.datetimepicker", function (e) {
+if(e != null) {
     $('#' + $(this).closest('a').data("target")).load($(this).closest('a').attr("href"), { date: e.date.format("D, M, YYYY") });
+}
 });
 
 $('#msg-sender').click(function () {
@@ -190,6 +199,8 @@ $(".date-picker").click(function (e) {
     e.preventDefault();
     $('#datetimepicker4').datetimepicker('toggle');
     $('.session-date').removeClass('selected');
+    $('#session-drop').removeClass('selected');
+    $(this).addClass('selected');
     //$(this).addClass('selected');
     //$('#datetimepicker4').datetimepicker('hide');
     //if ($('#session-drop').hasClass('selected'))

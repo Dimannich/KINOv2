@@ -32,6 +32,7 @@ namespace KINOv2.TagHelpers
             // набор ссылок будет представлять список ul
             TagBuilder tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
+            tag.AddCssClass("pagination-lg");
 
             // формируем три ссылки - на текущую, предыдущую и следующую
             TagBuilder currentItem = CreateTag(PageModel.PageNumber, urlHelper);

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Primitives;
 using KINOv2.Models.AdditionalEFEntities;
 using System.Net;
+using KINOv2.Models.ManageViewModels;
 
 namespace KINOv2.Controllers
 {
@@ -231,6 +232,53 @@ namespace KINOv2.Controllers
                 }
                 return key;
             }
+        }
+
+        public async Task<IActionResult> Profile(string username)
+        {
+            var user = await UserManager.Users
+                .Where(x => x.UserName == username)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                //throw new ApplicationException($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
+                return Error();
+            }
+
+            var model = new IndexViewModel
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsEmailConfirmed = user.EmailConfirmed,
+                Age = user.Age,
+                City = user.City,
+                Name = user.Name,
+                SurName = user.SurName,
+                ProfileImage = user.ProfileImage,
+                About = user.About,
+                PersonalInfoVisible = user.PersonalInfoVisible.Value,
+                SelectedFilmsVisible = user.SelectedFilmsVisible.Value
+            };
+
+            var _user = DB.Users.Where(x => x.Id == user.Id).Include(x => x.FilmUsers).ThenInclude(x => x.Film).First();
+
+            List<Film> films = new List<Film>();
+            foreach (var item in _user.FilmUsers)
+            {
+                films.Add(item.Film);
+            }
+            model.Films = films;
+            
+            if(user.Id == (await UserManager.GetUserAsync(User)).Id)
+            {
+                model.ChangePasswordModel = new ChangePasswordViewModel();
+                return View("../Manage/Index", model);
+
+            }
+
+            return View(model);
         }
 
         [HttpPost]

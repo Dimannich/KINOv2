@@ -58,12 +58,12 @@ body {
 
 .up-button {
     text-align: center;
-    width: 100px;
-    background: rgba(255, 255, 255, 0.2);
+    width: 80px;
+    background-color: rgba(255, 255, 255, 0.2);
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 0;
+    right: 0;
     padding-top: 80px;
     color: #fff;
     font-size: 20px;
@@ -94,7 +94,7 @@ body {
         border-radius: 50%;
         position: fixed;
         bottom: 20px;
-        left: 20px;
+        right: 20px;
         color: #000;
         background: #fff;
         font-size: 20px;
@@ -128,10 +128,10 @@ body {
 
 /* Set width on the form input elements since they're 100% wide by default */
 /*input,*/
-select,
+/*select,
 textarea {
     max-width: 280px;
-}
+}*/
 
 .navbar {
     background: #161a23;
@@ -412,8 +412,11 @@ td.day.active {
     background-color: #161a23;
 }
 
+
 th.next:hover,
-th.prev:hover {
+th.prev:hover,
+td.day:hover,
+th.picker-switch:hover{
     background-color: #f6a21c !important;
 }
 
@@ -516,6 +519,9 @@ input[type="text"] {
     height: 0;
     overflow: hidden;
 }
+    .image-container:hover {
+        opacity:0.80;
+    }
 
 .image-container img {
     position: absolute;
@@ -532,7 +538,7 @@ input[type="text"] {
 
 .swiper-container-featured {
     width:auto;
-    height: 500px;
+    max-height: 600px;
 }
 
 .swiper-slide-selected {
@@ -540,4 +546,21 @@ input[type="text"] {
     font-size: 18px;
     background: #fff;
     height: 200px !important;
+}
+
+/*.swiper-pagination-featured {
+    
+}*/
+
+.swiper-pagination-featured > span {
+    opacity:0.8;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #f6a21c !important;
+    border: 1px solid black;
+}
+
+.bg-dark-blue {
+    background:#161a23 !important;
 }
