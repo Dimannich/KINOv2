@@ -27,29 +27,6 @@
 <body>
     <div class="up-button-mobile up-button-hidden" onclick="onUpButtonClick()"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
     <div class="up-button up-button-hidden" onclick="onUpButtonClick()"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
-    @*<nav class="navbar fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Affiche">Афиша</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Halls">Залы</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
-                    </ul>
-                    @await Html.PartialAsync("LoginPartial")
-                </div>
-            </div>
-        </nav>*@
-
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
@@ -112,10 +89,6 @@
         <script src="~/lib/tempusdominus-bootstrap-4/dist/js/tempusdominus-bootstrap-4.js"></script>
         <script src="~/lib/footable/js/footable.js"></script>
         <script src="~/lib/swiper/dist/js/swiper.min.js"></script>
-        @*<script>
-
-            </script>*@
-        @*<script src="~/lib/jquery/dist/core.js"></script>*@
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
         <script src="~/lib/rich-text-editor/js/jquery.richtext.js"></script>

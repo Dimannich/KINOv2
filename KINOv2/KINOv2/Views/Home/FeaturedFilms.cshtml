@@ -1,64 +1,21 @@
-﻿
-@{
+﻿@{
     List<Film> films = ViewData["Featured"] as List<Film>;
 }
-    <div class="row">
-        @*@for (int i = 0; i < films.Count; i++)
-        {
-            <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[i].LINK">
-                <div class="col-lg-4" style="min-height: 380px;">
-                    @{
-                        <img class="poster-image" src="@Url.Content("~/images/Posters/" + films[i].Poster)" style="clear: both; position: absolute; left: 50%; "/>
-                        <h3 style="clear:both; color: #fff; position: absolute; top: 310px; text-align: center; width: 100%; margin-left:-15px;">@films[i].Name</h3>
-                    }
-                </div>
-            </a>
-        }*@
-        <!-- Slider main container -->
-        <div class="swiper-container swiper-container-featured">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
-                <div class="swiper-slide col-12 col-sm-4 col-md-4">
-                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@films[0].LINK">
-                        <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + films[0].Poster)" />
-                    </a>
-                </div>
+<div class="row">
+    <div class="swiper-container swiper-container-featured">
 
+        <div class="swiper-wrapper">
+            @foreach (var film in films)
+            {
+            <div class="swiper-slide col-12 col-sm-4 col-md-4">
+                <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
+                    <img class="img-fluid" style="width:inherit" src="@Url.Content("~/images/Posters/" + film.Poster)" />
+                </a>
             </div>
-            <!-- If we need pagination -->
-            <div class="swiper-pagination swiper-pagination-featured"></div>
-
-            <!-- If we need navigation buttons -->
-            @*<div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>*@
-
-            <!-- If we need scrollbar -->
-            @*<div class="swiper-scrollbar"></div>*@
+            }
         </div>
+
+        <div class="swiper-pagination swiper-pagination-featured"></div>
+
     </div>
+</div>

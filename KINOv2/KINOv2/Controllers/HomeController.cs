@@ -38,8 +38,7 @@ namespace KINOv2.Controllers
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
-                .Where(x => x.Archived != true)
-                .Take(1);
+                .Where(x => x.Archived != true);
 
             IEnumerable<Hall> halls = DB.Halls;
 
