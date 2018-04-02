@@ -576,3 +576,42 @@ input[type="text"] {
         box-shadow: 0 0 0 0.1rem rgba(246, 163, 30, 0.53);
     }
 
+
+@media (min-width: 768px) {
+    .profile-list {
+        border: none;
+    }
+
+    .profile-list > li {
+        border-bottom: 1px solid #fff;
+        margin-bottom: 0px !important;
+    }
+   
+        .profile-list > li:hover {
+            border-bottom: 1px solid #f6a21c;
+        }
+
+        .profile-list > li > a {
+            border: none !important;
+            border-top-left-radius: 0rem !important;
+            border-top-right-radius: 0rem !important;
+        }
+
+            .profile-list > li > a.active {
+                background-color: #161a23 !important;
+                color:#f6a21c !important;                
+            }
+
+}
+
+@media (max-width: 767px) {
+    .profile-list > li {
+        max-width: 25%;
+    }
+
+    .profile-list > li.dropdown {
+        max-width: 50%;
+    }
+}
+
+

@@ -11,26 +11,26 @@
         imgPath = Url.Content("~/images/Profiles" + Model.ProfileImage);
     }
 }
-<h1>Профиль</h1>
 
-<div class="d-md-flex flex-md-row">
-    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2 col-lg-2" id="myTab" role="tablist">
-        <li class="nav-item w-100" style="max-width:90px;">
+
+<div class="d-md-flex flex-md-row mt-0 mt-md-3">
+    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2 col-lg-2 profile-list mt-2 mt-md-0" id="myTab" role="tablist">
+        <li class="nav-item w-100">
             <a class="nav-link text-center px-0 px-md-3 active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">Профиль</a>
         </li>
-        <li class="nav-item w-100" style="max-width:90px;">
+        <li class="nav-item w-100">
             <a class="nav-link text-center px-0 px-md-3" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history">История</a>
         </li>
-        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+        <li class="nav-item w-100 d-none d-md-block">
             <a class="nav-link text-center px-0 px-md-3" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">Настройка профиля</a>
         </li>
-        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+        <li class="nav-item w-100 d-none d-md-block">
             <a class="nav-link text-center px-0 px-md-3" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">Сменить пароль</a>
         </li>
-        <li class="nav-item w-100 d-none d-md-flex" style="max-width:95px;">
+        <li class="nav-item w-100 d-none d-md-block">
             <a class="nav-link text-center px-0 px-md-3" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
         </li>
-        <li class="nav-item dropdown d-md-none text-center w-100" style="max-width:135px;">
+        <li class="nav-item dropdown d-md-none text-center w-100">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
             <div class="dropdown-menu dropdown-fix">
                 <a class="dropdown-item" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">Настройка профиля</a>
@@ -42,10 +42,12 @@
     <div class="tab-content py-3 px-md-3 py-md-0 w-100" id="myTabContent">
         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row">
-                <div class="col-12 col-sm-5 col-md-6 col-lg-4">
+                <h2 class="col-12">Профиль</h2>
+                <hr class="d-none d-sm-none d-md-block ml-3 col-lg-9" />
+                <div class="col-12 col-sm-5 col-md-6 col-lg-4 order-lg-1">
                     <img class="img-fluid img-thumbnail w-75 d-block mx-auto" src="@imgPath" />
                 </div>
-                <div class="col-12 col-sm-7 col-md-6 col-lg-6">
+                <div class="col-12 col-sm-7 col-md-6 col-lg-4 order-lg-0 offset-lg-1 align-self-lg-center">
                     <div class="text-center mb-1">
                         <span class="h4 text-orange">@Model.Username</span>
                     </div>
@@ -60,13 +62,10 @@
                         <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
                         <span class="col">@Model.City</span>
                     </div>
-                    <div class="row">
-                        <label class="text-info col-4 text-right" style="width:60px" asp-for="@Model.About"></label>
-                        <p class="col" style="word-break:break-all">@Model.About</p>
-                    </div>
+
                 </div>
-                <h2 class="col-12">Избранные фильмы</h2>
-                <div class="col-12 col-lg-10">
+                <h2 class="col-12 order-lg-3">Избранные фильмы</h2>
+                <div class="col-12 col-lg-10 order-lg-4">
                     <table class="table table-sm table-striped">
                         <thead>
                             <tr>
@@ -77,13 +76,13 @@
                         </thead>
                         <tbody>
                             @for (int i = 0; i < 5; i++)
-                        {
-                            <tr>
-                                <td><a class="text-orange" href="#">PLACEHOLDER</a></td>
-                                <td class="text-center">0.0</td>
-                                <td class="text-center">0.00</td>
-                            </tr>
-                    }
+                {
+                    <tr>
+                        <td><a class="text-info" href="#">PLACEHOLDER</a></td>
+                        <td class="text-center">0.0</td>
+                        <td class="text-center">0.00</td>
+                    </tr>
+    }
                         </tbody>
                         <tfoot>
                         </tfoot>
@@ -92,40 +91,46 @@
             </div>
         </div>
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-            <h2>История заказов</h2>
-            <table id="history-table" class="table table-hover bg-dark-blue col-lg-9">
-                <thead>
-                    <tr>
-                        <th data-breakpoints="xs sm">Зал</th>
-                        <th>Фильм</th>
-                        <th>Дата сеанса</th>
-                        <th data-breakpoints="xs sm">Количество билетов</th>
-                        <th data-breakpoints="xs ">Стоимость</th>
-                        <th data-breakpoints="xs sm md">Дата оформления</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < 5; i++)
-                {
-                    <tr>
-                        <td>PLACEHOLDER</td>
-                        <td>PLACEHOLDER</td>
-                        <td>PLACEHOLDER</td>
-                        <td>PLACEHOLDER</td>
-                        <td>PLACEHOLDER</td>
-                        <td>PLACEHOLDER</td>
-                    </tr>
-            }
-                </tbody>
-            </table>
+            <div class="row">
+                <h2 class="col-12">История заказов</h2>
+                <hr class="w-100 d-none d-sm-none d-md-block ml-3 col-lg-9" />
+                <div class="col-lg-10">
+                    <table id="history-table" class="table table-hover bg-dark-blue">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0" data-breakpoints="xs sm">Зал</th>
+                                <th class="border-top-0">Фильм</th>
+                                <th class="border-top-0">Дата сеанса</th>
+                                <th class="border-top-0" data-breakpoints="xs sm">Количество билетов</th>
+                                <th class="border-top-0" data-breakpoints="xs ">Стоимость</th>
+                                <th class="border-top-0" data-breakpoints="xs sm md">Дата оформления</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < 5; i++)
+            {
+                <tr>
+                    <td>PLACEHOLDER</td>
+                    <td>PLACEHOLDER</td>
+                    <td>PLACEHOLDER</td>
+                    <td>PLACEHOLDER</td>
+                    <td>PLACEHOLDER</td>
+                    <td>PLACEHOLDER</td>
+                </tr>
+}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
             <div class="row">
                 <h2 class="col-12">Настройка профиля</h2>
+                <hr class="w-100 d-none d-sm-none d-md-block ml-3 col-lg-9"/>
                 <div class="col-12">
                     <form class="row" asp-action="ChangeProfileSettings" asp-controller="Manage" method="post">
 
-                        <div class="col-lg-5">
+                        <div class="col-12 col-lg-5 order-1 order-lg-0">
                             <div class="form-group">
                                 <label class="text-info" asp-for="Email"></label>
                                 <input asp-for="Email" class="form-control control" style="color:#000000" />
@@ -139,36 +144,35 @@
                                 <input asp-for="SurName" class="form-control control" />
                             </div>
                         </div>
-                        <div class="form-group text-center col-lg-5 order-first">
+                        <div class="form-group text-center col-12 col-lg-5 order-0 order-lg-1 mb-0">
                             <div class=""><img id="profile-image" class="img-fluid img-thumbnail w-75 d-block mx-auto" style="max-height:250px;" src="@imgPath" /></div>
                             <input class="text-center mt-1" asp-for="ProfileUploaded" type="file" name="ProfileUploaded" onchange="ChangeImage(this.files);" />
                         </div>
-                        <div class="form-group col-lg-5">
-                            <label class="text-info" asp-for="PhoneNumber"></label>
-                            <input asp-for="PhoneNumber" class="form-control control" />
+                        <div class="col-12 col-lg-5 order-2 order-lg-2">
+                            <div class="form-group">
+                                <label class="text-info" asp-for="PhoneNumber"></label>
+                                <input asp-for="PhoneNumber" class="form-control control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-info" asp-for="Age"></label>
+                                <input asp-for="Age" class="form-control control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-info" asp-for="City"></label>
+                                <input asp-for="City" class="form-control control" />
+                            </div>
                         </div>
-
-                        <div class="form-group col-lg-5">
-                            <label class="text-info" asp-for="Age"></label>
-                            <input asp-for="Age" class="form-control control" />
+                        <div class="col-12 col-lg-5 order-3 order-lg-3 mt-lg-3">
+                            <div class="form-group text-center">
+                                <label class="text-info" asp-for="PersonalInfoVisible"></label>
+                                <input asp-for="PersonalInfoVisible" class="form-check-inline" />
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="text-info" asp-for="SelectedFilmsVisible"></label>
+                                <input asp-for="SelectedFilmsVisible" class="form-check-inline" />
+                            </div>
                         </div>
-                        <div class="form-group col-lg-5">
-                            <label class="text-info" asp-for="About"></label>
-                            <textarea asp-for="About" class="form-control control"></textarea>
-                        </div>
-                        <div class="form-group col-lg-5">
-                            <label class="text-info" asp-for="City"></label>
-                            <input asp-for="City" class="form-control control" />
-                        </div>
-                        <div class="form-group col-lg-5 offset-lg-5">
-                            <label class="text-info" asp-for="PersonalInfoVisible"></label>
-                            <input asp-for="PersonalInfoVisible" class="form-check-inline" />
-                        </div>
-                        <div class="form-group col-lg-5 offset-lg-5">
-                            <label class="text-info" asp-for="SelectedFilmsVisible"></label>
-                            <input asp-for="SelectedFilmsVisible" class="form-check-inline" />
-                        </div>
-                        <div class="col-lg-3"><button type="submit" class="btn border-orange w-100">Сохранить</button></div>
+                        <div class="col-12 col-lg-3 order-12 order-lg-4"><button type="submit" class="btn border-orange w-100">Сохранить</button></div>
                     </form>
                 </div>
             </div>
@@ -176,6 +180,7 @@
         <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
             <div class="row">
                 <h2 class="col-12">Смена пароля</h2>
+                <hr class="w-100 d-none d-md-block ml-3 col-lg-9" />
                 <div class="col-12 col-sm-9 col-lg-5">
                     <form asp-action="ChangePassword" asp-controller="Manage" method="post">
                         <div asp-validation-summary="All" class="text-danger"></div>
