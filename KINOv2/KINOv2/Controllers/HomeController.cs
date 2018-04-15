@@ -180,20 +180,24 @@ namespace KINOv2.Controllers
                 validationKey = GetRandomKey();
             }
             var form = Request.Form;
-            form.TryGetValue("session-cost", out StringValues scost);
-            int cost = Convert.ToInt32(scost);
-            cost *= form.Count - 2;
+
+
+            form.TryGetValue("session-link", out StringValues slink);
+            int sessionLink = Convert.ToInt32(slink);
+            var session = DB.Sessions.FirstOrDefault(s => s.LINK == sessionLink);
+            if (session == null)
+                return Error();
+            
+            var totalCost = session.Cost * (form.Count - 2);
             string applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
             order.ValidationKey = validationKey;
             order.ApplicationUserId = applicationUserId;
-            order.Cost = cost;
+            order.Cost = totalCost;
 
             DB.Orders.Add(order);
             DB.SaveChanges();
 
-            form.TryGetValue("session-link", out StringValues slink);
-            int sessionLink = Convert.ToInt32(slink);
 
             foreach(var pair in form)
             { 
@@ -203,6 +207,11 @@ namespace KINOv2.Controllers
                     int value = Convert.ToInt32(pair.Value);
                     int row = value / 1000;
                     int number = value % 1000;
+
+                    // проверяем, не забронькал ли кто место пока мы прохлаждались
+                    var seat = DB.Seats.FirstOrDefault(s => s.Row == row && s.Number == number && s.SessionLINK == sessionLink);
+                    if (seat != null)
+                        return Error();
 
                     newSeat.Row = row;
                     newSeat.Number = number;
