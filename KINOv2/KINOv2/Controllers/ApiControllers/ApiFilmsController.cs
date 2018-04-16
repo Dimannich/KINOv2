@@ -23,9 +23,65 @@ namespace KINOv2.Controllers.ApiControllers
 
         // GET: api/film
         [HttpGet]
-        public IEnumerable<Film> GetFilms()
+        public IEnumerable<FilmSerializer> GetFilms()
         {
-            return _context.Films;
+            return _context.Films
+               .Include(f => f.Country)
+               .Include(f => f.Genre)
+               .Include(f => f.Director)
+               .Include(f => f.AgeLimit)
+               .ToList()
+               .Select(f => new FilmSerializer
+               {
+                   LINK = f.LINK,
+                   Name = f.Name,
+                   Poster = f.Poster,
+                   ReleaseYear = f.ReleaseYear,
+                   Country = f.Country.Name,
+                   Genre = f.Genre.Name,
+                   Director = f.Director.Name + " " + f.Director.Surname,
+                   Duration = f.Duration,
+                   AgeLimit = f.AgeLimit.Value,
+                   Archived = f.Archived,
+                   Description = f.Description,
+                   TrailerLink = f.TrailerLink,
+                   GlobalRating = f.GlobalRating,
+                   LocalRating = f.LocalRating,
+               })
+               .AsQueryable();
+        }
+        [HttpGet("featured")]
+        public IEnumerable<FilmSerializer> GetFeaturedFilms()
+        {
+            return _context.Films
+                  .Include(f => f.Country)
+                  .Include(f => f.Genre)
+                  .Include(f => f.Director)
+                  .Include(f => f.AgeLimit)
+                  .OrderByDescending(f => _context.Seats
+                                            .Include(seat => seat.Session) 
+                                            .Where(seat => seat.Session.FilmLINK == f.LINK).Count()
+                   )
+                  .Take(4)
+                  .ToList()
+                  .Select(f => new FilmSerializer
+                  {
+                      LINK = f.LINK,
+                      Name = f.Name,
+                      Poster = f.Poster,
+                      ReleaseYear = f.ReleaseYear,
+                      Country = f.Country.Name,
+                      Genre = f.Genre.Name,
+                      Director = f.Director.Name + " " + f.Director.Surname,
+                      Duration = f.Duration,
+                      AgeLimit = f.AgeLimit.Value,
+                      Archived = f.Archived,
+                      Description = f.Description,
+                      TrailerLink = f.TrailerLink,
+                      GlobalRating = f.GlobalRating,
+                      LocalRating = f.LocalRating,
+                  })
+                  .AsQueryable();
         }
 
         // GET: api/film/5
@@ -54,6 +110,24 @@ namespace KINOv2.Controllers.ApiControllers
         private bool FilmExists(int id)
         {
             return _context.Films.Any(e => e.LINK == id);
+        }
+
+        public class FilmSerializer
+        {
+            public int LINK { get; set; }
+            public string Name { get; set; }
+            public string Poster { get; set; }
+            public int ReleaseYear { get; set; }
+            public string Country { get; set; }
+            public string Genre { get; set; }
+            public string Director { get; set; }
+            public string Duration { get; set; }
+            public string AgeLimit { get; set; }
+            public bool? Archived { get; set; }
+            public string Description { get; set; }
+            public string TrailerLink { get; set; } 
+            public int? GlobalRating { get; set; }
+            public int? LocalRating { get; set; }
         }
     }
 }
