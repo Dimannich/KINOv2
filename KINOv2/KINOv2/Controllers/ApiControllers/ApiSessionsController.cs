@@ -35,9 +35,11 @@ namespace KINOv2.Controllers.ApiControllers
                         LINK = s.LINK,
                         Film = s.Film.Name,
                         FilmLINK = s.Film.LINK,
+                        Poster = s.Film.Poster,
                         SessionTime = s.SessionTime,
                         Hall = s.Hall.Name,
                         Cost = s.Cost,
+                        Duration = s.Film.Duration,
                         Seats = s.Seats.Select(seat => new SeatSerializer
                         {
                             LINK = seat.LINK,
@@ -89,7 +91,9 @@ namespace KINOv2.Controllers.ApiControllers
         public string Hall { get; set; }
         public IEnumerable<SeatSerializer> Seats { get; set; }
         public int Cost { get; set; }
+        public string Poster { get; set; }
         public bool? Archived { get; set; }
+        public string Duration { get; set; }
     }
     public class SeatSerializer
     {
