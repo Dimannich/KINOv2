@@ -19,7 +19,7 @@ namespace KINOv2.Models.MainModels
         public string Text { get; set; }
         //Ссылка на фильм
         public Film Film { get; set; }
-        public int? FilmLINK { get; set; }
+        public int FilmLINK { get; set; }
         //Ссылка на пользователя 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
