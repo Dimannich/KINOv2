@@ -194,6 +194,7 @@ namespace KINOv2.Controllers
             order.ValidationKey = validationKey;
             order.ApplicationUserId = applicationUserId;
             order.Cost = totalCost;
+            order.Date = DateTime.Now;
 
             DB.Orders.Add(order);
             DB.SaveChanges();
@@ -335,7 +336,7 @@ namespace KINOv2.Controllers
 
             var user = DB.Users.Find(UserManager.GetUserId(User));
             if(film.FilmUsers.Count > 0)
-            if (film.FilmUsers.First(x => x.ApplicationUserId == user.Id) == null)
+            if (film.FilmUsers.FirstOrDefault(x => x.ApplicationUserId == user.Id) == null)
             {
                 film.FilmUsers.Add(new FilmUser { ApplicationUserId = user.Id, FilmLINK = Convert.ToInt32(id) });
                 DB.Entry(film).State = EntityState.Modified;

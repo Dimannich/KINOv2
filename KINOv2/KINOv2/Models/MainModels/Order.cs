@@ -19,5 +19,6 @@ namespace KINOv2.Models.MainModels
         // Ссылка на клиента 
         public virtual ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
+        public IEnumerable<Seat> Seats { get; set; }
     }
 }

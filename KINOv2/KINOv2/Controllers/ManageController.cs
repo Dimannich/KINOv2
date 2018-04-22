@@ -73,8 +73,8 @@ namespace KINOv2.Controllers
                 SurName = user.SurName,
                 ProfileImage = user.ProfileImage,
                 About = user.About,
-                PersonalInfoVisible = user.PersonalInfoVisible.Value,
-                SelectedFilmsVisible = user.SelectedFilmsVisible.Value
+                PersonalInfoVisible = user.PersonalInfoVisible,
+                SelectedFilmsVisible = user.SelectedFilmsVisible
             };
 
             var _user = _context.Users.Where(x => x.Id == user.Id).Include(x => x.FilmUsers).ThenInclude(x => x.Film).First();

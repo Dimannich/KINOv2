@@ -46,10 +46,10 @@ namespace KINOv2.Models.ManageViewModels
         public string StatusMessage { get; set; }
         
         [Display(Name = "Отображать избранные фильмы")]
-        public bool SelectedFilmsVisible { get; set; }
+        public bool? SelectedFilmsVisible { get; set; }
 
         [Display(Name = "Отображать личную информацию")]
-        public bool PersonalInfoVisible { get; set; }
+        public bool? PersonalInfoVisible { get; set; }
 
         public ChangePasswordViewModel ChangePasswordModel { get; set; }
 

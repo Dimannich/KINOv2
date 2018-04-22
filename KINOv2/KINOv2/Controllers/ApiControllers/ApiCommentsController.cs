@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KINOv2.Data;
-using KINOv2.Models.MainModels;
 
 namespace KINOv2.Controllers.ApiControllers
 {
     [Produces("application/json")]
     [Route("api/comments")]
-    public class ApiCommentsController
+    public class ApiCommentsController: Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -47,20 +46,6 @@ namespace KINOv2.Controllers.ApiControllers
                })
                .AsQueryable();
         }
-        public class CommentSerializer
-        {
-            public int LINK { get; set; }
-            public string Text { get; set; }
-            public DateTime? Date { get; set; }
-            public int? BaseCommentLINK { get; set; }
-            public int FilmLINK { get; set; }
-            public UserSerializer User { get; set; }
-        }
-        public class UserSerializer
-        {
-            public string Id { get; set; }
-            public string UserName { get; set; }
-            public string ProfileImage { get; set; }
-        }
+        
     }
 }

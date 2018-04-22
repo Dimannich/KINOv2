@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KINOv2.Data;
 using KINOv2.Models.MainModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace KINOv2.Controllers.ApiControllers
 {
@@ -103,31 +106,20 @@ namespace KINOv2.Controllers.ApiControllers
             return Ok(film);
         }
         [HttpGet("favorite")]
-        public IEnumerable<Film> GetFavorite(string user)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IEnumerable<Film> GetFavorite()
         {
-            return _context.Films.Where(f => f.FilmUsers.Where(fu => fu.ApplicationUserId == user).Count() > 0);
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+            {
+                return null;
+            }
+            return _context.Films.Where(f => f.FilmUsers.Where(fu => fu.ApplicationUserId == user.Id).Count() > 0);
         }
         private bool FilmExists(int id)
         {
             return _context.Films.Any(e => e.LINK == id);
         }
 
-        public class FilmSerializer
-        {
-            public int LINK { get; set; }
-            public string Name { get; set; }
-            public string Poster { get; set; }
-            public int ReleaseYear { get; set; }
-            public string Country { get; set; }
-            public string Genre { get; set; }
-            public string Director { get; set; }
-            public string Duration { get; set; }
-            public string AgeLimit { get; set; }
-            public bool? Archived { get; set; }
-            public string Description { get; set; }
-            public string TrailerLink { get; set; } 
-            public int? GlobalRating { get; set; }
-            public int? LocalRating { get; set; }
-        }
     }
 }

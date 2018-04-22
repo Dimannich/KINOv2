@@ -82,24 +82,5 @@ namespace KINOv2.Controllers.ApiControllers
             return _context.Sessions.Any(e => e.LINK == id);
         }
     }
-    public class SessionSerializer
-    {
-        public int LINK { get; set; }
-        public string Film { get; set; }
-        public int FilmLINK { get; set; }
-        public DateTime SessionTime { get; set; }
-        public string Hall { get; set; }
-        public IEnumerable<SeatSerializer> Seats { get; set; }
-        public int Cost { get; set; }
-        public string Poster { get; set; }
-        public bool? Archived { get; set; }
-        public string Duration { get; set; }
-    }
-    public class SeatSerializer
-    {
-        public int LINK { get; set; }
-        public int Row { get; set; }
-        public int Number { get; set; }
-        public bool IsBooked { get; set; }
-    }
+    
 }
