@@ -18,6 +18,7 @@ namespace KINOv2.Controllers.ApiControllers
     public class ApiFilmsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        ApiCommentsController apiComments;
 
         public ApiFilmsController(ApplicationDbContext context)
         {
@@ -28,6 +29,7 @@ namespace KINOv2.Controllers.ApiControllers
         [HttpGet]
         public IEnumerable<FilmSerializer> GetFilms()
         {
+            apiComments = new ApiCommentsController(_context);
             return _context.Films
                .Include(f => f.Country)
                .Include(f => f.Genre)
@@ -50,12 +52,14 @@ namespace KINOv2.Controllers.ApiControllers
                    TrailerLink = f.TrailerLink,
                    GlobalRating = f.GlobalRating,
                    LocalRating = f.LocalRating,
+                   AmountComment = apiComments.GetComments(f.LINK).Count()
                })
                .AsQueryable();
         }
         [HttpGet("featured")]
         public IEnumerable<FilmSerializer> GetFeaturedFilms()
         {
+            apiComments = new ApiCommentsController(_context);
             return _context.Films
                   .Include(f => f.Country)
                   .Include(f => f.Genre)
@@ -83,6 +87,7 @@ namespace KINOv2.Controllers.ApiControllers
                       TrailerLink = f.TrailerLink,
                       GlobalRating = f.GlobalRating,
                       LocalRating = f.LocalRating,
+                      AmountComment = apiComments.GetComments(f.LINK).Count(),
                   })
                   .AsQueryable();
         }
