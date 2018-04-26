@@ -44,6 +44,7 @@ namespace KINOv2.Controllers.ApiControllers
         public string TrailerLink { get; set; }
         public int? GlobalRating { get; set; }
         public int? LocalRating { get; set; }
+        public int AmountComment { get; set; }
     }
     public class SessionSerializer
     {
@@ -94,5 +95,16 @@ namespace KINOv2.Controllers.ApiControllers
         public string FilmName { get; set; }
         public int FilmLINK { get; set; }
         public IEnumerable<SeatSerializer> Seats { get; set; }
+    }
+    public class HallSerializer
+    {
+        public int LINK { get; set; }
+        public string Hall { get; set; }
+        public IEnumerable<SessionSerializer> sessions {get;set;}
+    }
+    public class DaySerializer
+    {
+        public DateTime date { get; set; }
+        public IEnumerable<HallSerializer> halls { get; set; }
     }
 }

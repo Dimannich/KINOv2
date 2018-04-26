@@ -23,39 +23,63 @@ namespace KINOv2.Controllers.ApiControllers
 
         // GET: api/session
         [HttpGet]
-        public IEnumerable<SessionSerializer> GetSessions(int? film = null)
+        public IEnumerable<HallSerializer> GetSessions(
+            int? film = null, 
+            DateTime? date = null,
+            DateTime? date_from = null,
+            DateTime? date_to = null
+            )
         {
-            var query = _context.Sessions
-                    .Include(s => s.Hall)
-                    .Include(s => s.Film)
-                    .Include(s => s.Seats)
-                    .ToList()
-                    .Select(s => new SessionSerializer
-                    {
-                        LINK = s.LINK,
-                        Film = s.Film.Name,
-                        FilmLINK = s.Film.LINK,
-                        Poster = s.Film.Poster,
-                        SessionTime = s.SessionTime,
-                        Hall = s.Hall.Name,
-                        Cost = s.Cost,
-                        Duration = s.Film.Duration,
-                        Seats = s.Seats.Select(seat => new SeatSerializer
+            var where_predicates = new List<Predicate<Session>>();
+            if (film != null)
+                where_predicates.Add((s) => s.FilmLINK == film.Value);
+            if (date != null)
+                where_predicates.Add((s) => s.SessionTime.Date == date.Value.Date);
+            else if (date_from != null && date_to != null)
+                where_predicates.Add((s) => s.SessionTime.Date >= date_from.Value.Date && s.SessionTime.Date <= date_to.Value.Date);
+            Predicate<Session> where = (session) => {
+                var result = true;
+                where_predicates.ForEach(pred =>
+                {
+                    result = result && pred(session);
+                });
+                return result;
+            };
+            var query = _context.Halls
+                .ToList()
+                .Select(h => new HallSerializer
+                {
+                    LINK = h.LINK,
+                    Hall = h.Name,
+                    sessions = _context.Sessions
+                        .Include(s => s.Hall)
+                        .Include(s => s.Film)
+                        .Include(s => s.Seats)
+                        .Where(s => where(s))
+                        .ToList()
+                        .Select(s => new SessionSerializer
                         {
-                            LINK = seat.LINK,
-                            Row = seat.Row,
-                            Number = seat.Number,
-                            IsBooked = seat.IsBooked,
-                        }),
-                        Archived = s.Archived,
-                    })
-               .AsQueryable();
-            if (film == null)
-                return query;
-            else
-                return query.Where(s => s.FilmLINK == film);
-            //else
-             //   return _context.Sessions.Where(s => s.FilmLINK == film);
+                            LINK = s.LINK,
+                            Film = s.Film.Name,
+                            FilmLINK = s.Film.LINK,
+                            Poster = s.Film.Poster,
+                            SessionTime = s.SessionTime,
+                            Hall = s.Hall.Name,
+                            Cost = s.Cost,
+                            Duration = s.Film.Duration,
+                            Seats = s.Seats.Select(seat => new SeatSerializer
+                            {
+                                LINK = seat.LINK,
+                                Row = seat.Row,
+                                Number = seat.Number,
+                                IsBooked = seat.IsBooked,
+                            }),
+                            Archived = s.Archived,
+                        })
+                })
+                .Where(h => h.sessions.Count() > 0)
+                .AsQueryable();
+            return query;
         }
 
         // GET: api/session/5

@@ -35,44 +35,55 @@ namespace KINOv2.Controllers.ApiControllers
         //[HttpPost("/token")]
         public async Task Token(string username, string password)
         {
-            //var username = Request.Form["username"];
-            //var passwordHash = Request.Form["passwordHash"];
-            password = password.Replace(' ', '+');
-            var identity = GetIdentity(username, password);
-            if (identity == null)
+            try
+            {
+                //var username = Request.Form["username"];
+                //var passwordHash = Request.Form["passwordHash"];
+                password = password.Replace(' ', '+');
+                var identity = GetIdentity(username, password);
+                if (identity == null)
+                {
+                    Response.StatusCode = 401;
+                    await Response.WriteAsync("Invalid username or password.");
+                    return;
+                }
+
+                var now = DateTime.UtcNow;
+                // создаем JWT-токен
+                var jwt = new JwtSecurityToken(
+                        issuer: ApiAuthOptions.ISSUER,
+                        audience: ApiAuthOptions.AUDIENCE,
+                        notBefore: now,
+                        claims: identity.Claims,
+                        expires: now.Add(TimeSpan.FromMinutes(ApiAuthOptions.LIFETIME)),
+                        signingCredentials: new SigningCredentials(ApiAuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                var response = new
+                {
+                    access_token = encodedJwt,
+                    username = identity.Name
+                };
+
+                // сериализация ответа
+                Response.ContentType = "application/json";
+                await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            }
+            catch
             {
                 Response.StatusCode = 400;
-                await Response.WriteAsync("Invalid username or password.");
+                await Response.WriteAsync("Internal server error");
                 return;
             }
-
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: ApiAuthOptions.ISSUER,
-                    audience: ApiAuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(ApiAuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(ApiAuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var response = new
-            {
-                access_token = encodedJwt,
-                username = identity.Name
-            };
-
-            // сериализация ответа
-            Response.ContentType = "application/json";
-            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
         private ClaimsIdentity GetIdentity(string username, string password)
         {
             ApplicationUser user = _context.Users.FirstOrDefault(x => x.UserName == username);
-            bool validated = PasswordHasher.VerifyIdentityV3Hash(password, user.PasswordHash);
-            if (user != null && validated)
+            if (user != null)
             {
+                bool validated = PasswordHasher.VerifyIdentityV3Hash(password, user.PasswordHash);
+                if (!validated)
+                    return null;
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
