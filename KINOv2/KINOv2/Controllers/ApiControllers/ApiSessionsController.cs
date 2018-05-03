@@ -22,9 +22,39 @@ namespace KINOv2.Controllers.ApiControllers
         }
 
         // GET: api/session
+        [HttpGet("all")]
+        public IEnumerable<SessionSerializer> GetSessions()
+        {
+            var query = _context.Sessions
+                    .Include(s => s.Hall)
+                    .Include(s => s.Film)
+                    .Include(s => s.Seats)
+                    .ToList()
+                    .Select(s => new SessionSerializer
+                    {
+                        LINK = s.LINK,
+                        Film = s.Film.Name,
+                        FilmLINK = s.Film.LINK,
+                        Poster = s.Film.Poster,
+                        SessionTime = s.SessionTime,
+                        Hall = s.Hall.Name,
+                        Cost = s.Cost,
+                        Duration = s.Film.Duration,
+                        Seats = s.Seats.Select(seat => new SeatSerializer
+                        {
+                            LINK = seat.LINK,
+                            Row = seat.Row,
+                            Number = seat.Number,
+                            IsBooked = seat.IsBooked,
+                        }),
+                        Archived = s.Archived,
+                    })
+               .AsQueryable();
+            return query;
+        }
         [HttpGet]
         public IEnumerable<HallSerializer> GetSessions(
-            int? film = null, 
+            int? film = null,
             DateTime? date = null,
             DateTime? date_from = null,
             DateTime? date_to = null
@@ -55,7 +85,7 @@ namespace KINOv2.Controllers.ApiControllers
                         .Include(s => s.Hall)
                         .Include(s => s.Film)
                         .Include(s => s.Seats)
-                        .Where(s => where(s))
+                        .Where(s => where(s) && s.HallLINK == h.LINK)
                         .ToList()
                         .Select(s => new SessionSerializer
                         {
@@ -81,7 +111,6 @@ namespace KINOv2.Controllers.ApiControllers
                 .AsQueryable();
             return query;
         }
-
         // GET: api/session/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSession([FromRoute] int id)
