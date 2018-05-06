@@ -12,6 +12,10 @@
     <None Remove="fonts\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\KINOv2 - Web Deploy.pubxml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Font.Awesome" Version="5.0.2" />
@@ -45,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\images\Profiles\" />
   </ItemGroup>
 
