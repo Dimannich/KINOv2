@@ -615,3 +615,28 @@ input[type="text"] {
 }
 
 
+.swiper-pagination-featured span {
+    margin-left: 4px !important;
+    margin-right: 4px !important;
+}
+
+.pagitation {
+    color: rgba(246, 162, 28, 1);
+    border-color: rgba(246, 162, 28, 1);
+}
+
+    .pagitation:hover {
+        background-color: rgba(246, 162, 28, 1);
+        color: white;
+        border-color: rgba(246, 162, 28, 1);
+    }
+
+.page-item.active .page-link {
+    color: white;
+    border-color: rgba(246, 162, 28, 1);
+    background-color: rgba(246, 162, 28, 1);
+}
+
+.page-link {
+    background-color: transparent;
+}

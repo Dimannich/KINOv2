@@ -31,8 +31,8 @@ namespace KINOv2.Models
         //О себе
         public string About { get; set; }
         //Отображение избранных фильмов остальным юзерам
-        public bool? SelectedFilmsVisible { get; set; }
+        public bool SelectedFilmsVisible { get; set; }
         //Отображение персональной информации остальным юзерам
-        public bool? PersonalInfoVisible { get; set; }
+        public bool PersonalInfoVisible { get; set; }
     }
 }

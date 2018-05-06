@@ -1,4 +1,5 @@
-﻿function setMenuItemActive() {
+﻿
+function setMenuItemActive() {
     jQuery("li>a").each(function () {
         if (window.location.pathname == jQuery(this).attr("href")) {
             jQuery(this).addClass("menu-item-active");
@@ -414,4 +415,49 @@ $(document).ready(function () {
             clickable: true,
         },
     })
+});
+
+
+$(document).ready(function () {
+
+    $('.swiper-slide-featured').each(function () {
+        var image = new Image();
+        image.src = $(this).find('img').attr("src");
+
+        if (image.width / image.height != 2 / 3) {
+
+            $(this).find('a').addClass('col').addClass('px-0');
+            $(this).find('img').css('object-fit', 'cover').addClass('h-100');
+        }
+    });
+
+    $('.img-fixed').each(function () {
+
+        console.log(123);
+        var img = new Image();
+        img.src = $(this).attr("src");
+
+
+        if (img.width / img.height != 2 / 3) {
+            $(this).css('height', $(this).width() * 3 / 2);
+            $(this).css('object-fit', 'cover');
+        }
+    });
+
+});
+
+
+$(window).resize(function () {
+    $('.img-fixed').each(function () {
+
+        console.log(123);
+        var img = new Image();
+        img.src = $(this).attr("src");
+
+
+        if (img.width / img.height != 2 / 3) {
+            $(this).css('height', $(this).width() * 3 / 2);
+            $(this).css('object-fit', 'cover');
+        }
+    });
 });

@@ -17,12 +17,12 @@
     <div class="row justify-content-sm-center justify-content-md-start">
         @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
         {
-            <div class="col-9 col-sm-5 col-md-3 col-lg-4 col-xl-3 mb-3 mx-auto mx-sm-0 mt-2 mt-md-0">
+            <div class="col-9 col-sm-5 col-md-4 col-lg-4 col-xl-3 mb-3 mx-auto mx-sm-0 mt-2 mt-md-0">
                 @{
                     <div>
                         <a class="text-orange affiche-film" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
-                            <div class="image-container"><img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
-                            <div class="h3 text-center text-orange">
+                            <div class="image-container"><img class="img-fluid img-fixed" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
+                            <div class="h4 text-center text-orange">
                                 @(film.Name)
                             </div>
                         </a>

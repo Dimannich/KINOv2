@@ -17,7 +17,7 @@ namespace KINOv2.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("KINOv2.Models.AdditionalEFEntities.FilmUser", b =>
@@ -68,7 +68,7 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<bool?>("PersonalInfoVisible");
+                    b.Property<bool>("PersonalInfoVisible");
 
                     b.Property<string>("PhoneNumber");
 
@@ -78,7 +78,7 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<bool?>("SelectedFilmsVisible");
+                    b.Property<bool>("SelectedFilmsVisible");
 
                     b.Property<string>("SurName");
 
@@ -111,7 +111,7 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<DateTime?>("Date");
 
-                    b.Property<int?>("FilmLINK");
+                    b.Property<int>("FilmLINK");
 
                     b.Property<string>("Text");
 
@@ -468,7 +468,8 @@ namespace KINOv2.Data.Migrations
 
                     b.HasOne("KINOv2.Models.MainModels.Film", "Film")
                         .WithMany()
-                        .HasForeignKey("FilmLINK");
+                        .HasForeignKey("FilmLINK")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KINOv2.Models.MainModels.Film", b =>
@@ -515,7 +516,7 @@ namespace KINOv2.Data.Migrations
             modelBuilder.Entity("KINOv2.Models.MainModels.Seat", b =>
                 {
                     b.HasOne("KINOv2.Models.MainModels.Order", "Order")
-                        .WithMany()
+                        .WithMany("Seats")
                         .HasForeignKey("OrderLINK");
 
                     b.HasOne("KINOv2.Models.MainModels.Session", "Session")
