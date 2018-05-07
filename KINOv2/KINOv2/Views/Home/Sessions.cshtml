@@ -6,7 +6,19 @@
 }
 
 <div class="row">
-    <h2 class="col-12">Заказ билета</h2>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="d-flex justify-content-center justify-content-md-between w-100 flex-wrap">
+            <h1 class="col-12 col-md-5">Заказ билета</h1>
+            <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2" asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-id="@session.LINK">Редактировать</a>
+            <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2 mr-md-3" asp-area="" asp-controller="Content" asp-action="ArchiveSession" asp-route-id="@session.LINK">Архивировать</a>
+        </div>
+    }
+    else
+    {
+        <h1 class="col-12">Заказ билета</h1>
+    }
+
     <div class="col-12">
         <div class="row">
             <div class="col-12 col-md-12 col-lg-12">
@@ -35,13 +47,7 @@
     </div>
 </div>
 
-@if (User.IsInRole("Admin"))
-{
-    <div class="row">
-        <a asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-id="@session.LINK">Редактировать</a>
-        <a asp-area="" asp-controller="Content" asp-action="ArchiveSession" asp-route-id="@session.LINK">Архивировать</a>
-    </div>
-}
+
 
 <hr />
 <p style="text-align:center">Экран</p>

@@ -10,7 +10,7 @@
 	$.rating = function(e, o){
         
 		this.options = $.extend({
-		    fx: 'half',
+		    fx: 'full',
             image: '/images/stars.png',
             width: 32,
 			stars: 5,
@@ -206,7 +206,7 @@
                     }      
                     
                     self.setvoters();
-                       
+
     				if(data.item2)self.vote_success.html(data.item2);
     			}
     		});

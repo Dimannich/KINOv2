@@ -17,19 +17,24 @@ using Microsoft.Extensions.Primitives;
 using KINOv2.Models.AdditionalEFEntities;
 using System.Net;
 using KINOv2.Models.ManageViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace KINOv2.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IServiceProvider serviceProvider)
         {
             DB = context;
             UserManager = userManager;
+            RoleManager = roleManager;
+            ServiceProvider = serviceProvider;
         }
 
         private ApplicationDbContext DB { get; set; }
         private UserManager<ApplicationUser> UserManager { get; set; }
+        private RoleManager<IdentityRole> RoleManager { get; set; }
+        private IServiceProvider ServiceProvider { get; set; }
 
         public IActionResult Index()
         {
@@ -66,7 +71,7 @@ namespace KINOv2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        
         public async Task<IActionResult> Film(int? id)
         {
             if (id is null)
@@ -386,9 +391,20 @@ namespace KINOv2.Controllers
                 film.Rating.Add(rate);
 
                 DB.SaveChanges();
-                status = "ОК";
+                status = "OK";
                 msg = "Ваш голос учтен";
             }
+
+            var localRating = 0;
+            foreach(var filmRate in film.Rating)
+            {
+                localRating += (int)filmRate.Value;
+            }
+
+            film.LocalRating = localRating / film.Rating.Count;
+            DB.Entry(film).State = EntityState.Modified;
+
+            DB.SaveChanges();
 
             return Json((status, msg));
         }

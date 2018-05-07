@@ -7,71 +7,79 @@
 
 <h3>@ViewData["Message"]</h3>
 <hr />
-    <div class="row justify-content-center">
-        <div class="col-12 col-sm-10 col-md-5 col-lg-4">
-            <form asp-area="" asp-controller="Content" asp-action="FilmManage" method="post" enctype="multipart/form-data" role="form" class="form-horizontal">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.Name"></label>
-                    <input asp-for="Film.Name" class="form-control control" />
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.DirectorLINK"></label>
-                    <select asp-for="Film.DirectorLINK" asp-items="ViewBag.Directors" class="form-control control"></select>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.GenreLINK"></label>
-                    <select asp-for="Film.GenreLINK" asp-items="ViewBag.Genres" class="form-control control"></select>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.ReleaseYear"></label>
-                    <input asp-for="Film.ReleaseYear" class="form-control control" />
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.AgeLimitLINK"></label>
-                    <select asp-for="Film.AgeLimitLINK" asp-items="ViewBag.AgeLimits" class="form-control control"></select>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.CountryLINK"></label>
-                    <select asp-for="Film.CountryLINK" asp-items="ViewBag.Countries" class="form-control control"></select>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.Duration"></label>
-                    <input asp-for="Film.Duration" class="form-control control" />
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="Film.Poster"></label>
-                    <input asp-for="Film.Poster" class="form-control control" />
-                </div>
-                <div class="form-group">
-                    <label class="text-info" asp-for="UploadedFile"></label>
-                    <input asp-for="UploadedFile" type="file" name="UploadedFile" onchange="SetNewEntry(this.files);" />
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+        <form asp-area="" asp-controller="Content" asp-action="FilmManage" method="post" enctype="multipart/form-data" role="form" class="form-horizontal">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.Name"></label>
+                <input asp-for="Film.Name" class="form-control control" />
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.DirectorLINK"></label>
+                <select asp-for="Film.DirectorLINK" asp-items="ViewBag.Directors" class="form-control control"></select>
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.GenreLINK"></label>
+                <select asp-for="Film.GenreLINK" asp-items="ViewBag.Genres" class="form-control control"></select>
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.ReleaseYear"></label>
+                <input asp-for="Film.ReleaseYear" class="form-control control" />
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.AgeLimitLINK"></label>
+                <select asp-for="Film.AgeLimitLINK" asp-items="ViewBag.AgeLimits" class="form-control control"></select>
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.CountryLINK"></label>
+                <select asp-for="Film.CountryLINK" asp-items="ViewBag.Countries" class="form-control control"></select>
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.Duration"></label>
+                <input asp-for="Film.Duration" class="form-control control" />
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.TrailerLink"></label>
+                <input asp-for="Film.TrailerLink" type="url" class="form-control control" />
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.Description"></label>
+                <textarea asp-for="Film.Description" class="form-control control"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="Film.Poster"></label>
+                <input asp-for="Film.Poster" class="form-control control" />
+            </div>
+            <div class="form-group">
+                <label class="text-info" asp-for="UploadedFile"></label>
+                <input asp-for="UploadedFile" type="file" name="UploadedFile" onchange="SetNewEntry(this.files);" />
+            </div>
 
-                </div>
-                @if (Model.Film != null)
-                {
+            @if (Model.Film != null)
+            {
                 <input asp-for="Film.LINK" type="hidden" />
                 <div class="">
                     <button type="submit" class="btn border-orange px-lg-5 w-100">Обновить</button>
                 </div>
-                }
-                else
-                {
+            }
+            else
+            {
                 <div class="">
                     <button type="submit" class="btn border-orange px-lg-5 w-100">Сохранить</button>
                 </div>
-                }
-            </form>
-        </div>
-        @{
-            string image = null;
-            if (Model.Film != null)
-            {
-                image = (Url.Content("~/images/Posters/") + Model.Film.Poster);
             }
-        
+        </form>
+    </div>
+    @{
+        string image = null;
+        if (Model.Film != null)
+        {
+            image = (Url.Content("~/images/Posters/") + Model.Film.Poster);
+        }
+
         <div class="col-12 col-sm-10 col-md-6 col-lg-5 mt-4">
             <img id="filmimage" class="img-fluid" src=@image />
         </div>
-        }
-    </div>
+    }
+</div>

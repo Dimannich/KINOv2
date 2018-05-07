@@ -3,17 +3,21 @@
     ViewData["Title"] = "Афиша";
 }
 
-<h1>@ViewData["Title"]</h1>
+@if (User.IsInRole("Admin"))
+{
+    <div class="row d-flex justify-content-center justify-content-md-between mb-2">
+        <h1 class="col-10 col-md-4">@ViewData["Title"]</h1>
+        <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mr-md-3" asp-area="" asp-controller="Content" asp-action="FilmManage">Добавить фильм</a>
+    </div>
+}
+else
+{
+    <h1>@ViewData["Title"]</h1>
+}
+
 <h2>@ViewData["Message"]</h2>
 
 <div>
-    @if (User.IsInRole("Admin"))
-    {
-        <div class="row">
-            <a asp-area="" asp-controller="Content" asp-action="FilmManage" class="btn">Добавить фильм</a>
-        </div>
-    }
-
     <div class="row justify-content-sm-center justify-content-md-start">
         @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
         {

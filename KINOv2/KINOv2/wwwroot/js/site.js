@@ -461,3 +461,20 @@ $(window).resize(function () {
         }
     });
 });
+
+function myFunction(x) {
+    if (x.matches) { // If media query matches
+        $('.session-nav').children('a').removeClass('border-orange');
+    } else {
+        $('.session-nav').children('a').addClass('border-orange');
+    }
+}
+
+
+$(document).ready(function () {
+
+    var x = window.matchMedia("(max-width: 767px)")
+    myFunction(x) // Call listener function at run time
+    x.addListener(myFunction) // Attach listener function on state changes
+
+});
