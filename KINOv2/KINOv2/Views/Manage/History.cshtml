@@ -1,0 +1,37 @@
+﻿@{
+    ViewData.AddActivePage(ManageNavPages.History);
+    ViewData["Title"] = "История заказов";
+}
+
+
+<div class="row">
+    <h2 class="col-12">История заказов</h2>
+    <hr class="w-100 d-none d-sm-none d-md-block ml-3 col-lg-9" />
+    <div class="col-lg-10">
+        <table id="history-table" class="table table-hover bg-dark-blue">
+            <thead>
+                <tr>
+                    <th class="border-top-0" data-breakpoints="xs sm">Зал</th>
+                    <th class="border-top-0">Фильм</th>
+                    <th class="border-top-0">Дата сеанса</th>
+                    <th class="border-top-0" data-breakpoints="xs sm">Количество билетов</th>
+                    <th class="border-top-0" data-breakpoints="xs ">Стоимость</th>
+                    <th class="border-top-0" data-breakpoints="xs sm md">Дата оформления</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in ViewData["orderList"] as List<UserOrdersHistoryModel>)
+                {
+                    <tr>
+                        <td>@order.HallName</td>
+                        <td>@order.FilmName</td>
+                        <td>@order.SessionDate.Value.ToShortDateString() @order.SessionDate.Value.ToShortTimeString()</td>
+                        <td>@order.SeatAmount</td>
+                        <td>@order.Cost</td>
+                        <td>@order.OrderDate.Value.ToShortDateString() @order.OrderDate.Value.ToShortTimeString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

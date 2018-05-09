@@ -1,0 +1,40 @@
+﻿@using KINOv2.Views.Manage
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="profile-menu align-items-baseline align-self-md-start d-flex d-md-inline-flex flex-md-column flex-row justify-content-between mt-3 nav" id="myTab" role="tablist">
+    <li class="nav-item session-nav">
+        <a class="@ManageNavPages.IndexNavClass(ViewContext) btn col nav-link px-md-3 show text-center border-orange" asp-action="Index">Профиль</a>
+    </li>
+    <li class="nav-item session-nav">
+        <a class="@ManageNavPages.HistoryNavClass(ViewContext) btn nav-link px-md-3 text-center border-orange" asp-action="History">История</a>
+    </li>
+    <li class="nav-item w-100 d-none d-md-block">
+        <a class="@ManageNavPages.SettingsNavClass(ViewContext) border-orange btn nav-link text-center" asp-action="Settings">Настройка профиля</a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li class="nav-item w-100 d-none d-md-block">
+            <a class="@ManageNavPages.ExternalLoginsNavClass(ViewContext) border-orange btn nav-link text-center" asp-action="ExternalLogins">Внешние учетные записи</a>
+        </li>
+    }
+    <li class="nav-item w-100 d-none d-md-block">
+        <a class="@ManageNavPages.ChangePasswordNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="ChangePassword">Сменить пароль</a>
+    </li>
+    <li class="nav-item w-100 d-none d-md-block">
+        <a class="@ManageNavPages.ManageNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="ManagePanel">Панель управления</a>
+    </li>
+    @*<li class="nav-item w-100 d-none d-md-block">
+            <a class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="TwoFactorAuthentication">Two-factor authentication</a>
+        </li>*@
+    <li class="d-md-none dropdown nav-item text-center">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
+        <div class="dropdown-menu dropdown-fix">
+            <a class="dropdown-item">Настройка профиля</a>
+            <a class="dropdown-item">Сменить пароль</a>
+        </div>
+    </li>
+</ul>
+

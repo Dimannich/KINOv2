@@ -16,6 +16,9 @@ using KINOv2.Services;
 using KINOv2.Data;
 using Microsoft.EntityFrameworkCore;
 using KINOv2.Models.MainModels;
+using KINOv2.Models.AdditionalEFEntities;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace KINOv2.Controllers
 {
@@ -29,6 +32,7 @@ namespace KINOv2.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
+        private IHostingEnvironment AppEnvironment { get; set; }
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -38,7 +42,8 @@ namespace KINOv2.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
-          ApplicationDbContext context)
+          ApplicationDbContext context,
+          IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +51,7 @@ namespace KINOv2.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _context = context;
+            AppEnvironment = hostingEnvironment;
         }
 
         [TempData]
@@ -74,10 +80,11 @@ namespace KINOv2.Controllers
                 ProfileImage = user.ProfileImage,
                 About = user.About,
                 PersonalInfoVisible = user.PersonalInfoVisible,
-                SelectedFilmsVisible = user.SelectedFilmsVisible
+                SelectedFilmsVisible = user.SelectedFilmsVisible,
             };
 
             var _user = _context.Users.Where(x => x.Id == user.Id).Include(x => x.FilmUsers).ThenInclude(x => x.Film).First();
+            var users = _context.Users.Where(x => x.Id == user.Id).Include(x => x.FilmUsers).ThenInclude(x => x.Film);
 
             List<Film> films = new List<Film>();
             foreach(var item in _user.FilmUsers)
@@ -85,14 +92,15 @@ namespace KINOv2.Controllers
                 films.Add(item.Film);
             }
             model.Films = films;
-            model.ChangePasswordModel = new ChangePasswordViewModel();
+
+
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model, string button)
+        public async Task<IActionResult> Index(IndexViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -126,6 +134,146 @@ namespace KINOv2.Controllers
             }
 
             StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> History()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            
+            List<UserOrdersHistoryModel> orderList = new List<UserOrdersHistoryModel>();
+
+            var orders = _context.Orders
+                .Where(x => x.ApplicationUser == user)
+                .Include(x => x.Seats)
+                .ThenInclude(x => x.Session);
+            
+            foreach(var order in orders)
+            {
+                UserOrdersHistoryModel orderModel = new UserOrdersHistoryModel();
+                orderModel.OrderDate = order.Date;
+
+                foreach(var seat in order.Seats)
+                {
+                    orderModel.SeatAmount++;
+                    orderModel.Cost += order.Cost;
+                }
+
+                var session = await _context.Sessions
+                    .Where(x => x.LINK == order.Seats.ToList().FirstOrDefault().Session.LINK)
+                    .Include(x => x.Film)
+                    .Include(x => x.Hall)
+                    .FirstOrDefaultAsync();
+
+                if (session is null)
+                    continue;
+
+                orderModel.SessionDate = session.SessionTime.Date;
+                orderModel.FilmName = session.Film.Name;
+                orderModel.HallName = session.Hall.Name;
+
+                orderList.Add(orderModel);
+                
+            }
+
+            ViewData["orderList"] = orderList;
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Settings()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new IndexViewModel
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                IsEmailConfirmed = user.EmailConfirmed,
+                StatusMessage = StatusMessage,
+                Age = user.Age,
+                City = user.City,
+                Name = user.Name,
+                SurName = user.SurName,
+                ProfileImage = user.ProfileImage,
+                About = user.About,
+                PersonalInfoVisible = user.PersonalInfoVisible,
+                SelectedFilmsVisible = user.SelectedFilmsVisible,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Settings(IndexViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var email = user.Email;
+            if (model.Email != email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                }
+            }
+
+            var phoneNumber = user.PhoneNumber;
+            if (model.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                if (!setPhoneResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                }
+            }
+            
+            foreach(var prop in model.GetType().GetProperties())
+            {
+                
+                if (user.GetType().GetProperty(prop.Name) == null)
+                    continue;
+
+                if (user.GetType().GetProperty(prop.Name).GetValue(user) == prop.GetValue(model))
+                    continue;
+
+                user.GetType().GetProperty(prop.Name).SetValue(user, prop.GetValue(model));
+            }
+
+            if (model.ProfileUploaded != null)
+            {
+                using (var fileStream = new FileStream((AppEnvironment.WebRootPath + "/images/Profiles/" + user.GetHashCode().ToString() + ".jpg"), FileMode.Create))
+                {
+                    await model.ProfileUploaded.CopyToAsync(fileStream);
+                    user.ProfileImage = user.GetHashCode().ToString() + ".jpg";
+                }
+            }
+
+            await _userManager.UpdateAsync(user);
+
+            StatusMessage = "Ваш профиль был успешно обновлен!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -169,7 +317,8 @@ namespace KINOv2.Controllers
             }
 
             var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
-            return PartialView("ChangePasswordPartial", model);
+
+            return View(model);
         }
 
         [HttpPost]
@@ -346,7 +495,7 @@ namespace KINOv2.Controllers
                 RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user),
             };
 
-            return PartialView("TwoFactorAuthenticationPartial", model);
+            return View(model);
         }
 
         [HttpGet]

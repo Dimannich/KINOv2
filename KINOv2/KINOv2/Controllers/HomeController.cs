@@ -285,11 +285,9 @@ namespace KINOv2.Controllers
             }
             model.Films = films;
             
-            if(user.Id == (await UserManager.GetUserAsync(User)).Id)
+            if(User.Identity.IsAuthenticated && user.Id == (await UserManager.GetUserAsync(User)).Id)
             {
-                model.ChangePasswordModel = new ChangePasswordViewModel();
                 return View("../Manage/Index", model);
-
             }
 
             return View(model);

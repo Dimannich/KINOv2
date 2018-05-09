@@ -51,8 +51,6 @@ namespace KINOv2.Models.ManageViewModels
         [Display(Name = "Отображать личную информацию")]
         public bool PersonalInfoVisible { get; set; }
 
-        public ChangePasswordViewModel ChangePasswordModel { get; set; }
-
         [Display(Name = "Изображение")]
         public IFormFile ProfileUploaded { get; set; }
     }

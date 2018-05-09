@@ -58,20 +58,5 @@ namespace KINOv2.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-
-        public static List<UserOrdersHistoryModel> GetUserHistoryAsync(string userID)
-        {
-            //SqlParameter param = new SqlParameter("@UserID", userID);
-            //var result = await new ApplicationDbContext(null).Database.SqlQuery<UserOrdersHistoryModel>
-            //    ("GetHistoryByUser @UserID", param).ToListAsync();
-            //var result = new ApplicationDbContext().Database.ExecuteSqlCommand("GetHistoryByUser @UserID", param)
-            List<UserOrdersHistoryModel> result = null;//= await new ApplicationDbContext().Database.ExecuteSqlCommand("exec GetHistoryByUser @UserID", param);
-
-            new ApplicationDbContext().LoadStoredProc("GetHistoryByUser").AddParam("UserID", userID).Exec(x => result = x.ToList<UserOrdersHistoryModel>());
-
-            return result;
-        }
-
-
     }
 }

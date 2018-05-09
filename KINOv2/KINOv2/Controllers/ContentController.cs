@@ -101,7 +101,6 @@ namespace KINOv2.Controllers
 
             if (model.UploadedFile != null
                 && (model.UploadedFile.FileName.EndsWith(".jpg")))
-            //model.UploadedFile.SaveAs(Server.MapPath("~/Content/Images/Posters/" + model.Film.Poster));
             {
                 using (var fileStream = new FileStream((AppEnvironment.WebRootPath + "/images/Posters/" + model.Film.Poster), FileMode.Create))
                 {
