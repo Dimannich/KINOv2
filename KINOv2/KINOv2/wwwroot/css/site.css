@@ -115,8 +115,13 @@ body {
 
 .content {
     box-sizing: border-box;
-    min-height: 100%;
-    padding-bottom: 130px;
+    /*min-height: 100%;*/
+    min-height: 72vh;
+    
+}
+
+body {
+    overflow-y:scroll;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -160,8 +165,6 @@ textarea {
 
 footer {
     background: #161a23;
-    height: 120px;
-    margin-top: -120px;
     color: #fff !important;
     
     /*position: absolute;
@@ -424,7 +427,13 @@ th.picker-switch:hover{
     border-bottom-color: #17a2b8 !important;
 }
 .nav > li > a.selected {
-    color:#f6a21c;
+    color: #f6a21c;
+    border-left: 5px solid;
+}
+
+.nav > li > a:focus {
+    outline: none;
+    box-shadow:none;
 }
 
 .nav > li > a.selected:hover {
@@ -589,7 +598,7 @@ input[type="text"] {
         border: none;
     }
 
-    .profile-list > li {
+    /*.profile-list > li {
         border-bottom: 1px solid #fff;
         margin-bottom: 0px !important;
     }
@@ -607,11 +616,15 @@ input[type="text"] {
             .profile-list > li > a.active {
                 background-color: #161a23 !important;
                 color:#f6a21c !important;                
-            }
+            }*/
 
 
     .session-nav {
         width:100%;
+    }
+
+    .profile-menu {
+        width: 250px;
     }
 
 }

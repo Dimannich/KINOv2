@@ -232,7 +232,7 @@ namespace KINOv2.Controllers
                 return View("Error");
             }
 
-            var sessions = DB.Sessions.Where(x => x.FilmLINK == film.LINK);
+            var sessions = DB.Sessions.Where(x => x.FilmLINK == film.LINK && x.Archived == false);
             if (sessions == null)
                 film.Archived = true;
             else

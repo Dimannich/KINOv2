@@ -18,13 +18,13 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="UserName"></label>
-                    <input asp-for="UserName" class="form-control" />
+                    <label class="text-info" asp-for="UserName"></label>
+                    <input asp-for="UserName" class="form-control control" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <label class="text-info" asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -36,14 +36,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-default">Войти</button>
+                    <button type="submit" class="btn border-orange w-100">Войти</button>
                 </div>
                 <div class="form-group">
                     <p>
-                        <a asp-action="ForgotPassword">Восстановить пароль</a>
+                        <a class="text-orange" asp-action="ForgotPassword">Восстановить пароль</a>
                     </p>
                     <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Нет учетной записи?</a>
+                        <a class="text-orange" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Нет учетной записи?</a>
                     </p>
                 </div>
             </form>

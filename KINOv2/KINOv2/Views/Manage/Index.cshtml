@@ -13,8 +13,8 @@
 }
 
 
-<div class="d-md-flex flex-md-row mt-0 mt-md-3">
-    <ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2 col-lg-2 profile-list mt-2 mt-md-0" id="myTab" role="tablist">
+<div class="d-md-flex flex-md-row mt-0">
+    @*<ul class="nav nav-tabs d-md-inline-flex align-self-md-start flex-md-column col-md-2 col-lg-2 profile-list mt-2 mt-md-0" id="myTab" role="tablist">
         <li class="nav-item w-100">
             <a class="nav-link text-center px-0 px-md-3 active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">Профиль</a>
         </li>
@@ -38,16 +38,42 @@
                 <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>
             </div>
         </li>
+    </ul>*@
+
+    <ul class="profile-menu align-items-baseline align-self-md-start d-flex d-md-inline-flex flex-md-column flex-row justify-content-between mt-3 nav" id="myTab" role="tablist">
+        <li class="nav-item session-nav">
+            <a class="selected btn col nav-link px-md-3 show text-center border-orange" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true" aria-selected="true">Профиль</a>
+        </li>
+        <li class="nav-item session-nav">
+            <a class="btn nav-link px-md-3 text-center border-orange" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">История</a>
+        </li>
+        <li class="nav-item w-100 d-none d-md-block">
+            <a class="border-orange btn nav-link text-center" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Настройка профиля</a>
+        </li>
+        <li class="nav-item w-100 d-none d-md-block">
+            <a class="border-orange btn nav-link px-md-3 text-center" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Сменить пароль</a>
+        </li>
+        @*<li class="nav-item w-100 d-none d-md-block">
+            <a class="border-orange btn nav-link px-md-3 text-center" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">PLACEHOLDER</a>
+        </li>*@
+        <li class="d-md-none dropdown nav-item text-center">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
+            <div class="dropdown-menu dropdown-fix">
+                <a class="dropdown-item" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings">Настройка профиля</a>
+                <a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">Сменить пароль</a>
+                @*<a class="dropdown-item" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password">PLACEHOLDER</a>*@
+            </div>
+        </li>
     </ul>
-    <div class="tab-content py-3 px-md-3 py-md-0 w-100" id="myTabContent">
+    <div class="tab-content py-3 px-md-3 py-md-0 w-100 mt-2" id="myTabContent">
         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row">
                 <h2 class="col-12">Профиль</h2>
                 <hr class="d-none d-sm-none d-md-block ml-3 col-lg-9" />
-                <div class="col-12 col-sm-5 col-md-6 col-lg-4 order-lg-1">
-                    <img class="img-fluid img-thumbnail w-75 d-block mx-auto" src="@imgPath" />
+                <div class="col-12 col-sm-5 col-md-6 col-lg-4 order-md-1">
+                    <img class="img-fluid img-thumbnail d-block mx-auto" src="@imgPath" style="width: 200px;height: 180px;object-fit: cover;" />
                 </div>
-                <div class="col-12 col-sm-7 col-md-6 col-lg-4 order-lg-0 offset-lg-1 align-self-lg-center">
+                <div class="col-12 col-sm-7 col-md-6 col-lg-4 order-md-0 offset-lg-1 align-self-lg-center">
                     <div class="text-center mb-1">
                         <span class="h4 text-orange">@Model.Username</span>
                     </div>
@@ -64,8 +90,8 @@
                     </div>
 
                 </div>
-                <h2 class="col-12 order-lg-3">Избранные фильмы</h2>
-                <div class="col-12 col-lg-10 order-lg-4">
+                <h2 class="col-12 order-md-3">Избранные фильмы</h2>
+                <div class="col-12 col-lg-10 order-md-4">
                     <table class="table table-sm table-striped">
                         <thead>
                             <tr>
@@ -76,13 +102,13 @@
                         </thead>
                         <tbody>
                             @for (int i = 0; i < 5; i++)
-                {
-                    <tr>
-                        <td><a class="text-info" href="#">PLACEHOLDER</a></td>
-                        <td class="text-center">0.0</td>
-                        <td class="text-center">0.00</td>
-                    </tr>
-    }
+                            {
+                                <tr>
+                                    <td><a class="text-info" href="#">PLACEHOLDER</a></td>
+                                    <td class="text-center">0.0</td>
+                                    <td class="text-center">0.00</td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                         </tfoot>
@@ -108,16 +134,16 @@
                         </thead>
                         <tbody>
                             @for (int i = 0; i < 5; i++)
-            {
-                <tr>
-                    <td>PLACEHOLDER</td>
-                    <td>PLACEHOLDER</td>
-                    <td>PLACEHOLDER</td>
-                    <td>PLACEHOLDER</td>
-                    <td>PLACEHOLDER</td>
-                    <td>PLACEHOLDER</td>
-                </tr>
-}
+                            {
+                                <tr>
+                                    <td>PLACEHOLDER</td>
+                                    <td>PLACEHOLDER</td>
+                                    <td>PLACEHOLDER</td>
+                                    <td>PLACEHOLDER</td>
+                                    <td>PLACEHOLDER</td>
+                                    <td>PLACEHOLDER</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -126,7 +152,7 @@
         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
             <div class="row">
                 <h2 class="col-12">Настройка профиля</h2>
-                <hr class="w-100 d-none d-sm-none d-md-block ml-3 col-lg-9"/>
+                <hr class="w-100 d-none d-sm-none d-md-block ml-3 col-lg-9" />
                 <div class="col-12">
                     <form class="row" asp-action="ChangeProfileSettings" asp-controller="Manage" method="post">
 
@@ -144,9 +170,9 @@
                                 <input asp-for="SurName" class="form-control control" />
                             </div>
                         </div>
-                        <div class="form-group text-center col-12 col-lg-5 order-0 order-lg-1 mb-0">
-                            <div class=""><img id="profile-image" class="img-fluid img-thumbnail w-75 d-block mx-auto" style="max-height:250px;" src="@imgPath" /></div>
-                            <input class="text-center mt-1" asp-for="ProfileUploaded" type="file" name="ProfileUploaded" onchange="ChangeImage(this.files);" />
+                        <div class="align-items-center col-12 col-lg-5 d-flex flex-column form-group mb-0 order-0 order-lg-1 text-center">
+                            <div class="mt-2"><img id="profile-image" class="img-fluid img-thumbnail d-block mx-auto" style="width: 200px;height: 180px;object-fit: cover;" src="/images/Profiles/default.png"></div>
+                            <input class="mt-2 my-md-auto text-center" type="file" name="ProfileUploaded" onchange="ChangeImage(this.files);" id="ProfileUploaded">
                         </div>
                         <div class="col-12 col-lg-5 order-2 order-lg-2">
                             <div class="form-group">

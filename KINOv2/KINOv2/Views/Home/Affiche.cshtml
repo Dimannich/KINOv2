@@ -3,40 +3,39 @@
     ViewData["Title"] = "Афиша";
 }
 
-@if (User.IsInRole("Admin"))
-{
-    <div class="row d-flex justify-content-center justify-content-md-between mb-2">
-        <h1 class="col-10 col-md-4">@ViewData["Title"]</h1>
-        <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mr-md-3" asp-area="" asp-controller="Content" asp-action="FilmManage">Добавить фильм</a>
-    </div>
-}
-else
-{
-    <h1>@ViewData["Title"]</h1>
-}
+<div class="d-flex flex-column" style="min-height:inherit;">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row d-flex justify-content-center justify-content-md-between mb-2">
+            <h1 class="col-10 col-md-4">@ViewData["Title"]</h1>
+            <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mr-md-3" asp-area="" asp-controller="Content" asp-action="FilmManage">Добавить фильм</a>
+        </div>
+    }
+    else
+    {
+        <h1>@ViewData["Title"]</h1>
+    }
 
 <h2>@ViewData["Message"]</h2>
 
-<div>
-    <div class="row justify-content-sm-center justify-content-md-start">
-        @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
-        {
-            <div class="col-9 col-sm-5 col-md-4 col-lg-4 col-xl-3 mb-3 mx-auto mx-sm-0 mt-2 mt-md-0">
-                @{
-                    <div>
-                        <a class="text-orange affiche-film" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
-                            <div class="image-container"><img class="img-fluid img-fixed" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
-                            <div class="h4 text-center text-orange">
-                                @(film.Name)
-                            </div>
-                        </a>
-                    </div>
-                }
-            </div>
-        }
-    </div>
 
-    <nav>
-        <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
-    </nav>
+<div class="row justify-content-sm-center justify-content-md-start">
+    @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
+    {
+        <div class="col-9 col-sm-5 col-md-4 col-lg-4 col-xl-3 mb-3 mx-auto mx-sm-0 mt-2 mt-md-0">
+            @{
+                <a class="text-orange affiche-film" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
+                    <div class="image-container"><img class="img-fluid img-fixed" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
+                    <div class="h4 text-center text-orange">
+                        @(film.Name)
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+<nav class="mt-auto">
+    <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
+</nav>
 </div>
