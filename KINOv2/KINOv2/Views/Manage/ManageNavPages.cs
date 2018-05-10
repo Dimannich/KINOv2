@@ -19,6 +19,12 @@ namespace KINOv2.Views.Manage
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
+        public static string History => "History";
+
+        public static string Settings => "Settings";
+
+        public static string Manage => "Manage";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -26,11 +32,17 @@ namespace KINOv2.Views.Manage
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
-    
+
+        public static string HistoryNavClass(ViewContext viewContext) => PageNavClass(viewContext, History);
+
+        public static string SettingsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Settings);
+
+        public static string ManageNavClass(ViewContext viewContext) => PageNavClass(viewContext, Manage);
+
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string;
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
+            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "selected" : null;
         }
 
         public static void AddActivePage(this ViewDataDictionary viewData, string activePage) => viewData[ActivePageKey] = activePage;

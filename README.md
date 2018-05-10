@@ -22,6 +22,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 1) /api/profile/info - информация о профиле
 2) /api/profile/history - история заказов
 3) /api/film/favorite - избранные фильмы 
+4) /api/film/3/favorite - проверка является ли фильм избранным
+5) /api/film/3/favorite/add -добавить в избранное
+6) /api/film/3/favorite/remove -удалить из избранного
 
 ## Картинки для постеров
 соотношение сторон должно быть 3:2

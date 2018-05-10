@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="d-md-flex flex-md-row mt-0">
+    @await Html.PartialAsync("_ManageNav")
+
+    <div class="tab-content py-3 px-md-3 py-md-0 w-100 mt-2">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+
