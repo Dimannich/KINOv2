@@ -92,6 +92,7 @@ namespace KINOv2.Controllers.ApiControllers
         public DateTime? Date { get; set; }
 
         public string Username { get; set; }
+        public string Hall { get; set; }
         public string FilmName { get; set; }
         public int FilmLINK { get; set; }
         public IEnumerable<SeatSerializer> Seats { get; set; }
