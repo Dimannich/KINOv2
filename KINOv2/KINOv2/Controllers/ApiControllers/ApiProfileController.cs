@@ -32,13 +32,10 @@ namespace KINOv2.Controllers.ApiControllers
             _context = context;
         }
         [HttpGet("token")]
-        //[HttpPost("/token")]
         public async Task Token(string username, string password)
         {
             try
             {
-                //var username = Request.Form["username"];
-                //var passwordHash = Request.Form["passwordHash"];
                 password = password.Replace(' ', '+');
                 var identity = GetIdentity(username, password);
                 if (identity == null)
@@ -136,6 +133,9 @@ namespace KINOv2.Controllers.ApiControllers
                    .Include(o => o.Seats)
                    .ThenInclude(s => s.Session)
                    .ThenInclude(s => s.Film)
+                   .Include(o => o.Seats)
+                   .ThenInclude(s => s.Session)
+                   .ThenInclude(s => s.Hall)
                    .Where(o => o.ApplicationUserId == user.Id)
                    .ToList()
                    .Select(o => new OrderSerializer
@@ -154,14 +154,9 @@ namespace KINOv2.Controllers.ApiControllers
                        }),
                        FilmName = o.Seats.First().Session.Film.Name,
                        FilmLINK = o.Seats.First().Session.Film.LINK,
+                       Hall = o.Seats.First().Session.Hall.Name,
                    })
                    .AsQueryable();
-            //query.For(o => {
-            //    var seat = _context.Seats.Include(s => s.Session).Where(s => s.OrderLINK == o.LINK).FirstOrDefault();
-            //    seat.Session.Film = _context.Films.FirstOrDefault(f => seat.Session.FilmLINK == f.LINK);
-            //    o.FilmLINK = seat.Session.Film.LINK;
-            //    o.FilmName = seat.Session.Film.Name;
-            //});
             return query;
         }
         
