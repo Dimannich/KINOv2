@@ -5,19 +5,26 @@
     }
     else
     {
-        foreach (var pair in ViewData["FilmSessions"] as Dictionary<string, List<Session>>)
+        if ((ViewData["FilmSessions"] as Dictionary<string, List<Session>>).Where(x => x.Value.Count > 0).Count() == 0)
         {
-            if (pair.Value.Count > 0)
+            <div class="text-center text-info my-1 h1 mt-md-5">Сеансы отсутствуют</div>
+        }
+        else
+        {
+            foreach (var pair in ViewData["FilmSessions"] as Dictionary<string, List<Session>>)
             {
+                if (pair.Value.Count > 0)
+                {
                 <div class="text-center text-info my-1 mb-2">@pair.Key</div>
                 <div class="row mb-2 justify-content-center">
                     @foreach (var session in pair.Value)
                     {
-                        <a class="col-4 col-md-3 col-lg-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToShortTimeString()</div></a>
+                        <a class="col-4 col-md-3 col-lg-2 session-link" asp-controller="Home" asp-action="Sessions" asp-route-id="@session.LINK"><div class="session-button">@session.SessionTime.ToString("HH:mm")</div></a>
                     }
                 </div>
+                }
             }
         }
     }
-    
+
 </div>

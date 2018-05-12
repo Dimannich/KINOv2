@@ -24,17 +24,23 @@
             <div class="text-center mb-1">
                 <span class="h4 text-orange">@Model.Username</span>
             </div>
-            <div class="text-center mb-1">
-                <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
-            </div>
+            @if (Model.Name != null)
+            {
+                <div class="text-center mb-1">
+                    <span class="text-center">@Model.Name @Model.SurName @(Model.Age != null ? ", " + Model.Age.ToString() : "")</span>
+                </div>
+            }
             <div class="row">
                 <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
                 <span class="col">@Model.Email</span>
             </div>
-            <div class="row">
-                <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
-                <span class="col">@Model.City</span>
-            </div>
+            @if (Model.City != null)
+            {
+                <div class="row">
+                    <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
+                    <span class="col">@Model.City</span>
+                </div>
+            }
 
         </div>
         <h2 class="col-12 order-md-3">Избранные фильмы</h2>
@@ -48,7 +54,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var film in Model.Films)
+                    @foreach (var film in Model.Films)
                     {
                         <tr>
                             <td><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK" class="text-info">@film.Name</a></td>

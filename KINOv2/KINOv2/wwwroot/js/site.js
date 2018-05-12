@@ -29,7 +29,9 @@ $('#datetimepicker4').datetimepicker({
     useCurrent: false
 });
 
-$('#history-table').footable();
+$('#history-table').footable({
+    "empty": "Заказы отсутсвтуют"
+});
 //var results = $("#Results");
 //var onBegin = function () {
 //    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");
@@ -209,6 +211,10 @@ $(".date-picker").click(function (e) {
     //if ($(this).parent().hasClass('session-dropdown'))
     //    $('#session-drop').addClass('selected');
 });
+
+$(".date-picker").blur(function (e) {
+    $('#datetimepicker4').datetimepicker('hide');
+});
 //(function ($) {
 //    $.fn.focusToEnd = function () {
 //        return this.each(function () {
@@ -223,39 +229,39 @@ $('#msg-sender').click(function () {
     $(this).parent().find('textarea').html("");
 });
 
-$(function () {
+//$(function () {
 
-    $("#prSecond").click(function (e) {
-        e.preventDefault();
-        $('#' + $(this).data("target")).load($(this).attr("href"));
-        $(".profile-menu").removeClass("active");
-        $(".second").addClass("active");
-        $("#prSecond").addClass("menu-item-active");
-        $("#prSecond").blur();
-    });
+//    $("#prSecond").click(function (e) {
+//        e.preventDefault();
+//        $('#' + $(this).data("target")).load($(this).attr("href"));
+//        $(".profile-menu").removeClass("active");
+//        $(".second").addClass("active");
+//        $("#prSecond").addClass("menu-item-active");
+//        $("#prSecond").blur();
+//    });
     
-});
+//});
 
-$(function () {
+//$(function () {
 
-    $("#prThird").click(function (e) {
-        $(this).blur();
-        $(this).addClass("menu-item-active");
-        e.preventDefault();
-        $('#' + $(this).data("target")).load($(this).attr("href"));
-        $(".profile-menu").removeClass("active");
-        $(".third").addClass("active");
-        //$("#prThird").addClass("menu-item-active");
-        //$("#prThird").blur();
-    });
+//    $("#prThird").click(function (e) {
+//        $(this).blur();
+//        $(this).addClass("menu-item-active");
+//        e.preventDefault();
+//        $('#' + $(this).data("target")).load($(this).attr("href"));
+//        $(".profile-menu").removeClass("active");
+//        $(".third").addClass("active");
+//        //$("#prThird").addClass("menu-item-active");
+//        //$("#prThird").blur();
+//    });
 
-});
+//});
 
-function OnLinkClick(e) {
-    e.preventDefault();
-    $('#' + $(this).data("target")).load($(this).attr("href"));
-    $(".profile-menu").removeClass("active");
-}
+//function OnLinkClick(e) {
+//    e.preventDefault();
+//    $('#' + $(this).data("target")).load($(this).attr("href"));
+//    $(".profile-menu").removeClass("active");
+//}
 
 $('#message').richText({
 

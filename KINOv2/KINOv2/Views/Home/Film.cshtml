@@ -80,20 +80,20 @@
     <div class="d-md-flex flex-md-row mb-4">
         <ul class="nav col d-flex justify-content-between d-md-inline-flex align-self-md-start align-items-baseline flex-md-column" data-film-id="@film.LINK">
             <li class="nav-item session-nav">
-                <a class="btn border-orange col nav-link text-center session-date selected" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="28/09/2017" data-target="sessions">Сегодня 29.09</a>
+                <a class="btn border-orange col nav-link text-center session-date selected" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="@DateTime.Now.Date.ToShortDateString()" data-target="sessions">Сегодня @DateTime.Now.Date.ToString("dd.MM")</a>
             </li>
             <li class="nav-item dropdown d-md-none text-center">
                 <a id="session-drop" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>
                 <div class="dropdown-menu session-dropdown">
-                    <a asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" class="dropdown-item session-date" data-target="sessions">Завтра 30.09</a>
-                    <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="29/09/2018" data-target="sessions">Послезавтра 31.09</a>
+                    <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="@DateTime.Now.Date.AddDays(1).ToShortDateString()" data-target="sessions">Завтра @DateTime.Now.Date.AddDays(1).ToString("dd.MM")</a>
+                    <a class="dropdown-item session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="@DateTime.Now.Date.AddDays(2).ToShortDateString()" data-target="sessions">Послезавтра @DateTime.Now.Date.AddDays(2).ToString("dd.MM")</a>
                 </div>
             </li>
             <li class="nav-item session-nav d-none d-md-flex justify-content-center">
-                <a class="btn border-orange col nav-link session-date" href="#">Завтра</a>
+                <a class="btn border-orange col nav-link session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="@DateTime.Now.Date.AddDays(1).ToShortDateString()" data-target="sessions">Завтра @DateTime.Now.Date.AddDays(1).ToString("dd.MM")</a>
             </li>
             <li class="nav-item session-nav d-none d-md-flex justify-content-center">
-                <a class="btn border-orange col nav-link session-date" href="#">Послезавтра</a>
+                <a class="btn border-orange col nav-link session-date" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" asp-route-date="@DateTime.Now.Date.AddDays(2).ToShortDateString()" data-target="sessions">Послезавтра @DateTime.Now.Date.AddDays(2).ToString("dd.MM")</a>
             </li>
             <li class="nav-item session-nav">
                 <a class="col btn border-orange nav-link date-picker" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-filmid="@film.LINK" data-target="sessions">

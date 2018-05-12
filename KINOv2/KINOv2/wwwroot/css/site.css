@@ -640,6 +640,11 @@ input[type="text"] {
 }
 
 
+.sort-icon {
+    position: absolute;
+    right: 3px;
+}
+
 .swiper-pagination-featured span {
     margin-left: 4px !important;
     margin-right: 4px !important;

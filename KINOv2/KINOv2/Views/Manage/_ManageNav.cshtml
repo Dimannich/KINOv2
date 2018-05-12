@@ -23,17 +23,17 @@
     <li class="nav-item w-100 d-none d-md-block">
         <a class="@ManageNavPages.ChangePasswordNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="ChangePassword">Сменить пароль</a>
     </li>
-    <li class="nav-item w-100 d-none d-md-block">
+    @*<li class="nav-item w-100 d-none d-md-block">
         <a class="@ManageNavPages.ManageNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="ManagePanel">Панель управления</a>
-    </li>
+    </li>*@
     @*<li class="nav-item w-100 d-none d-md-block">
             <a class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) border-orange btn nav-link px-md-3 text-center" asp-action="TwoFactorAuthentication">Two-factor authentication</a>
         </li>*@
     <li class="d-md-none dropdown nav-item text-center">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a>
-        <div class="dropdown-menu dropdown-fix">
-            <a class="dropdown-item">Настройка профиля</a>
-            <a class="dropdown-item">Сменить пароль</a>
+        <div class="dropdown-menu dropdown-fix session-dropdown">
+            <a class="@ManageNavPages.SettingsNavClass(ViewContext)  text-center dropdown-item" asp-action="Settings">Настройка профиля</a>
+            <a class="@ManageNavPages.ChangePasswordNavClass(ViewContext)   px-md-3 text-center dropdown-item" asp-action="ChangePassword">Сменить пароль</a>
         </div>
     </li>
 </ul>

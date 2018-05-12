@@ -4859,7 +4859,7 @@
 				}
 				F.arr.each(self.ft.columns.array, function(col){
 					if (col.sortable){
-						col.$el.addClass('footable-sortable').append($('<span/>', {'class': 'fooicon fooicon-sort'}));
+                        col.$el.addClass('footable-sortable').append($('<i/>', { 'class': 'fa fa-sort sort-icon'}));
 					}
 				});
 				self.ft.$el.on('click.footable', '.footable-sortable', { self: self }, self._onSortClicked);

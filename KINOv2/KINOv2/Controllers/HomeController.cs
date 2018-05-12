@@ -90,7 +90,7 @@ namespace KINOv2.Controllers
 
             List<Session> sessions = DB.Sessions
                 .Include(x => x.Hall)
-                .Where(x => x.FilmLINK == film.LINK && x.Archived != true && x.SessionTime.Date == new DateTime(2017, 09, 28).Date)
+                .Where(x => x.FilmLINK == film.LINK && x.Archived != true && x.SessionTime.Date == DateTime.Now.Date)
                 .ToList();
 
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
@@ -107,7 +107,6 @@ namespace KINOv2.Controllers
                 .ToListAsync();
             
             ViewData["Film"] = film;
-            //ViewData["SelectedDate"] = new DateTime(2017, 09, 28).Date;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
             ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
@@ -121,7 +120,7 @@ namespace KINOv2.Controllers
 
         public async Task<IActionResult> Affiche(int page = 1)
         {
-            int pageSize = 3;
+            int pageSize = 4;
 
             IQueryable<Film> films = DB.Films
                 .Include(x => x.Genre)

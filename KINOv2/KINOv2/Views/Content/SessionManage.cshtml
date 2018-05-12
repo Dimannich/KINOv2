@@ -14,7 +14,7 @@
         {
             if (!(ViewBag.Film is null))
             {
-                <input value="@ViewBag.Film.LINK" type="hidden" />
+                <input asp-for="FilmLINK" value="@ViewBag.Film.LINK" type="hidden" />
                 <div class="form-group">
                     <label class="text-info" asp-for="FilmLINK"></label>
                     <input class="form-control control" value="@ViewBag.Film.Name" disabled style="background-color:rgba(133, 136, 146, 0.6); cursor:not-allowed;" />

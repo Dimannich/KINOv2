@@ -161,7 +161,6 @@ namespace KINOv2.Controllers
                 foreach(var seat in order.Seats)
                 {
                     orderModel.SeatAmount++;
-                    orderModel.Cost += order.Cost;
                 }
 
                 var session = await _context.Sessions
@@ -173,6 +172,7 @@ namespace KINOv2.Controllers
                 if (session is null)
                     continue;
 
+                orderModel.Cost = order.Cost;
                 orderModel.SessionDate = session.SessionTime.Date;
                 orderModel.FilmName = session.Film.Name;
                 orderModel.HallName = session.Hall.Name;
