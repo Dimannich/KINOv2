@@ -484,3 +484,13 @@ $(document).ready(function () {
     x.addListener(myFunction) // Attach listener function on state changes
 
 });
+
+$(document).ajaxStart(function () {
+    $("#loading").show();
+    $("#loading-2").show();
+});
+
+$(document).ajaxStop(function () {
+    $("#loading").hide();
+    $("#loading-2").hide();
+});

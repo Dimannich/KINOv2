@@ -272,7 +272,8 @@ namespace KINOv2.Controllers
                 ProfileImage = user.ProfileImage,
                 About = user.About,
                 PersonalInfoVisible = user.PersonalInfoVisible,
-                SelectedFilmsVisible = user.SelectedFilmsVisible
+                SelectedFilmsVisible = user.SelectedFilmsVisible,
+                StatusMessage = ""
             };
 
             var _user = DB.Users.Where(x => x.Id == user.Id).Include(x => x.FilmUsers).ThenInclude(x => x.Film).First();
@@ -286,7 +287,7 @@ namespace KINOv2.Controllers
             
             if(User.Identity.IsAuthenticated && user.Id == (await UserManager.GetUserAsync(User)).Id)
             {
-                return View("../Manage/Index", model);
+                return RedirectToActionPreserveMethod("Index", "Manage");
             }
 
             return View(model);

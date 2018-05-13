@@ -68,13 +68,13 @@
     @if (User.IsInRole("Admin"))
     {
         <div class="row d-flex justify-content-between">
-            <h2 class="col-4">Сеансы</h2>
-            <a class="align-self-center border-orange btn col-6 col-md-3 d-flex justify-content-center mr-3" asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-film="@film.LINK">Добавить сеанс</a>
+            <h2 class="col-6">Сеансы <i id="loading" class="fa fa-refresh fa-spin fa-3x fa-fw text-info" style="font-size: 30px; display:none;" aria-hidden="true"></i></h2>
+            <a class="align-self-center border-orange btn col-5 col-md-3 d-flex justify-content-center mr-3" asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-film="@film.LINK">Добавить сеанс</a>
         </div>
     }
     else
     {
-        <h2>Сеансы</h2>
+        <h2>Сеансы <i id="loading-2" class="fa fa-refresh fa-spin fa-3x fa-fw text-info" style="font-size: 30px; display:none;" aria-hidden="true"></i></h2>
     }
     <hr />
     <div class="d-md-flex flex-md-row mb-4">
