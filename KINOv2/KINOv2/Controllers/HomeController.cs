@@ -86,7 +86,10 @@ namespace KINOv2.Controllers
                 .Include(x => x.FilmUsers)
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
+
+            if (film == null)
+                return NotFound();
 
             List<Session> sessions = DB.Sessions
                 .Include(x => x.Hall)
@@ -185,14 +188,16 @@ namespace KINOv2.Controllers
             }
             var form = Request.Form;
 
-
+            if (form.Keys.FirstOrDefault(x => x.StartsWith("ticket-row")) == null)
+                return Error();
+                
             form.TryGetValue("session-link", out StringValues slink);
             int sessionLink = Convert.ToInt32(slink);
             var session = DB.Sessions.FirstOrDefault(s => s.LINK == sessionLink);
             if (session == null)
                 return Error();
             
-            var totalCost = session.Cost * (form.Count - 2);
+            var totalCost = session.Cost * (form.Count - 3);
             string applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
             order.ValidationKey = validationKey;
@@ -399,7 +404,7 @@ namespace KINOv2.Controllers
                 localRating += (int)filmRate.Value;
             }
 
-            film.LocalRating = localRating / film.Rating.Count;
+            film.LocalRating = (int)Math.Round(Convert.ToDouble(localRating) / film.Rating.Count);
             DB.Entry(film).State = EntityState.Modified;
 
             DB.SaveChanges();

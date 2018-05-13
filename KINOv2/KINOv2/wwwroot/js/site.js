@@ -157,29 +157,47 @@ $('#msg-sender').click(function () {
     $('.richText-editor').empty();
 });
 
-$(function () {
-    $('.comment-rate').click(function (e) {
-        e.preventDefault(); 
-        var self = this;
-        if ($(this).parent().attr('disabled')) {
-            return;
+//$(function () {
+//    $('.comment-rate').click(function (e) {
+//        e.preventDefault(); 
+//        var self = this;
+//        if ($(this).parent().attr('disabled')) {
+//            return;
+//        }
+//        if ($(this).hasClass('like')) {
+//            flag = true;
+//        }
+//        else {
+//            flag = false;
+//        }
+//        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
+//            if (data.item1 == "OK") {
+//                $(self).parent().find('span').text(data.item2);
+//            }
+//        });
+//        $(this).find('i').addClass('comment-rate-selected')
+//    });
+//});
+
+$(document).on("click", '.comment-rate', function (e) {
+    e.preventDefault();
+    var self = this;
+    if ($(this).parent().attr('disabled')) {
+        return;
+    }
+    if ($(this).hasClass('like')) {
+        flag = true;
+    }
+    else {
+        flag = false;
+    }
+    $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
+        if (data.item1 == "OK") {
+            $(self).parent().find('span').text(data.item2);
         }
-        if ($(this).hasClass('like')) {
-            flag = true;
-        }
-        else {
-            flag = false;
-        }
-        $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
-            if (data.item1 == "OK") {
-                $(self).parent().find('span').text(data.item2);
-            }
-        });
-        $(this).find('i').addClass('comment-rate-selected')
     });
+    $(this).addClass('comment-rate-selected')
 });
-
-
 //$(function () {
 //    $('.comment-reply').click(function (e) {
 //        e.preventDefault(); 
@@ -229,6 +247,10 @@ $('#msg-sender').click(function () {
     $(this).parent().find('textarea').html("");
 });
 
+
+$(document).ready(function () {
+    
+});
 //$(function () {
 
 //    $("#prSecond").click(function (e) {
@@ -483,6 +505,13 @@ $(document).ready(function () {
     myFunction(x) // Call listener function at run time
     x.addListener(myFunction) // Attach listener function on state changes
 
+
+    $('#make-order').submit(function (e) {
+        if ($('*[id^="ticket-row"]').length == 0) {
+            e.preventDefault();
+            alert('Не выбрано место');
+        }
+    });
 });
 
 $(document).ajaxStart(function () {

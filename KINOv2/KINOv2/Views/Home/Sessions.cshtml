@@ -33,11 +33,11 @@
             </div>
             <div class="col-12 col-sm-6 col-lg-3 order-lg-1">
                 <label class="text-info" style="width:110px;">Дата</label>
-                <span class="">@session.SessionTime.ToShortDateString()</span>
+                <span class="">@session.SessionTime.ToString("dd.MM.yy")</span>
             </div>
             <div class="col-12 col-sm-6 order-sm-1 order-lg-2 col-lg-3">
                 <label class="text-info" style="width:110px;">Время</label>
-                <span class="">@session.SessionTime.ToShortTimeString()</span>
+                <span class="">@session.SessionTime.ToString("HH:mm")</span>
             </div>
             <div class="col-12 order-sm-0 col-sm-6 col-lg-3 order-lg-0">
                 <label class="text-info" style="width:110px;">Цена билета</label>
@@ -85,7 +85,7 @@
         <span class=" my-auto" style="font-size:0.8rem;">- Занято</span>
     </div>
     <div class="finalize-block">
-        <form class="row" asp-action="CreateOrder" asp-controller="Home">
+        <form id="make-order" class="row" asp-action="CreateOrder" asp-controller="Home">
             <input type="hidden" class="session-cost" name="session-cost" value=@session.Cost>
             <input type="hidden" class="session-link" name="session-link" value=@session.LINK>
             <div class="w-100 delimetr mb-2"></div>
@@ -97,7 +97,7 @@
             </ul>
             <div class="w-100"></div>
             <p class="col col-lg-3 mb-0 m-auto">Итоговая стоимость: <span id="total-cost" class="text-orange">0</span> p.</p>
-            <input type="submit" class="btn border-orange make-order-button col-3 mr-3 col-sm-3 col-lg-2 m-lg-auto" value="Заказать">
+            <input  type="submit" class="btn border-orange make-order-button col-3 mr-3 col-sm-3 col-lg-2 m-lg-auto" value="Заказать">
         </form>
     </div>
 }
