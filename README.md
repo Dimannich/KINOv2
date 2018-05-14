@@ -22,6 +22,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 1) /api/profile/info - информация о профиле
 2) /api/profile/history - история заказов
 3) /api/film/favorite - избранные фильмы 
+4) /api/film/3/comment/?comment=Текст
+    Важный момент, пробелы в параметре передать не получится, предлагаю почитать про url encode.
+5) /api/comments/12/plus - плюс к комменту
+6) /api/comments/12/minus - минус к комменту
+7) /api/comments/withauth/ - работает так же как и №6 из первого списка, только добавляется еще одно поле: yourRate - оценка которую текущий пользователь поставил.
 ### Правки
 1) Отправка рейтинга
 2) Отправка коммента
