@@ -6,9 +6,9 @@
 <h2>Комментарии <b class="text-info">@ViewData["CommentsCount"]</b></h2>
 <hr />
 
-@if (ViewData["Comments"] as List<Comment> != null)
+@if (ViewData["Comments"] as ICollection<Comment> != null)
 {
-    foreach (var comment in ViewData["Comments"] as List<Comment>)
+    foreach (var comment in ViewData["Comments"] as ICollection<Comment>)
     {
         rating = 0;
         commentRateValue = 0;

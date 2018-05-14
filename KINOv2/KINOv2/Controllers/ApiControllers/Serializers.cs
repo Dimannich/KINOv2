@@ -70,10 +70,12 @@ namespace KINOv2.Controllers.ApiControllers
     {
         public int LINK { get; set; }
         public string Text { get; set; }
+        public int Rating { get; set; }
         public DateTime? Date { get; set; }
         public int? BaseCommentLINK { get; set; }
         public int FilmLINK { get; set; }
         public UserSerializer User { get; set; }
+        public int? YourRate { get; set; }
     }
     public class UserSerializer
     {

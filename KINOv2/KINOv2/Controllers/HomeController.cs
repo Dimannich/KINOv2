@@ -83,38 +83,29 @@ namespace KINOv2.Controllers
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
                 .Include(x => x.Rating)
+                .Include(x => x.Comments)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(x => x.Comments)
+                .ThenInclude(c => c.Rating)
+                .Include(x => x.Sessions)
+                .ThenInclude(s => s.Hall)
                 .Include(x => x.FilmUsers)
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
-                .SingleOrDefaultAsync();
-
-            if (film == null)
-                return NotFound();
-
-            List<Session> sessions = DB.Sessions
-                .Include(x => x.Hall)
-                .Where(x => x.FilmLINK == film.LINK && x.Archived != true && x.SessionTime.Date == DateTime.Now.Date)
-                .ToList();
-
+                .SingleAsync();
+            
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
             {
-                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
+                sessionsByHall.Add(hall.Name, film.Sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
             }
-
-            List<Comment> comments = await DB.Comments
-                .Include(x => x.ApplicationUser)
-                .Include(x => x.BaseComment)
-                .Include(x => x.Rating)
-                .Where(x => x.FilmLINK == film.LINK)
-                .ToListAsync();
             
             ViewData["Film"] = film;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
             ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
-            ViewData["CommentsCount"] = comments.Count;
-            ViewData["Comments"] = comments;
+            ViewData["CommentsCount"] = film.Comments.Count;
+            ViewData["Comments"] = film.Comments;
             ViewData["FilmRated"] = film.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
 
             return View();
@@ -188,16 +179,14 @@ namespace KINOv2.Controllers
             }
             var form = Request.Form;
 
-            if (form.Keys.FirstOrDefault(x => x.StartsWith("ticket-row")) == null)
-                return Error();
-                
+
             form.TryGetValue("session-link", out StringValues slink);
             int sessionLink = Convert.ToInt32(slink);
             var session = DB.Sessions.FirstOrDefault(s => s.LINK == sessionLink);
             if (session == null)
                 return Error();
             
-            var totalCost = session.Cost * (form.Count - 3);
+            var totalCost = session.Cost * (form.Count - 2);
             string applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
             order.ValidationKey = validationKey;
@@ -404,7 +393,7 @@ namespace KINOv2.Controllers
                 localRating += (int)filmRate.Value;
             }
 
-            film.LocalRating = (int)Math.Round(Convert.ToDouble(localRating) / film.Rating.Count);
+            film.LocalRating = localRating / film.Rating.Count;
             DB.Entry(film).State = EntityState.Modified;
 
             DB.SaveChanges();

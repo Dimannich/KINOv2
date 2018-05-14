@@ -220,6 +220,25 @@ namespace KINOv2.Controllers.ApiControllers
             return Json(new Dictionary<string, bool> { { "favorite", false } });
 
         }
-
+        [HttpGet("{id}/comment")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public JsonResult Comment([FromRoute] int id, string comment)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return Json(new Dictionary<string, string> {
+                    { "success", "false" },
+                    { "error", "Неверные авторизационные данные"}
+                });
+            var film = _context.Films
+                .Include(f=>f.Comments)
+                .FirstOrDefault(f => f.LINK == id);
+            var newComment = new Comment();
+            newComment.Text = comment;
+            newComment.ApplicationUser = user;
+            film.Comments.Add(newComment);
+            _context.SaveChanges();
+            return Json(new Dictionary<string, bool> { { "success", true } });
+        }
     }
 }
