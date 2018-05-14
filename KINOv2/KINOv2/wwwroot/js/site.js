@@ -194,9 +194,10 @@ $(document).on("click", '.comment-rate', function (e) {
     $.get('/Home/RateComment/' + $(this).parent().data('comment-id'), { value: flag }).done(function (data) {
         if (data.item1 == "OK") {
             $(self).parent().find('span').text(data.item2);
+            $(this).addClass('comment-rate-selected');
         }
     });
-    $(this).addClass('comment-rate-selected')
+    
 });
 //$(function () {
 //    $('.comment-reply').click(function (e) {
