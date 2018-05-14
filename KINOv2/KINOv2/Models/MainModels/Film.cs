@@ -69,5 +69,9 @@ namespace KINOv2.Models.MainModels
         public ICollection<Rating> Rating { get; set; }
         //Пользователи, добавившие фильм в избранное
         public ICollection<FilmUser> FilmUsers { get; set; }
+        // Комментарии к фильму
+        public ICollection<Comment> Comments { get; set; }
+        // Сеансы фильма
+        public ICollection<Session> Sessions { get; set; }
     }
 }

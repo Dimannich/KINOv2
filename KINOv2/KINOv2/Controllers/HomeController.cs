@@ -83,35 +83,29 @@ namespace KINOv2.Controllers
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
                 .Include(x => x.Rating)
+                .Include(x => x.Comments)
+                .ThenInclude(c => c.ApplicationUser)
+                .Include(x => x.Comments)
+                .ThenInclude(c => c.Rating)
+                .Include(x => x.Sessions)
+                .ThenInclude(s => s.Hall)
                 .Include(x => x.FilmUsers)
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
                 .SingleAsync();
-
-            List<Session> sessions = DB.Sessions
-                .Include(x => x.Hall)
-                .Where(x => x.FilmLINK == film.LINK && x.Archived != true && x.SessionTime.Date == DateTime.Now.Date)
-                .ToList();
-
+            
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
             {
-                sessionsByHall.Add(hall.Name, sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
+                sessionsByHall.Add(hall.Name, film.Sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
             }
-
-            List<Comment> comments = await DB.Comments
-                .Include(x => x.ApplicationUser)
-                .Include(x => x.BaseComment)
-                .Include(x => x.Rating)
-                .Where(x => x.FilmLINK == film.LINK)
-                .ToListAsync();
             
             ViewData["Film"] = film;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
             ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
-            ViewData["CommentsCount"] = comments.Count;
-            ViewData["Comments"] = comments;
+            ViewData["CommentsCount"] = film.Comments.Count;
+            ViewData["Comments"] = film.Comments;
             ViewData["FilmRated"] = film.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
 
             return View();
