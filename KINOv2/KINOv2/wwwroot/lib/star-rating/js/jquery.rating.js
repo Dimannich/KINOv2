@@ -131,7 +131,7 @@
                  if(score < 0) score = 0;
                  
                  self.old = self.val;
-    			 self.val = (self.val*self.votes +score)/(self.votes + 1);
+                 self.val = Math.round((self.val*self.votes +score)/(self.votes + 1));
                  self.val.toFixed(1);
                  self.vote_success.html('Ваша оценка: '+score);
     			 if(self.options.url != ''){

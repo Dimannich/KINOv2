@@ -25,10 +25,10 @@
                     <tr>
                         <td>@order.HallName</td>
                         <td>@order.FilmName</td>
-                        <td>@order.SessionDate.Value.ToShortDateString() @order.SessionDate.Value.ToShortTimeString()</td>
+                        <td>@order.SessionDate.Value.ToString("dd.MM.yy") @order.SessionDate.Value.ToString("HH:mm")</td>
                         <td>@order.SeatAmount</td>
                         <td>@order.Cost</td>
-                        <td>@order.OrderDate.Value.ToShortDateString() @order.OrderDate.Value.ToShortTimeString()</td>
+                        <td>@order.OrderDate.Value.ToString("dd.MM.yy") @order.OrderDate.Value.ToString("HH:mm")</td>
                     </tr>
                 }
             </tbody>

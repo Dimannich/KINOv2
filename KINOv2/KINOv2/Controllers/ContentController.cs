@@ -25,10 +25,10 @@ namespace KINOv2.Controllers
         private ApplicationDbContext DB { get; set; }
         private IHostingEnvironment AppEnvironment { get; set; }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         //
         //GET: /Content/FilmManage
