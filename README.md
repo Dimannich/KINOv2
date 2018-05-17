@@ -34,12 +34,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 POST: http://192.168.43.153/Home/CreateOrderMobile
 ```
 Параметры запроса:
-а) session-cost - общая цена заказа
-б) session-link - link сеанса
-в) \_\_RequestVerificationToken - токен
-г) для каждого заказываемого места отправляется параметр: 
-   название: ticket-row2-number9, где цифры - ряд и место
-   значение: ряд\*1000 + место
+- session-cost - общая цена заказа
+- session-link - link сеанса
+- \_\_RequestVerificationToken - токен
+- для каждого заказываемого места отправляется параметр: 
+  - название: ticket-row2-number9, где цифры - ряд и место
+  - значение: ряд\*1000 + место
 
 Все эти параметры передаются не в параметрах запроса, а в form-data. В Postman это можно сделать следующим образом:
 https://pp.userapi.com/c844724/v844724993/5827a/Mn6suyU_gJw.jpg
