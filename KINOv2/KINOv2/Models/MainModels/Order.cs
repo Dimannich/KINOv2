@@ -20,5 +20,7 @@ namespace KINOv2.Models.MainModels
         public virtual ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserId { get; set; }
         public IEnumerable<Seat> Seats { get; set; }
+        public bool Paid { get; set; }
+        public string PayStatus { get; set; }
     }
 }

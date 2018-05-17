@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Успешная оплата";
+}
+
+<h2>Заказ успешно оплачен</h2>
+
+<h2>Поздравляем!</h2>
+
+<p>Ваш номер заказа <span style="font-size: 24px">@ViewData["ValidationKey"].ToString()</span> , предъявите его в кассе и получите билет.</p>
+<p>Приходите еще!</p>
+<script>
+    window.postMessage("success", "KINOv2")
+</script>

@@ -18,6 +18,13 @@ using KINOv2.Models.AdditionalEFEntities;
 using System.Net;
 using KINOv2.Models.ManageViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using KINOv2.Controllers.Kassa;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using System.Web;
 
 namespace KINOv2.Controllers
 {
@@ -169,7 +176,31 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOrder()
+        [Authorize]
+        public IActionResult CreateOrder([FromForm] IFormCollection form)
+        {
+            string applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = DB.Users.FirstOrDefault(u => u.Id == applicationUserId);
+            if (user == null)
+            {
+                return Error();
+            }
+            return CreateOrderBase(form, user);
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult CreateOrderMobile([FromForm] IFormCollection form)
+        {
+            var user = DB.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+            {
+                return Error();
+            }
+            return CreateOrderBase(form, user, 1);
+        }
+
+        private IActionResult CreateOrderBase(IFormCollection form, ApplicationUser user, int mobile = 0)
         {
             Order order = new Order();
             string validationKey = GetRandomKey();
@@ -177,29 +208,30 @@ namespace KINOv2.Controllers
             {
                 validationKey = GetRandomKey();
             }
-            var form = Request.Form;
 
 
             form.TryGetValue("session-link", out StringValues slink);
             int sessionLink = Convert.ToInt32(slink);
-            var session = DB.Sessions.FirstOrDefault(s => s.LINK == sessionLink);
+            var session = DB.Sessions.Include(s => s.Film).Include(s => s.Hall).FirstOrDefault(s => s.LINK == sessionLink);
             if (session == null)
                 return Error();
-            
-            var totalCost = session.Cost * (form.Count - 2);
-            string applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
+            var totalCost = session.Cost * (form.Count - 3);
+
             order.ValidationKey = validationKey;
-            order.ApplicationUserId = applicationUserId;
+            order.ApplicationUser = user;
             order.Cost = totalCost;
             order.Date = DateTime.Now;
+            order.Paid = false;
+            order.PayStatus = "Ожидается оплата";
 
             DB.Orders.Add(order);
             DB.SaveChanges();
 
-
-            foreach(var pair in form)
-            { 
+            List<Seat> seats = new List<Seat>();
+            string seatsString = "";
+            foreach (var pair in form)
+            {
                 if (pair.Key != "session-cost" && pair.Key != "session-link" && pair.Key != "__RequestVerificationToken")
                 {
                     Seat newSeat = new Seat();
@@ -218,29 +250,59 @@ namespace KINOv2.Controllers
                     newSeat.OrderLINK = order.LINK;
                     newSeat.SessionLINK = sessionLink;
 
-                    DB.Seats.Add(newSeat);
-                    DB.SaveChanges();
+                    seats.Add(newSeat);
+                    seatsString += $"{row} ряд {number} место, ";
                 }
             }
+            DB.Seats.AddRange(seats);
+            DB.SaveChanges();
+            seatsString = seatsString.TrimEnd(' ').TrimEnd(',');
 
-            ViewBag.ValidationKey = validationKey;
-            return View();
 
+            ViewBag.filmName = session.Film.Name;
+            ViewBag.seatsString = seatsString;
+            ViewBag.total = totalCost + ".00";
+            ViewBag.date = session.SessionTime;
+            ViewBag.hallName = session.Hall.Name;
+            ViewBag.orderLink = order.LINK;
+            ViewBag.mobile = mobile;
+            string hashBae = $"{KassaOptions.MerchantLogin}:{ViewBag.total}:{order.LINK}:{KassaOptions.Pass1}";
+            // build CRC value
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] bSignature = md5.ComputeHash(Encoding.ASCII.GetBytes(hashBae));
+
+            StringBuilder sbSignature = new StringBuilder();
+            foreach (byte b in bSignature)
+                sbSignature.AppendFormat("{0:x2}", b);
+
+            string sCrc = sbSignature.ToString();
+            ViewBag.hash = sCrc;
+            ViewBag.mrhLogin = KassaOptions.MerchantLogin;
+            ViewBag.mobile = 0;
+            var url = "https://auth.robokassa.ru/Merchant/Index.aspx/?" +
+                "MerchantLogin=" + KassaOptions.MerchantLogin +
+                "&OutSum=" + totalCost + ".00" +
+                "&InvoiceID=" + order.LINK +
+                "&Description=" + HttpUtility.UrlEncode(seatsString) +
+                "&SignatureValue=" + sCrc +
+                "&IsTest=1";
+            return Redirect(url);
             
-            string GetRandomKey()
-            {
-                Random rnd = new Random();
-                string key = "";
-                string chars = "0123456789-QWERTYUIOPASDFGHJKLZXCVBNM";
-                for (int i = 0; i < 6; i++)
-                {
-                    int j = rnd.Next(0, chars.Length - 1);
-                    key += chars[j];
-                }
-                return key;
-            }
+
         }
 
+        string GetRandomKey()
+        {
+            Random rnd = new Random();
+            string key = "";
+            string chars = "0123456789-QWERTYUIOPASDFGHJKLZXCVBNM";
+            for (int i = 0; i < 6; i++)
+            {
+                int j = rnd.Next(0, chars.Length - 1);
+                key += chars[j];
+            }
+            return key;
+        }
         public async Task<IActionResult> Profile(string username)
         {
             var user = await UserManager.Users

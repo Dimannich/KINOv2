@@ -1,12 +1,72 @@
 ﻿
 @{
-    ViewData["Title"] = "CreateOrder";
+    ViewData["Title"] = "Подтверждение";
+    if (ViewBag.mobile == 1)
+    {
+        Layout = null;
+    }
 }
 
-<h2>Заказ оформлен</h2>
-
-<h2>Поздравляем!</h2>
-
-<p>Вы, совершенно случайно, оказались счастливым покупателем, поэтому пропустим страницу оплаты и заказ за наш счет! </p>
-<p>Ваш номер заказа @ViewData["ValidationKey"].ToString() , предъявите его в кассе и получите билет.</p>
-<p>Приходите еще!</p>
+<div class="col-12">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Фильм</label>
+                <span class="col">@ViewBag.filmName</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Зал</label>
+                <span class="col">@ViewBag.hallName</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Дата</label>
+                <span class="col">@ViewBag.date.ToShortDateString()</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Время</label>
+                <span class="col">@ViewBag.date.ToShortTimeString()</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Билеты</label>
+                <span class="col">@ViewBag.seatsString</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="row no-gutters">
+                <label class="text-info" style="width:110px;">Стоимость заказа</label>
+                <span class="col">@ViewBag.total</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @{ 
+        var src = "https://auth.robokassa.ru/Merchant/PaymentForm/FormM.js?";
+        src += "MerchantLogin=" + ViewBag.mrhLogin;
+        src += "&OutSum=" + ViewBag.total;
+        src += "&InvoiceID=" + ViewBag.orderLink;
+        src += "&Description=" + ViewBag.seatsString;
+        src += "&SignatureValue=" + ViewBag.hash;
+        src += "&IsTest=1";
+    }
+    <script language=JavaScript
+      src='@src'></script>
+</div>
