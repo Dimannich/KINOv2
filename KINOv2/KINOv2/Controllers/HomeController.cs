@@ -100,11 +100,19 @@ namespace KINOv2.Controllers
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
                 .SingleAsync();
+
+
             
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
             {
-                sessionsByHall.Add(hall.Name, film.Sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
+                sessionsByHall.Add(hall.Name, film.Sessions
+                    .Where(x => x.Hall.Name == hall.Name 
+                    && x.Archived == false 
+                    && x.SessionTime.Date == DateTime.Now)
+                    .OrderBy(x => x.SessionTime)
+                    .ToList()
+                    );
             }
             
             ViewData["Film"] = film;
