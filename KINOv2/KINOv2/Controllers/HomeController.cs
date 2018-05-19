@@ -108,8 +108,8 @@ namespace KINOv2.Controllers
             {
                 sessionsByHall.Add(hall.Name, film.Sessions
                     .Where(x => x.Hall.Name == hall.Name 
-                    && x.Archived == false 
-                    && x.SessionTime.Date == DateTime.Now)
+                    && x.Archived != true 
+                    && x.SessionTime.Date == DateTime.Now.Date)
                     .OrderBy(x => x.SessionTime)
                     .ToList()
                     );
