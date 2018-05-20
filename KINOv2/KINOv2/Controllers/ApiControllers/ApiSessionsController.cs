@@ -38,6 +38,7 @@ namespace KINOv2.Controllers.ApiControllers
                         Poster = s.Film.Poster,
                         SessionTime = s.SessionTime,
                         Hall = s.Hall.Name,
+                        SeatsCount = s.Hall.SeatsNumber,
                         Cost = s.Cost,
                         Duration = s.Film.Duration,
                         Seats = s.Seats.Select(seat => new SeatSerializer
@@ -95,6 +96,7 @@ namespace KINOv2.Controllers.ApiControllers
                             Poster = s.Film.Poster,
                             SessionTime = s.SessionTime,
                             Hall = s.Hall.Name,
+                            SeatsCount = s.Hall.SeatsNumber,
                             Cost = s.Cost,
                             Duration = s.Film.Duration,
                             Seats = s.Seats.Select(seat => new SeatSerializer
@@ -129,6 +131,7 @@ namespace KINOv2.Controllers.ApiControllers
                         Poster = s.Film.Poster,
                         SessionTime = s.SessionTime,
                         Hall = s.Hall.Name,
+                        SeatsCount = s.Hall.SeatsNumber,
                         Cost = s.Cost,
                         Duration = s.Film.Duration,
                         Seats = s.Seats.Select(seat => new SeatSerializer
