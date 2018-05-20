@@ -118,10 +118,15 @@ namespace KINOv2.Controllers
             ViewData["Film"] = film;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
-            ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
+            ViewData["Favorite"] = film.FilmUsers
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Count() > 0 ? true : false;
+
             ViewData["CommentsCount"] = film.Comments.Count;
             ViewData["Comments"] = film.Comments;
-            ViewData["FilmRated"] = film.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
+            ViewData["FilmRated"] = film.Rating
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Count() > 0 ? true : false;
 
             return View();
             
