@@ -245,7 +245,7 @@ namespace KINOv2.Controllers
                 }
             }
 
-            DB.Entry(film).State = EntityState.Modified;
+           
             foreach (var session in DB.Sessions)
             {
                 if (session.FilmLINK == film.LINK)
@@ -254,6 +254,8 @@ namespace KINOv2.Controllers
                     DB.Entry(session).State = EntityState.Modified;
                 }
             }
+            film.Archived = true;
+            DB.Entry(film).State = EntityState.Modified;
             await DB.SaveChangesAsync();
             return RedirectToAction("Affiche", "Home");
         }
