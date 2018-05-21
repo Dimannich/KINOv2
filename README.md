@@ -27,6 +27,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hc
 5) /api/comments/12/plus - плюс к комменту
 6) /api/comments/12/minus - минус к комменту
 7) /api/comments/withauth/ - работает так же как и №6 из первого списка, только добавляется еще одно поле: yourRate - оценка которую текущий пользователь поставил.
+8) /api/film/3/rate/?rate=2 - поставить фильму оценку
 ## Касса
 Порядок действий при оплате с мобильного приложения:
 #### Отправка запроса
