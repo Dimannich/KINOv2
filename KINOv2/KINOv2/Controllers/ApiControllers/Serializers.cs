@@ -53,6 +53,7 @@ namespace KINOv2.Controllers.ApiControllers
         public int FilmLINK { get; set; }
         public DateTime SessionTime { get; set; }
         public string Hall { get; set; }
+        public int SeatsCount { get; set; }
         public IEnumerable<SeatSerializer> Seats { get; set; }
         public int Cost { get; set; }
         public string Poster { get; set; }

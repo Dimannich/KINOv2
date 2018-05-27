@@ -100,20 +100,33 @@ namespace KINOv2.Controllers
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
                 .SingleAsync();
+
+
             
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
             {
-                sessionsByHall.Add(hall.Name, film.Sessions.Where(x => x.Hall.Name == hall.Name).OrderBy(x => x.SessionTime).ToList());
+                sessionsByHall.Add(hall.Name, film.Sessions
+                    .Where(x => x.Hall.Name == hall.Name 
+                    && x.Archived != true 
+                    && x.SessionTime.Date == DateTime.Now.Date)
+                    .OrderBy(x => x.SessionTime)
+                    .ToList()
+                    );
             }
             
             ViewData["Film"] = film;
             ViewData["FilmSessions"] = sessionsByHall;
             ViewData["Title"] = film.Name;
-            ViewData["Favorite"] = film.FilmUsers.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
+            ViewData["Favorite"] = film.FilmUsers
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Count() > 0 ? true : false;
+
             ViewData["CommentsCount"] = film.Comments.Count;
             ViewData["Comments"] = film.Comments;
-            ViewData["FilmRated"] = film.Rating.Where(x => x.ApplicationUserId == UserManager.GetUserId(User)).Count() > 0 ? true : false;
+            ViewData["FilmRated"] = film.Rating
+                .Where(x => x.ApplicationUserId == UserManager.GetUserId(User))
+                .Count() > 0 ? true : false;
 
             return View();
             
@@ -185,22 +198,25 @@ namespace KINOv2.Controllers
             {
                 return Error();
             }
-            return CreateOrderBase(form, user);
+            var resultUrl = CreateOrderBase(form, user);
+            if (resultUrl == "Error")
+                return Error();
+            return Redirect(resultUrl);
         }
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult CreateOrderMobile([FromForm] IFormCollection form)
+        public string CreateOrderMobile([FromForm] IFormCollection form)
         {
             var user = DB.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             if (user == null)
             {
-                return Error();
+                return "403";
             }
             return CreateOrderBase(form, user, 1);
         }
 
-        private IActionResult CreateOrderBase(IFormCollection form, ApplicationUser user, int mobile = 0)
+        private string CreateOrderBase(IFormCollection form, ApplicationUser user, int mobile = 0)
         {
             Order order = new Order();
             string validationKey = GetRandomKey();
@@ -214,7 +230,8 @@ namespace KINOv2.Controllers
             int sessionLink = Convert.ToInt32(slink);
             var session = DB.Sessions.Include(s => s.Film).Include(s => s.Hall).FirstOrDefault(s => s.LINK == sessionLink);
             if (session == null)
-                return Error();
+                // TODO: на десктопе крашнется
+                return "Error";
 
             var totalCost = session.Cost * (form.Count - 3);
 
@@ -242,7 +259,8 @@ namespace KINOv2.Controllers
                     // проверяем, не забронькал ли кто место пока мы прохлаждались
                     var seat = DB.Seats.FirstOrDefault(s => s.Row == row && s.Number == number && s.SessionLINK == sessionLink);
                     if (seat != null)
-                        return Error();
+                        // TODO: на десктопе крашнется
+                        return "Error";
 
                     newSeat.Row = row;
                     newSeat.Number = number;
@@ -286,7 +304,7 @@ namespace KINOv2.Controllers
                 "&Description=" + HttpUtility.UrlEncode(seatsString) +
                 "&SignatureValue=" + sCrc +
                 "&IsTest=1";
-            return Redirect(url);
+            return url;
             
 
         }
