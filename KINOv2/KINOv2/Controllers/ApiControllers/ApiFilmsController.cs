@@ -235,8 +235,29 @@ namespace KINOv2.Controllers.ApiControllers
                 .FirstOrDefault(f => f.LINK == id);
             var newComment = new Comment();
             newComment.Text = comment;
+            newComment.Date = DateTime.Now;
             newComment.ApplicationUser = user;
             film.Comments.Add(newComment);
+            _context.SaveChanges();
+            return Json(new Dictionary<string, bool> { { "success", true } });
+        }
+        [HttpGet("{id}/rate")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public JsonResult Rate([FromRoute] int id, int rate)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user == null)
+                return Json(new Dictionary<string, string> {
+                    { "success", "false" },
+                    { "error", "Неверные авторизационные данные"}
+                });
+            var film = _context.Films
+                .Include(f => f.Rating)
+                .FirstOrDefault(f => f.LINK == id);
+            var newRate= new Rating();
+            newRate.Value = rate;
+            newRate.ApplicationUser = user;
+            film.Rating.Add(newRate);
             _context.SaveChanges();
             return Json(new Dictionary<string, bool> { { "success", true } });
         }
