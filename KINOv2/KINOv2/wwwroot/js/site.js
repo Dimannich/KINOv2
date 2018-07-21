@@ -21,7 +21,6 @@ function ChangeImage(files) {
     img.src = window.URL.createObjectURL(files[0]);
 }
 
-$('.mvc-grid').mvcgrid();
 $('#film-rating').rating();
 $('#datetimepicker4').datetimepicker({
     format: 'L',
@@ -29,9 +28,11 @@ $('#datetimepicker4').datetimepicker({
     useCurrent: false
 });
 
-$('#history-table').footable({
-    "empty": "Заказы отсутсвтуют"
-});
+//$('#history-table').footable({
+//    "empty": "Заказы отсутсвтуют",
+//    "columns": $.get('/manage/HistoryColumns'),
+//    "rows": $.get('/manage/HistoryRows')
+//});
 //var results = $("#Results");
 //var onBegin = function () {
 //    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");
@@ -417,18 +418,23 @@ $('#message').richText({
 
 $(document).ready(function () {
     //initialize swiper when document ready
-    var mySwiper = new Swiper('.swiper-container-featured', {
+    var mySwiper = new Swiper('.swiper-container-main', {
         // Optional parameters
         loop: true,
-        slidesPerView: "auto",
-        freeMode: true,
+        slidesPerView: 1,
         grabCursor: true,
-        // If we need pagination
-        pagination: {
-            el: '.swiper-pagination-featured',
-            clickable: true,
-        },
-    })
+        speed: 500,
+
+        navigation: {
+            nextEl: '.swiper-main-btn-next',
+            prevEl: '.swiper-main-btn-prev'
+        }
+        //// If we need pagination
+        //pagination: {
+        //    el: '.swiper-pagination-featured',
+        //    clickable: true
+        //}
+    });
 });
 
 

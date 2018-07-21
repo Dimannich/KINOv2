@@ -11,9 +11,10 @@ using System;
 namespace KINOv2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180721124034_21.07.2018.22.37")]
+    partial class _210720182237
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,30 +304,6 @@ namespace KINOv2.Data.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("KINOv2.Models.MainModels.UserRequest", b =>
-                {
-                    b.Property<int>("LINK")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Email");
-
-                    b.Property<int?>("UserRequestSubjectLINK");
-
-                    b.HasKey("LINK");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("UserRequestSubjectLINK");
-
-                    b.ToTable("UserRequests");
-                });
-
             modelBuilder.Entity("KINOv2.Models.ReferenceBooks.AgeLimit", b =>
                 {
                     b.Property<int>("LINK")
@@ -407,18 +384,6 @@ namespace KINOv2.Data.Migrations
                     b.HasKey("LINK");
 
                     b.ToTable("QAs");
-                });
-
-            modelBuilder.Entity("KINOv2.Models.ReferenceBooks.UserRequestSubject", b =>
-                {
-                    b.Property<int>("LINK")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("LINK");
-
-                    b.ToTable("UserRequestSubjects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -621,17 +586,6 @@ namespace KINOv2.Data.Migrations
                         .WithMany()
                         .HasForeignKey("HallLINK")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("KINOv2.Models.MainModels.UserRequest", b =>
-                {
-                    b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("KINOv2.Models.ReferenceBooks.UserRequestSubject", "UserRequestSubject")
-                        .WithMany()
-                        .HasForeignKey("UserRequestSubjectLINK");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

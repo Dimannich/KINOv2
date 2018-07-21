@@ -1,0 +1,33 @@
+﻿@model List<QA>
+@{
+    ViewData["Title"] = "Помощь";
+}
+
+<div class="container px-0 px-sm-3">
+    <div class="row">
+        <h1 class="col-12">Частые вопросы</h1>
+        <p class="col-12">
+            Если вы не нашли ответ на вопрос, напишите в <a class="text-orange" asp-route="support">службу поддержки</a>
+        </p>
+        <div class="col-12">
+            @foreach (var item in Model)
+            {
+                <div class="">
+                    <div class="card-header" id="heading@(Model.IndexOf(item))">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-orange accordion-btn" data-toggle="collapse" data-target="#collapse@(Model.IndexOf(item))" aria-expanded="false" aria-controls="collapse@(Model.IndexOf(item))">
+                                @item.Name
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse@(Model.IndexOf(item))" class="collapse" aria-labelledby="heading@(Model.IndexOf(item))">
+                        <div class="card-body">
+                           @item.Content
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Web;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KINOv2.Controllers
 {
@@ -43,35 +44,124 @@ namespace KINOv2.Controllers
         private RoleManager<IdentityRole> RoleManager { get; set; }
         private IServiceProvider ServiceProvider { get; set; }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IEnumerable<Film> films = DB.Films
                 .Include(x => x.Genre)
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
+                .Include(x => x.Sessions)
+                .ThenInclude(s => s.Hall)
                 .Where(x => x.Archived != true);
 
             IEnumerable<Hall> halls = DB.Halls;
+            
+            IEnumerable<News> news = await DB.News
+                .OrderBy(x => x.PublishDate)
+                .ToListAsync();
 
+            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
+            Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
+            foreach (Film film in films)
+            {
+                foreach (Hall hall in DB.Halls)
+                {
+                    sessionsByHall.Add(hall.Name, film.Sessions
+                        .Where(x => x.Hall.Name == hall.Name
+                        && x.Archived != true
+                        && x.SessionTime.Date == DateTime.Now.Date)
+                        .OrderBy(x => x.SessionTime)
+                        .ToList()
+                        );
+                }
+
+                sessionsByFilm.Add(film.Name, sessionsByHall);
+                sessionsByHall = new Dictionary<string, List<Session>>();
+            }
+
+            ViewData["AllFilmSessions"] = sessionsByFilm;
             ViewData["Halls"] = halls;
             ViewData["Featured"] = films.ToList();
-      
+            ViewData["News"] = news;
+     
             return View();
         }
 
-        public IActionResult About()
+        [Route("[action]")]
+        public async Task<IActionResult> Policy()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        [Route("[action]")]
+        public async Task<IActionResult> Help()
         {
-            //ViewData["Message"] = "Your contact page.";
+            IEnumerable<QA> qas = await DB.QAs
+                .ToListAsync();
 
+            return View(qas);
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult Support ()
+        {
+            SelectList subjects = new SelectList(DB.UserRequestSubjects.ToList(), "LINK", "Name");
+            ViewData["Subjects"] = subjects;
             return View();
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<IActionResult> Support(UserRequest model)
+        {
+            if(User.Identity.IsAuthenticated)
+            {
+                model.ApplicationUserId = UserManager.GetUserId(User);
+            }
+
+            model.Date = DateTime.Now;
+
+            SelectList subjects = new SelectList(DB.UserRequestSubjects.ToList(), "LINK", "Name");
+            ViewData["Subjects"] = subjects;
+
+            if (ModelState.IsValid)
+            {
+                DB.UserRequests.Add(model);
+                await DB.SaveChangesAsync();
+                ViewData["Message"] = "Ваше обращение успешно отправлено";
+                ModelState.Clear();
+                return View();
+            }
+
+            ViewData["Message"] = "Введены некорректные данные";
+
+            return View(model);
+        }
+
+        [Route("[action]")]
+        public IActionResult Terms ()
+        {
+            return View();
+        }
+
+        public IActionResult Contacts()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> News(int? id)
+        {
+            if (id is null)
+                return NotFound();
+
+            News news = await DB.News.FindAsync(id);
+
+            if (news is null)
+                return NotFound();
+
+            return View(news);
         }
 
         public IActionResult Error()
@@ -132,26 +222,61 @@ namespace KINOv2.Controllers
             
         }
 
-        public async Task<IActionResult> Affiche(int page = 1)
+        public IActionResult Affiche()
         {
-            int pageSize = 4;
+            //int pageSize = 4;
 
-            IQueryable<Film> films = DB.Films
+            //IQueryable<Film> films = DB.Films
+            //    .Include(x => x.Genre)
+            //    .Include(x => x.Director)
+            //    .Include(x => x.Country)
+            //    .Include(x => x.AgeLimit)
+            //    .Where(x => x.Archived != true);
+
+            //var count = await films.CountAsync();
+            //var selectedFilms = await films.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            //PageViewModel pageView = new PageViewModel(count, page, pageSize);
+
+            //ViewData["Films"] = selectedFilms;
+            //ViewData["PageView"] = pageView;
+
+            IEnumerable<Film> films = DB.Films
                 .Include(x => x.Genre)
                 .Include(x => x.Director)
                 .Include(x => x.Country)
                 .Include(x => x.AgeLimit)
+                .Include(x => x.Sessions)
+                .ThenInclude(s => s.Hall)
                 .Where(x => x.Archived != true);
 
-            var count = await films.CountAsync();
-            var selectedFilms = await films.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            IEnumerable<Hall> halls = DB.Halls;
 
-            PageViewModel pageView = new PageViewModel(count, page, pageSize);
+            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
+            Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
+            foreach (Film film in films)
+            {
+                foreach (Hall hall in DB.Halls)
+                {
+                    sessionsByHall.Add(hall.Name, film.Sessions
+                        .Where(x => x.Hall.Name == hall.Name
+                        && x.Archived != true
+                        && x.SessionTime.Date == DateTime.Now.Date)
+                        .OrderBy(x => x.SessionTime)
+                        .ToList()
+                        );
+                }
 
-            ViewData["Films"] = selectedFilms;
-            ViewData["PageView"] = pageView;
+                sessionsByFilm.Add(film.Name, sessionsByHall);
+                sessionsByHall = new Dictionary<string, List<Session>>();
+            }
+            var test = sessionsByFilm[films.ToList()[0].Name];
+            var name = films.ToList()[0].Name;
+            ViewData["AllFilmSessions"] = sessionsByFilm;
+            ViewData["Halls"] = halls;
+            ViewData["Featured"] = films.ToList();
 
-             return View();
+            return View();
         }
 
         public IActionResult Halls()

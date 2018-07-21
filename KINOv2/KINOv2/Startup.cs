@@ -95,10 +95,26 @@ namespace KINOv2
             app.UseAuthentication();
             
             app.UseMvc(routes =>
-            {
+            { 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                   name: "support",
+                   template: "support");
+
+                routes.MapRoute(
+                    name: "terms",
+                    template: "terms");
+
+                routes.MapRoute(
+                    name: "help",
+                    template: "help");
+
+                routes.MapRoute(
+                    name: "policy",
+                    template: "policy");
             });
             
         }

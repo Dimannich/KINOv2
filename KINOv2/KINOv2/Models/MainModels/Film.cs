@@ -31,7 +31,7 @@ namespace KINOv2.Models.MainModels
         [Required]
         public int ReleaseYear { get; set; }
         //Страна
-        public virtual Country Country { get; set; }
+        public Country Country { get; set; }
         [Display(Name = "Страна")]
         public int? CountryLINK { get; set; }
         //Жанр
@@ -39,7 +39,7 @@ namespace KINOv2.Models.MainModels
         [Display(Name = "Жанр")]
         public int? GenreLINK { get; set; }
         //Режиссер
-        public virtual Director Director { get; set; }
+        public Director Director { get; set; }
         [Display(Name = "Режиссер")]
         public int? DirectorLINK { get; set; }
         //Продолжительность
@@ -47,7 +47,7 @@ namespace KINOv2.Models.MainModels
         [Required]
         public string Duration { get; set; }
         //Возрастное ограничение 
-        public virtual AgeLimit AgeLimit { get; set; }
+        public AgeLimit AgeLimit { get; set; }
         [Display(Name = "Возрастное ограничение")]
         public int? AgeLimitLINK { get; set; }
         //Флаг актуальности
@@ -73,5 +73,10 @@ namespace KINOv2.Models.MainModels
         public ICollection<Comment> Comments { get; set; }
         // Сеансы фильма
         public ICollection<Session> Sessions { get; set; }
+        //Наличие в главном слайдере
+        public bool InMainSlider { get; set; }
+        //Постер для главного слайдера
+        public string MainSliderPoster { get; set; }
+        public DateTime ReleaseDate { get; set; }
     }
 }

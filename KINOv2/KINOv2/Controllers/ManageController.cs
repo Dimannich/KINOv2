@@ -637,6 +637,106 @@ namespace KINOv2.Controllers
             return View(model);
         }
 
+        [Authorize]
+        public async Task<JsonResult> HistoryRows()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            List<UserOrdersHistoryModel> orderList = new List<UserOrdersHistoryModel>();
+
+            var orders = _context.Orders
+                .Where(x => x.ApplicationUser == user)
+                .Include(x => x.Seats)
+                .ThenInclude(x => x.Session);
+
+            foreach (var order in orders)
+            {
+                UserOrdersHistoryModel orderModel = new UserOrdersHistoryModel();
+                orderModel.OrderDate = order.Date;
+
+                foreach (var seat in order.Seats)
+                {
+                    orderModel.SeatAmount++;
+                }
+
+                var session = await _context.Sessions
+                    .Where(x => x.LINK == order.Seats.ToList().FirstOrDefault().Session.LINK)
+                    .Include(x => x.Film)
+                    .Include(x => x.Hall)
+                    .FirstOrDefaultAsync();
+
+                if (session is null)
+                    continue;
+
+                orderModel.Cost = order.Cost;
+                orderModel.SessionDate = session.SessionTime.Date;
+                orderModel.SessionDate = DateTime.Parse(orderModel.SessionDate.Value.ToString("dd.MM.yy HH:mm"));
+                orderModel.FilmName = session.Film.Name;
+                orderModel.HallName = session.Hall.Name;
+
+                orderList.Add(orderModel);
+
+            }
+            
+
+            return Json(orderList);
+        }
+
+        [Authorize]
+        public JsonResult HistoryColumns()
+        {
+            Dictionary<string, string> hallColumn = new Dictionary<string, string>
+            {
+                { "name", "hallName" },
+                { "title", "Зал" },
+                { "breakpoints", "xs sm" }
+            };
+            Dictionary<string, string> filmColumn = new Dictionary<string, string>
+            {
+                { "name", "filmName" },
+                { "title", "Фильм" }
+            };
+            Dictionary<string, string> sessionDateColumn = new Dictionary<string, string>
+            {
+                {"name", "sessionDate" },
+                {"title",  "Дата сеанса"}
+            };
+            Dictionary<string, string> seatAmountColum = new Dictionary<string, string>
+            {
+                { "name", "seatAmount" },
+                { "title", "Количество билетов" },
+                { "breakpoints", "xs sm" }
+            };
+            Dictionary<string, string> costColumn = new Dictionary<string, string>
+            {
+                { "name", "cost" },
+                { "title", "Стоимость" },
+                { "breakpoints", "xs" }
+            };
+            Dictionary<string, string> orderDateColumn = new Dictionary<string, string>
+            {
+                { "name", "orderDate" },
+                { "title", "Дата оформления" },
+                { "breakpoints", "xs sm md" }
+            };
+            List<Dictionary<string, string>> columns = new List<Dictionary<string, string>>
+            {
+                hallColumn,
+                filmColumn,
+                sessionDateColumn,
+                seatAmountColum,
+                costColumn,
+                orderDateColumn
+            };
+
+
+            return Json(columns);
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)

@@ -58,5 +58,9 @@ namespace KINOv2.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<QA> QAs { get; set; }
+        public DbSet<UserRequest> UserRequests { get; set; }
+        public DbSet<UserRequestSubject> UserRequestSubjects { get; set; }
     }
 }

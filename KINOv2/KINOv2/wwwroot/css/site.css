@@ -116,7 +116,7 @@ body {
 .content {
     box-sizing: border-box;
     /*min-height: 100%;*/
-    min-height: 72vh;
+    min-height: 60vh;
     
 }
 
@@ -140,7 +140,6 @@ textarea {
 
 .navbar {
     background: #161a23;
-    min-height: 60px;
     border-bottom: 1px solid rgba(16, 16, 16, 1);
 }
 
@@ -552,10 +551,7 @@ input[type="text"] {
     text-decoration: none;
 }
 
-.swiper-container-featured {
-    width:auto;
-    max-height: 600px;
-}
+
 
 .swiper-slide-selected {
     text-align: center;

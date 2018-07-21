@@ -1,0 +1,218 @@
+.swiper-container-main {
+  width: 100%;
+  max-height: 600px;
+}
+
+.swiper-container-main .img-fluid {
+  -o-object-position: top;
+     object-position: top;
+}
+
+.swiper-container-main h2 {
+  bottom: 60px;
+  position: absolute;
+  color: white;
+}
+
+.swiper-container-main .swiper-slide-main a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.swiper-container-main .swiper-slide-main a .shade {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(65%, transparent), to(black));
+  background: linear-gradient(transparent 65%, black);
+  position: absolute;
+  top: 0;
+}
+
+.swiper-container-main .swiper-main-btn-next, .swiper-container-main .swiper-main-btn-prev {
+  height: 100%;
+  margin: unset;
+  top: 0;
+  width: 100px;
+  right: 0;
+  background: unset;
+  -webkit-transition: background .2s linear;
+  transition: background .2s linear;
+  font-size: 60px;
+}
+
+.swiper-container-main .swiper-main-btn-next:hover, .swiper-container-main .swiper-main-btn-prev:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.swiper-container-main .swiper-main-btn-prev {
+  right: unset;
+  left: 0;
+}
+
+.main-affiche .affiche-film {
+  border-radius: 5px;
+  color: white;
+}
+
+.main-affiche .affiche-film a {
+  text-decoration: unset;
+  color: inherit;
+}
+
+.main-affiche .affiche-film a:hover {
+  color: inherit;
+}
+
+.main-affiche .affiche-film:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.news-image-preview {
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: top;
+     object-position: top;
+}
+
+.news:hover .news-image {
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+}
+
+.news:hover .shade {
+  background: rgba(0, 0, 0, 0.4) !important;
+  background-clip: content-box !important;
+}
+
+.news:hover .description {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.news .news-image-wrap {
+  overflow: hidden;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.news .news-image-wrap .news-image {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 100%;
+  background-size: cover;
+  background-position: center;
+  -webkit-transition: -webkit-transform .2s linear;
+  transition: -webkit-transform .2s linear;
+  transition: transform .2s linear;
+  transition: transform .2s linear, -webkit-transform .2s linear;
+}
+
+.news .news-image-wrap .shade {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: transparent;
+  background-clip: content-box;
+  -webkit-transition: background .2s linear;
+  transition: background .2s linear;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.news .news-image-wrap .description {
+  font-size: 16px;
+  color: white;
+  position: absolute;
+  z-index: 2;
+  display: none;
+  top: 0;
+}
+
+.news .news-header {
+  background: rgba(0, 0, 0, 0.4);
+  color: #f6a21c;
+  height: 60px;
+  text-decoration: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.news .label {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  right: 0;
+  top: -5px;
+  background: #f6a21c;
+  color: white;
+  z-index: 3;
+  border-radius: 5px;
+}
+
+.reset-decoration {
+  text-decoration: none;
+}
+
+.reset-decoration:hover {
+  text-decoration: none;
+}
+
+.accordion-btn {
+  position: relative;
+  text-decoration: none;
+}
+
+.accordion-btn:focus {
+  text-decoration: none !important;
+}
+
+.accordion-btn:before {
+  position: absolute;
+  left: -8px;
+}
+
+.accordion-btn[aria-expanded="false"]:before {
+  content: '+';
+}
+
+.accordion-btn[aria-expanded="true"]:before {
+  content: '-';
+}
+
+.socials a:hover {
+  text-decoration: none;
+}
+
+.socials a .fa-instagram:hover {
+  color: linear-gradient(#8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
+}
+
+.socials a .fa-instagram:hover:before {
+  background: linear-gradient(200deg, #8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.socials a .fa-vk:hover {
+  color: #4c75a3;
+}
+
+footer .contacts a:not([target="_blank"]):hover {
+  color: #f6a21c;
+}
+
+footer .fa-instagram:hover {
+  color: linear-gradient(#8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
+}
+
+footer .fa-instagram:hover:before {
+  background: linear-gradient(200deg, #8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+footer .fa-vk:hover {
+  color: #4c75a3;
+}
+/*# sourceMappingURL=styles.css.map */

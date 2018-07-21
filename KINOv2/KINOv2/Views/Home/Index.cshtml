@@ -1,9 +1,91 @@
 ﻿@{
+    List<Film> films = ViewData["Featured"] as List<Film>;
+    List<News> news = ViewData["News"] as List<News>;
+
     ViewData["Title"] = "Главная страница";
-
-<h1>Популярные фильмы</h1>
-    await Html.RenderPartialAsync("FeaturedFilms");
-
-<h1>Наши залы</h1>
-    await Html.RenderPartialAsync("HallsSlideshow");
 }
+<div class="row position-relative mb-4">
+    <div class="swiper-container swiper-container-main">
+        <div class="swiper-wrapper">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="swiper-slide for-12 px-0 swiper-slide-main position-relative">
+                    <a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="/">
+                        <img class="img-fluid w-100" src="@Url.Content("~/images/News/Preview/hobbit.jpg")" />
+                        <div class="w-100 h-100 shade"></div>
+                        <div class="container">
+                            <div class="row">
+                                <h2 class="col-12">Хоббит: пустош Смауга</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="swiper-button-next swiper-main-btn-next d-flex justify-content-center align-items-center"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+        <div class="swiper-button-prev swiper-main-btn-prev d-flex justify-content-center align-items-center"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+    </div>
+</div>
+
+<div class="container px-0 px-sm-3">
+    <section class="row main-affiche">
+        <div class="col-12 mt-3 mb-4 d-flex align-items-center justify-content-between">
+            <h1>Сегодня в кино</h1><span class="h2">Скоро</span>
+        </div>
+        @foreach (var film in films)
+        {
+            <div class="col-12 affiche-film">
+
+                <div class="row">
+                    <div class="col-3 py-3">
+                        <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
+                            <img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" />
+                        </a>
+                    </div>
+
+                    <div class="col py-2">
+                        <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
+                            <h2>@film.Name</h2>
+                        </a>
+                        <p>@film.Genre.Name <span class="age-label d-inline-flex ml-2 align-self-center justify-content-center">@film.AgeLimit.Value</span></p>
+
+                        @{
+                            ViewData["FilmSessions"] = (ViewData["AllFilmSessions"] as Dictionary<string, Dictionary<string, List<Session>>>)[film.Name];
+                        }
+
+                        @await Html.PartialAsync("FilmSessions")
+
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+
+    <section class="row px-3">
+        <h2 class="col-12 px-0 h1 mt-3 mb-4">Новости кинотеатра</h2>
+        @foreach (var item in news)
+        {
+            <div class="col-md-4 mb-3 p-1 news position-relative">
+                <a asp-area="" asp-controller="home" asp-action="news" asp-route-id="@item.LINK" class="thumbnail reset-decoration">
+                    <div class="news-image-wrap position-relative">
+                        <div class="news-image" style="background-image: url(@Url.Content("~/images/News/Preview/" + item.ImagePreview))"></div>
+                        <div class="shade w-100 h-100"></div>
+                        <div class="align-items-center description h-100 justify-content-center w-100">
+                            <p class="text-center w-75">
+                                @item.TextPreview
+                            </p>
+                        </div>
+                    </div>
+                    <div class="label d-flex flex-column justify-content-center align-items-center">
+                        <div>@item.PublishDate.Date.ToString("dd")</div>
+                        <div>@item.PublishDate.Date.ToString("MMMM")</div>
+                    </div>
+                    <div class="align-items-center d-flex justify-content-center news-header">
+                        <h4 class="px-3">@item.Name</h4>
+                    </div>
+                </a>
+            </div>
+        }
+    </section>
+</div>
+

@@ -11,9 +11,10 @@ using System;
 namespace KINOv2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180721123502_21.07.2018.22.34")]
+    partial class _210720182234
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,13 +317,11 @@ namespace KINOv2.Data.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<int?>("UserRequestSubjectLINK");
+                    b.Property<int?>("SubjectLINK");
 
                     b.HasKey("LINK");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("UserRequestSubjectLINK");
 
                     b.ToTable("UserRequests");
                 });
@@ -411,8 +410,7 @@ namespace KINOv2.Data.Migrations
 
             modelBuilder.Entity("KINOv2.Models.ReferenceBooks.UserRequestSubject", b =>
                 {
-                    b.Property<int>("LINK")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("LINK");
 
                     b.Property<string>("Name");
 
@@ -628,10 +626,14 @@ namespace KINOv2.Data.Migrations
                     b.HasOne("KINOv2.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
 
-                    b.HasOne("KINOv2.Models.ReferenceBooks.UserRequestSubject", "UserRequestSubject")
-                        .WithMany()
-                        .HasForeignKey("UserRequestSubjectLINK");
+            modelBuilder.Entity("KINOv2.Models.ReferenceBooks.UserRequestSubject", b =>
+                {
+                    b.HasOne("KINOv2.Models.MainModels.UserRequest")
+                        .WithOne("Subjects")
+                        .HasForeignKey("KINOv2.Models.ReferenceBooks.UserRequestSubject", "LINK")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

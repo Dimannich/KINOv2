@@ -13,6 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20180721122319_21.07.2018.22.22.cs" />
+    <Compile Remove="Data\Migrations\20180721122319_21.07.2018.22.22.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Properties\PublishProfiles\KINOv2 - Web Deploy.pubxml" />
   </ItemGroup>
 
@@ -35,22 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Resource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Views\Shared\Partials\" />
     <Folder Include="wwwroot\images\Profiles\" />
   </ItemGroup>
 

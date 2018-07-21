@@ -9,26 +9,26 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/fonts/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/lib/MvcGrid/css/mvc-grid.css" />
         <link rel="stylesheet" href="~/lib/rich-text-editor/css/richtext.min.css" />
         <link rel="stylesheet" href="~/lib/star-rating/css/jquery.rating.css" />
         <link rel="stylesheet" href="~/lib/tempusdominus-bootstrap-4/dist/css/tempusdominus-bootstrap-4.css" />
         <link rel="stylesheet" href="~/lib/footable/css/footable.bootstrap.css" />
         <link rel="stylesheet" href="~/lib/swiper/dist/css/swiper.min.css" />
+        <link rel="stylesheet" href="~/css/styles.css" />
     </environment>
     <environment exclude="Development">
         @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
+        asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+        asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/fonts/font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="~/lib/MvcGrid/css/mvc-grid.css" />
         <link rel="stylesheet" href="~/lib/rich-text-editor/css/richtext.min.css" />
         <link rel="stylesheet" href="~/lib/star-rating/css/jquery.rating.css" />
         <link rel="stylesheet" href="~/lib/tempusdominus-bootstrap-4/dist/css/tempusdominus-bootstrap-4.css" />
         <link rel="stylesheet" href="~/lib/footable/css/footable.bootstrap.css" />
         <link rel="stylesheet" href="~/lib/swiper/dist/css/swiper.min.css" />
+        <link rel="stylesheet" href="~/css/styles.css" />
     </environment>
 </head>
 <body>
@@ -72,54 +72,77 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto mr">
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Affiche">Афиша</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Halls">Залы</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
+                    <li class="nav-item mr-2"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+                    <li class="nav-item mr-2"><a class="nav-link" asp-area="" asp-controller="home" asp-action="affiche">Афиша</a></li>
+                    <li class="nav-item mr-2"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
                 </ul>
                 @await Html.PartialAsync("LoginPartial")
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="content">
-            @RenderBody()
-        </div>
-    </div>
-    <div class="w-100 mb-2"></div>
-    <div class="container mx-auto">
-        <footer class="">
-            <hr style="border-top: 1px solid #ffffff" />
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <a>Meню</a>
-                        <ul class="">
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Affiche">Афиша</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Halls">Залы</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакты</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4">
-                        <a>Контакты</a>
-                    </div>
-                    <div class="col-sm-4">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
-                    </div>
-                </div>
+    <main class="container-fluid content">
+        <div class="row">
+            <div class="col-12">
+                @RenderBody()
             </div>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
-    </div>
+        </div>
+    </main>
+    <footer class="container mt-5 px-0 px-sm-3">
+        <hr style="border-top: 1px solid #ffffff" />
+        <div class="row mt-5 mb-3">
+            <div class="col-md-3">
+                <span class="mb-3">Остались вопросы?</span>
+                <ul>
+                    <li class="my-2"><a asp-route="help">Помощь</a></li>
+                    <li class="my-2"><a asp-route="support">Служба поддержки</a></li>
+                    <li class="my-2"><a asp-route="terms">Правила покупки</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <span class="mb-2">Навигация</span>
+                <ul class="">
+                    <li class="my-2"><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+                    <li class="my-2"><a asp-area="" asp-controller="Home" asp-action="Affiche">Афиша</a></li>
+                    <li class="my-2"><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <span class="mb-3">Обратная связь</span>
+                <ul class="contacts">
+                    <li class="my-2">
+                        <a href="tel:+X (XXX) XXX-XXXX">+X (XXX) XXX-XX-XX</a>
+                    </li>
+                    <li>
+                        <a href="mailto:example@example.example">example@example.example</a>
+                    </li>
+                    <li class="my-2">
+                        <a class="h4 mr-2" href="#" target="_blank">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a class="h4 mr-2" href="#" target="_blank">
+                            <i class="fa fa-vk"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
+            </div>
+
+        </div>
+        
+        <div class="row">
+            <p class="mb-4 col-8">&copy; @DateTime.Now.Year – Кинотеатр Вальхалла</p>
+            <span class="col-4 text-right"><a asp-route="policy">Политика обработки данных</a></span>
+        </div>
+    </footer>
 
     <environment include="Development">
 
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/popper/dist/umd/popper.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/MvcGrid/js/mvc-grid.js"></script>
         <script src="~/lib/moment/min/moment.min.js"></script>
         <script src="~/lib/moment/min/moment-with-locales.min.js"></script>
         <script src="~/lib/moment-timezone/moment-timezone.js"></script>
@@ -151,7 +174,6 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/popper/dist/umd/popper.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/MvcGrid/js/mvc-grid.js"></script>
         <script src="~/lib/moment/min/moment.min.js"></script>
         <script src="~/lib/moment/min/moment-with-locales.min.js"></script>
         <script src="~/lib/moment-timezone/moment-timezone.js"></script>
