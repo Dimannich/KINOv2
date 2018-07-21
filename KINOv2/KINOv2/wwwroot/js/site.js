@@ -148,8 +148,9 @@ $('#session-drop').click(function (e) {
 })
 
 $('#datetimepicker4').on("change.datetimepicker", function (e) {
-if(e != null) {
-    $('#' + $(this).closest('a').data("target")).load($(this).closest('a').attr("href"), { date: e.date.format("D, M, YYYY") });
+    if (e != null) {
+        console.log(e.date.format("D, M, YYYY"));
+        $('#' + $(this).closest('a').data("target")).load($(this).closest('a').attr("href"), { date: e.date.format("M, D, YYYY") });
 }
 });
 
