@@ -9,7 +9,6 @@
 }
 
 .swiper-container-main h2 {
-  bottom: 60px;
   position: absolute;
   color: white;
 }
@@ -40,6 +39,10 @@
 
 .swiper-container-main .swiper-main-btn-next:hover, .swiper-container-main .swiper-main-btn-prev:hover {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.swiper-container-main .swiper-main-btn-next:focus, .swiper-container-main .swiper-main-btn-prev:focus {
+  outline: none;
 }
 
 .swiper-container-main .swiper-main-btn-prev {
@@ -184,17 +187,17 @@
   text-decoration: none;
 }
 
-.socials a .fa-instagram:hover {
+.socials a:hover .fa-instagram {
   color: linear-gradient(#8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
 }
 
-.socials a .fa-instagram:hover:before {
+.socials a:hover .fa-instagram:before {
   background: linear-gradient(200deg, #8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.socials a .fa-vk:hover {
+.socials a:hover .fa-vk {
   color: #4c75a3;
 }
 
@@ -202,17 +205,154 @@ footer .contacts a:not([target="_blank"]):hover {
   color: #f6a21c;
 }
 
-footer .fa-instagram:hover {
+footer .contacts a[target="_blank"]:hover .fa-instagram {
   color: linear-gradient(#8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
 }
 
-footer .fa-instagram:hover:before {
+footer .contacts a[target="_blank"]:hover .fa-instagram:before {
   background: linear-gradient(200deg, #8a3ab9, #4c68d7, #cd486b, #bc2a8d, #fbad50, #fccc63);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-footer .fa-vk:hover {
+footer .contacts a[target="_blank"]:hover .fa-vk {
   color: #4c75a3;
+}
+
+@media (max-width: 575px) {
+  .main-affiche h1 {
+    font-size: 30px;
+  }
+  .main-affiche span.h2 {
+    font-size: 24px;
+  }
+  .main-affiche .affiche-film h2 {
+    font-size: 18px;
+  }
+  .main-affiche .affiche-film p {
+    font-size: 12px;
+    position: relative;
+  }
+  .main-affiche .affiche-film p .age-label {
+    width: 28px;
+    height: 28px;
+    padding-top: 3px;
+    font-size: 11px;
+  }
+  .main-affiche .affiche-film .film-sessions .hall-name {
+    font-size: 14px;
+  }
+  .main-affiche .affiche-film .film-sessions .session-button {
+    font-size: 14px;
+    height: 1.7rem;
+  }
+  .main-affiche .affiche-film .film-sessions .sessions-empty {
+    font-size: 16px;
+  }
+  .news-section h2 {
+    font-size: 30px;
+  }
+  footer .policy {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 576px) {
+  .main-affiche h1 {
+    font-size: 34px;
+  }
+  .main-affiche span.h2 {
+    font-size: 26px;
+  }
+  .main-affiche .affiche-film h2 {
+    font-size: 20px;
+  }
+  .main-affiche .affiche-film p {
+    font-size: 14px;
+    position: relative;
+  }
+  .main-affiche .affiche-film p .age-label {
+    width: 30px;
+    height: 30px;
+    padding-top: 5px;
+    font-size: 12px;
+  }
+  .main-affiche .affiche-film .film-sessions .hall-name {
+    font-size: 16px;
+  }
+  .main-affiche .affiche-film .film-sessions .session-button {
+    font-size: 14px;
+    height: 1.7rem;
+  }
+  .main-affiche .affiche-film .film-sessions .sessions-empty {
+    font-size: 18px;
+  }
+  .news-section h2 {
+    font-size: 34px;
+  }
+  footer .policy {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .swiper-container-main h2 {
+    bottom: 30px;
+  }
+  .main-affiche h1 {
+    font-size: 40px;
+  }
+  .main-affiche span.h2 {
+    font-size: 32px;
+  }
+  .main-affiche .affiche-film h2 {
+    font-size: 26px;
+  }
+  .main-affiche .affiche-film p {
+    font-size: 16px;
+    position: relative;
+  }
+  .main-affiche .affiche-film p .age-label {
+    width: 35px;
+    height: 35px;
+    padding-top: 7px;
+    font-size: 14px;
+  }
+  .main-affiche .affiche-film .film-sessions .hall-name {
+    font-size: 18px;
+  }
+  .main-affiche .affiche-film .film-sessions .session-button {
+    font-size: 16px;
+    height: 1.9rem;
+  }
+  .main-affiche .affiche-film .film-sessions .sessions-empty {
+    font-size: 24px;
+  }
+  .news-section h2 {
+    font-size: 40px;
+  }
+  footer .policy {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 992px) {
+  .swiper-container-main h2 {
+    bottom: 50px;
+    font-size: 44px;
+  }
+  .main-affiche .affiche-film h2 {
+    font-size: 30px;
+  }
+  .main-affiche .affiche-film p {
+    font-size: 18px;
+    position: relative;
+  }
+  .main-affiche .affiche-film .film-sessions .hall-name {
+    font-size: 20px;
+  }
+  .main-affiche .affiche-film .film-sessions .sessions-empty {
+    font-size: 26px;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

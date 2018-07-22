@@ -88,10 +88,10 @@
             </div>
         </div>
     </main>
-    <footer class="container mt-5 px-0 px-sm-3">
+    <footer class="container mt-3 mt-md-5 px-sm-3">
         <hr style="border-top: 1px solid #ffffff" />
-        <div class="row mt-5 mb-3">
-            <div class="col-md-3">
+        <div class="row mt-3 mt-md-5 mb-3">
+            <div class=" col-sm-6 col-lg-3">
                 <span class="mb-3">Остались вопросы?</span>
                 <ul>
                     <li class="my-2"><a asp-route="help">Помощь</a></li>
@@ -99,7 +99,7 @@
                     <li class="my-2"><a asp-route="terms">Правила покупки</a></li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-lg-3">
                 <span class="mb-2">Навигация</span>
                 <ul class="">
                     <li class="my-2"><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
@@ -107,7 +107,7 @@
                     <li class="my-2"><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-lg-3">
                 <span class="mb-3">Обратная связь</span>
                 <ul class="contacts">
                     <li class="my-2">
@@ -126,15 +126,15 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-lg-3">
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
             </div>
 
         </div>
         
         <div class="row">
-            <p class="mb-4 col-8">&copy; @DateTime.Now.Year – Кинотеатр Вальхалла</p>
-            <span class="col-4 text-right"><a asp-route="policy">Политика обработки данных</a></span>
+            <p class="mb-sm-4 col-12 col-sm-8 about">&copy; @DateTime.Now.Year – Кинотеатр Вальхалла</p>
+            <span class="col-12 col-sm-4 text-sm-right policy mb-2 mb-sm-0"><a asp-route="policy">Политика обработки данных</a></span>
         </div>
     </footer>
 

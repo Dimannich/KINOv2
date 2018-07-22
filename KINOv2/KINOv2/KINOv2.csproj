@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Views\Shared\Partials\" />
+    <Folder Include="wwwroot\images\Posters\MainSliders\" />
     <Folder Include="wwwroot\images\Profiles\" />
   </ItemGroup>
 

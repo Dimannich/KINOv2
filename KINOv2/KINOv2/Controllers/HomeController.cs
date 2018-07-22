@@ -54,42 +54,20 @@ namespace KINOv2.Controllers
                 .Include(x => x.Sessions)
                 .ThenInclude(s => s.Hall)
                 .Where(x => x.Archived != true);
-
-            IEnumerable<Hall> halls = DB.Halls;
             
             IEnumerable<News> news = await DB.News
+                .Where(x => !x.Archived)
                 .OrderBy(x => x.PublishDate)
                 .ToListAsync();
 
-            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
-            Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
-            foreach (Film film in films)
-            {
-                foreach (Hall hall in DB.Halls)
-                {
-                    sessionsByHall.Add(hall.Name, film.Sessions
-                        .Where(x => x.Hall.Name == hall.Name
-                        && x.Archived != true
-                        && x.SessionTime.Date == DateTime.Now.Date)
-                        .OrderBy(x => x.SessionTime)
-                        .ToList()
-                        );
-                }
-
-                sessionsByFilm.Add(film.Name, sessionsByHall);
-                sessionsByHall = new Dictionary<string, List<Session>>();
-            }
-
-            ViewData["AllFilmSessions"] = sessionsByFilm;
-            ViewData["Halls"] = halls;
-            ViewData["Featured"] = films.ToList();
+            ViewData["AllFilmSessions"] = SessionsByFilm(films);
             ViewData["News"] = news;
      
-            return View();
+            return View(films);
         }
 
         [Route("[action]")]
-        public async Task<IActionResult> Policy()
+        public IActionResult Policy()
         {
             return View();
         }
@@ -189,9 +167,10 @@ namespace KINOv2.Controllers
                 .Include(x => x.FilmUsers)
                 .ThenInclude(x => x.ApplicationUser)
                 .Where(x => x.LINK == id)
-                .SingleAsync();
+                .FirstOrDefaultAsync();
 
-
+            if (film is null)
+                return NotFound();
             
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             foreach(Hall hall in DB.Halls)
@@ -224,23 +203,6 @@ namespace KINOv2.Controllers
 
         public IActionResult Affiche()
         {
-            //int pageSize = 4;
-
-            //IQueryable<Film> films = DB.Films
-            //    .Include(x => x.Genre)
-            //    .Include(x => x.Director)
-            //    .Include(x => x.Country)
-            //    .Include(x => x.AgeLimit)
-            //    .Where(x => x.Archived != true);
-
-            //var count = await films.CountAsync();
-            //var selectedFilms = await films.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            //PageViewModel pageView = new PageViewModel(count, page, pageSize);
-
-            //ViewData["Films"] = selectedFilms;
-            //ViewData["PageView"] = pageView;
-
             IEnumerable<Film> films = DB.Films
                 .Include(x => x.Genre)
                 .Include(x => x.Director)
@@ -250,41 +212,9 @@ namespace KINOv2.Controllers
                 .ThenInclude(s => s.Hall)
                 .Where(x => x.Archived != true);
 
-            IEnumerable<Hall> halls = DB.Halls;
+            ViewData["AllFilmSessions"] = SessionsByFilm(films);
 
-            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
-            Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
-            foreach (Film film in films)
-            {
-                foreach (Hall hall in DB.Halls)
-                {
-                    sessionsByHall.Add(hall.Name, film.Sessions
-                        .Where(x => x.Hall.Name == hall.Name
-                        && x.Archived != true
-                        && x.SessionTime.Date == DateTime.Now.Date)
-                        .OrderBy(x => x.SessionTime)
-                        .ToList()
-                        );
-                }
-
-                sessionsByFilm.Add(film.Name, sessionsByHall);
-                sessionsByHall = new Dictionary<string, List<Session>>();
-            }
-            var test = sessionsByFilm[films.ToList()[0].Name];
-            var name = films.ToList()[0].Name;
-            ViewData["AllFilmSessions"] = sessionsByFilm;
-            ViewData["Halls"] = halls;
-            ViewData["Featured"] = films.ToList();
-
-            return View();
-        }
-
-        public IActionResult Halls()
-        {
-            IEnumerable<Hall> halls = DB.Halls;
-            ViewData["Halls"] = halls;
-
-            return View();
+            return View(films);
         }
 
         [Authorize]
@@ -676,6 +606,31 @@ namespace KINOv2.Controllers
 
             ViewData["FilmSessions"] = sessionsByHall;
             return PartialView("FilmSessions");
+        }
+
+        public Dictionary<string, Dictionary<string, List<Session>>> SessionsByFilm(IEnumerable<Film> films)
+        {
+            Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
+            Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
+
+            foreach (Film film in films)
+            {
+                foreach (Hall hall in DB.Halls)
+                {
+                    sessionsByHall.Add(hall.Name, film.Sessions
+                        .Where(x => x.Hall.Name == hall.Name
+                        && x.Archived != true
+                        && x.SessionTime.Date == DateTime.Now.Date)
+                        .OrderBy(x => x.SessionTime)
+                        .ToList()
+                        );
+                }
+
+                sessionsByFilm.Add(film.Name, sessionsByHall);
+                sessionsByHall = new Dictionary<string, List<Session>>();
+            }
+
+            return sessionsByFilm;
         }
     }
 }

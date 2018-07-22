@@ -5,102 +5,109 @@
     int rowCount = (int)Math.Sqrt(session.Hall.SeatsNumber / 4);
 }
 
-<div class="row">
-    @if (User.IsInRole("Admin"))
-    {
-        <div class="d-flex justify-content-center justify-content-md-between w-100 flex-wrap">
-            <h1 class="col-12 col-md-5">Заказ билета</h1>
-            <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2" asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-id="@session.LINK">Редактировать</a>
-            <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2 mr-md-3" asp-area="" asp-controller="Content" asp-action="ArchiveSession" asp-route-id="@session.LINK">Архивировать</a>
-        </div>
-    }
-    else
-    {
-        <h1 class="col-12">Заказ билета</h1>
-    }
+<div class="container px-0 px-sm-3">
+    <div class="row">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="d-flex justify-content-center justify-content-md-between w-100 flex-wrap">
+                <h1 class="col-12 col-md-5">Заказ билета</h1>
+                <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2" asp-area="" asp-controller="Content" asp-action="SessionManage" asp-route-id="@session.LINK">Редактировать</a>
+                <a class="align-self-center border-orange btn col-10 col-md-3 d-flex justify-content-center mb-2 mr-md-3" asp-area="" asp-controller="Content" asp-action="ArchiveSession" asp-route-id="@session.LINK">Архивировать</a>
+            </div>
+        }
+        else
+        {
+            <h1 class="col-12">Заказ билета</h1>
+        }
 
-    <div class="col-12">
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <div class="row no-gutters">
-                    <label class="text-info col-4 col-md-2 col-lg-2" style="max-width:115px;" asp-for="@session.Film.Name"></label>
-                    <span class="col">@session.Film.Name</span>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <div class="row no-gutters">
+                        <label class="text-info col-4 col-md-2 col-lg-2" style="max-width:115px;" asp-for="@session.Film.Name"></label>
+                        <span class="col">@session.Film.Name</span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="text-info" style="width:110px;">Зал</label>
+                    <span class="">@session.Hall.Name</span>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3 order-lg-1">
+                    <label class="text-info" style="width:110px;">Дата</label>
+                    <span class="">@session.SessionTime.ToString("dd.MM.yy")</span>
+                </div>
+                <div class="col-12 col-sm-6 order-sm-1 order-lg-2 col-lg-3">
+                    <label class="text-info" style="width:110px;">Время</label>
+                    <span class="">@session.SessionTime.ToString("HH:mm")</span>
+                </div>
+                <div class="col-12 order-sm-0 col-sm-6 col-lg-3 order-lg-0">
+                    <label class="text-info" style="width:110px;">Цена билета</label>
+                    <span class="">@session.Cost р.</span>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <label class="text-info" style="width:110px;">Зал</label>
-                <span class="">@session.Hall.Name</span>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3 order-lg-1">
-                <label class="text-info" style="width:110px;">Дата</label>
-                <span class="">@session.SessionTime.ToString("dd.MM.yy")</span>
-            </div>
-            <div class="col-12 col-sm-6 order-sm-1 order-lg-2 col-lg-3">
-                <label class="text-info" style="width:110px;">Время</label>
-                <span class="">@session.SessionTime.ToString("HH:mm")</span>
-            </div>
-            <div class="col-12 order-sm-0 col-sm-6 col-lg-3 order-lg-0">
-                <label class="text-info" style="width:110px;">Цена билета</label>
-                <span class="">@session.Cost р.</span>
-            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <hr />
+            <p class="text-center">Экран</p>
+            @{
+                List<Seat> seats = session.Seats.ToList();
+
+                <div class="seat-set m-auto">
+                    @for (int i = 0; i < rowCount; i++)
+                    {
+                        <div class="seat-row">
+                            @for (int j = 0; j < rowCount * rowCount; j++)
+                            {
+                                Seat seat = null;
+                                try
+                                {
+                                    seat = seats.FirstOrDefault(s => s.Row == i + 1 && s.Number == j + 1);
+                                }
+                                catch { }
+                                if (seat != null && seat.IsBooked)
+                                {
+                                    <div class="seat booked"></div>
+                                }
+                                else
+                                {
+                                    <div class="seat" row="@(i+1)" number="@(j+1)"></div>
+
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+                <div class=" mx-auto mt-2 border rounded border-info d-flex" style="max-width:7rem;">
+                    <div class="legend d-inline m-2 ml-3" style="height:1.5rem; width:1rem;">
+                    </div>
+                    <span class=" my-auto" style="font-size:0.8rem;">- Занято</span>
+                </div>
+                <div class="finalize-block">
+                    <form id="make-order" class="row" asp-action="CreateOrder" asp-controller="Home">
+                        <input type="hidden" class="session-cost" name="session-cost" value=@session.Cost>
+                        <input type="hidden" class="session-link" name="session-link" value=@session.LINK>
+                        <div class="w-100 delimetr mb-2"></div>
+                        <ul class="col-12 col-lg-8 m-lg-auto list-group">
+                            @for (int i = 0; i < rowCount; i++)
+                            {
+                                <li class="d-none list-group-item border-0 bg-transparent py-0" id="row-@(i+1)">Ряд @(i + 1), место:</li>
+                            }
+                        </ul>
+                        <div class="w-100"></div>
+                        <p class="col col-lg-3 mb-0 m-auto">Итоговая стоимость: <span id="total-cost" class="text-orange">0</span> p.</p>
+                        <input type="submit" class="btn border-orange make-order-button col-3 mr-3 col-sm-3 col-lg-2 m-lg-auto" value="Заказать">
+                    </form>
+                </div>
+            }
         </div>
     </div>
 </div>
 
 
 
-<hr />
-<p style="text-align:center">Экран</p>
-@{
-    List<Seat> seats = session.Seats.ToList();
-
-    <div class="seat-set" style="margin:auto;">
-        @for (int i = 0; i < rowCount; i++)
-        {
-            <div class="seat-row">
-                @for (int j = 0; j < rowCount * rowCount; j++)
-                {
-                    Seat seat = null;
-                    try
-                    {
-                        seat = seats.FirstOrDefault(s => s.Row == i + 1 && s.Number == j + 1);
-                    }
-                    catch { }
-                    if (seat != null && seat.IsBooked)
-                    {
-                        <div class="seat booked"></div>
-                    }
-                    else
-                    {
-                        <div class="seat" row="@(i+1)" number="@(j+1)"></div>
-
-                    }
-                }
-            </div>
-        }
-    </div>
-    <div class=" mx-auto mt-2 border rounded border-info d-flex" style="max-width:7rem;">
-        <div class="legend d-inline m-2 ml-3" style="height:1.5rem; width:1rem;">
-        </div>
-        <span class=" my-auto" style="font-size:0.8rem;">- Занято</span>
-    </div>
-    <div class="finalize-block">
-        <form id="make-order" class="row" asp-action="CreateOrder" asp-controller="Home">
-            <input type="hidden" class="session-cost" name="session-cost" value=@session.Cost>
-            <input type="hidden" class="session-link" name="session-link" value=@session.LINK>
-            <div class="w-100 delimetr mb-2"></div>
-            <ul class="col-12 col-lg-8 m-lg-auto list-group">
-                @for (int i = 0; i < rowCount; i++)
-                {
-                    <li class="d-none list-group-item border-0 bg-transparent py-0" id="row-@(i+1)">Ряд @(i + 1), место:</li>
-                }
-            </ul>
-            <div class="w-100"></div>
-            <p class="col col-lg-3 mb-0 m-auto">Итоговая стоимость: <span id="total-cost" class="text-orange">0</span> p.</p>
-            <input  type="submit" class="btn border-orange make-order-button col-3 mr-3 col-sm-3 col-lg-2 m-lg-auto" value="Заказать">
-        </form>
-    </div>
-}
 
 
 

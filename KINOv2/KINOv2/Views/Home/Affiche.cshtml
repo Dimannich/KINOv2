@@ -1,14 +1,12 @@
 ﻿@using KINOv2.Models.MainModels
+@model IEnumerable<Film>
 @{
-    List<Film> films = ViewData["Featured"] as List<Film>;
     ViewData["Title"] = "Афиша";
 }
 
 
 <div class="container px-0 px-sm-3">
-    <div class="row">
-
-
+    <div class="row main-affiche">
 
         @if (User.IsInRole("Admin"))
         {
@@ -59,53 +57,7 @@
             </ul>
         </div>
 
+        @await Html.PartialAsync("FilmList", Model)
 
-        @foreach (var film in films)
-        {
-            <div class="col-12 affiche-film">
-
-                <div class="row">
-                    <div class="col-3 py-3">
-                        <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
-                            <img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" />
-                        </a>
-                    </div>
-
-                    <div class="col py-2">
-                        <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
-                            <h2>@film.Name</h2>
-                        </a>
-                        <p>@film.Genre.Name <span class="age-label d-inline-flex ml-2 align-self-center justify-content-center">@film.AgeLimit.Value</span></p>
-
-                        @{
-                            ViewData["FilmSessions"] = (ViewData["AllFilmSessions"] as Dictionary<string, Dictionary<string, List<Session>>>)[film.Name];
-                        }
-
-                        @await Html.PartialAsync("FilmSessions")
-
-                    </div>
-                </div>
-            </div>
-        }
-
-        @*<div class="row justify-content-sm-center justify-content-md-start">
-            @foreach (Film film in ViewData["Films"] as IEnumerable<Film>)
-            {
-                <div class="col-9 col-sm-5 col-md-4 col-lg-4 col-xl-3 mb-3 mx-auto mx-sm-0 mt-2 mt-md-0">
-                    @{
-                        <a class="text-orange affiche-film" asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK">
-                            <div class="image-container"><img class="img-fluid img-fixed" src="@Url.Content("~/images/Posters/" + film.Poster)" /></div>
-                            <div class="h4 text-center text-orange">
-                                @(film.Name)
-                            </div>
-                        </a>
-                    }
-                </div>
-            }
-        </div>*@
-
-        @*<nav class="mt-auto">
-            <page-link page-model=@(ViewData["PageView"] as PageViewModel) page-action="Affiche"></page-link>
-        </nav>*@
     </div>
 </div>

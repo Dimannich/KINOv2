@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Film>
+
+@foreach (var film in Model)
+{
+    <div class="col-12 affiche-film mb-3">
+
+        <div class="row">
+            <div class="col-3 py-2 py-md-3">
+                <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
+                    <img class="img-fluid" src="@Url.Content("~/images/Posters/" + film.Poster)" />
+                </a>
+            </div>
+
+            <div class="col pl-0 pl-md-3 py-1 py-md-2">
+                <a class="d-inline" asp-area="" asp-action="Film" asp-controller="Home" asp-route-id="@film.LINK">
+                    <h2>@film.Name</h2>
+                </a>
+                <p>@film.Genre.Name <span class="age-label d-inline-flex ml-2 align-self-center justify-content-center">@film.AgeLimit.Value</span></p>
+
+                @{
+                    ViewData["FilmSessions"] = (ViewData["AllFilmSessions"] as Dictionary<string, Dictionary<string, List<Session>>>)[film.Name];
+                }
+
+                @await Html.PartialAsync("FilmSessions")
+
+            </div>
+        </div>
+    </div>
+}

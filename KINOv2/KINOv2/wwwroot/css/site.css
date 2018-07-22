@@ -355,6 +355,7 @@ footer {
     border-color: #fff;
     background: #161a23;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .legend {
