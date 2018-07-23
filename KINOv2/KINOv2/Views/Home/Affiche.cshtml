@@ -27,7 +27,7 @@
         <div class="d-md-flex flex-md-row mb-4 col mt-2">
             <ul class="nav col d-flex justify-content-between d-md-inline-flex align-self-md-start align-items-baseline flex-row flex-nowrap pr-0">
                 <li class="nav-item session-nav">
-                    <a class="btn border-orange col nav-link text-center session-date selected px-2 px-md-3" asp-area="" asp-controller="Home" asp-action="FilmSessions" asp-route-date="@DateTime.Now.Date.ToShortDateString()" data-target="filmlist">Сегодня @DateTime.Now.Date.ToString("dd.MM")</a>
+                    <a class="btn border-orange col nav-link text-center session-date selected px-2 px-md-3" asp-area="" asp-controller="Home" asp-action="FilmList" asp-route-date="@DateTime.Now.Date.ToShortDateString()" data-target="filmlist">Сегодня @DateTime.Now.Date.ToString("dd.MM")</a>
                 </li>
                 <li class="nav-item dropdown d-md-none text-center">
                     <a id="session-drop" class="nav-link dropdown-toggle px-2 px-md-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ближайшие дни</a>

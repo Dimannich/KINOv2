@@ -39,11 +39,11 @@
                 </div>
             </div>
             <div class="w-100 mb-2"></div>
-            <div class="col-4 col-sm-3 col-md-3">
+            <div class="px-3">
                 <img class="img-thumbnail comment-image" src="@((comment.ApplicationUser.ProfileImage != null) ? Url.Content("~/images/Profiles/" + comment.ApplicationUser.ProfileImage) : Url.Content("~/images/Profiles/default.png"))" />
             </div>
 
-            <div class="comment-content col-8 col-sm-9 col-md-9">
+            <div class="comment-content col">
                 @{
                     HtmlString text = new HtmlString(comment.Text);
                 }

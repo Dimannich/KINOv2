@@ -241,8 +241,8 @@ footer .contacts a[target="_blank"]:hover .fa-vk {
 }
 
 .comment .comment-image {
-  width: 100px !important;
-  height: 100px !important;
+  width: 100px;
+  height: 100px;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -257,6 +257,12 @@ footer .contacts a[target="_blank"]:hover .fa-vk {
 }
 
 @media (max-width: 575px) {
+  .comment .comment-image {
+    width: 60px;
+    height: 60px;
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
   .main-affiche h1 {
     font-size: 30px;
   }

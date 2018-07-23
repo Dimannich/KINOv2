@@ -258,8 +258,8 @@ footer {
     }
 
     .comment-image {
-        width:100px !important; 
-        height:100px !important; 
+        width:100px; 
+        height:100px; 
         object-fit:cover;
     }
 
@@ -277,6 +277,15 @@ footer {
 
 
 @media(max-width: 575px){
+
+    .comment {
+        .comment-image {
+            width:60px; 
+            height:60px; 
+            object-fit:cover;
+        }
+    }
+
     .main-affiche {
 
         h1 {

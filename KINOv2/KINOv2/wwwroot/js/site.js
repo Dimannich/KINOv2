@@ -490,35 +490,35 @@ $(document).ready(function () {
 });
 
 
-$(window).resize(function () {
-    $('.img-fixed').each(function () {
+//$(window).resize(function () {
+//    $('.img-fixed').each(function () {
 
-        console.log(123);
-        var img = new Image();
-        img.src = $(this).attr("src");
+//        console.log(123);
+//        var img = new Image();
+//        img.src = $(this).attr("src");
 
 
-        if (img.width / img.height != 2 / 3) {
-            $(this).css('height', $(this).width() * 3 / 2);
-            $(this).css('object-fit', 'cover');
-        }
-    });
-});
+//        if (img.width / img.height != 2 / 3) {
+//            $(this).css('height', $(this).width() * 3 / 2);
+//            $(this).css('object-fit', 'cover');
+//        }
+//    });
+//});
 
-function myFunction(x) {
-    if (x.matches) { // If media query matches
-        $('.session-nav').children('a').removeClass('border-orange');
-    } else {
-        $('.session-nav').children('a').addClass('border-orange');
-    }
-}
+//function myFunction(x) {
+//    if (x.matches) { // If media query matches
+//        $('.session-nav').children('a').removeClass('border-orange');
+//    } else {
+//        $('.session-nav').children('a').addClass('border-orange');
+//    }
+//}
 
 
 $(document).ready(function () {
 
-    var x = window.matchMedia("(max-width: 767px)")
-    myFunction(x) // Call listener function at run time
-    x.addListener(myFunction) // Attach listener function on state changes
+    //var x = window.matchMedia("(max-width: 767px)")
+    //myFunction(x) // Call listener function at run time
+    //x.addListener(myFunction) // Attach listener function on state changes
 
 
     $('#make-order').submit(function (e) {
