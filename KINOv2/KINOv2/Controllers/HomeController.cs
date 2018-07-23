@@ -60,7 +60,7 @@ namespace KINOv2.Controllers
                 .OrderBy(x => x.PublishDate)
                 .ToListAsync();
 
-            ViewData["AllFilmSessions"] = SessionsByFilm(films);
+            ViewData["AllFilmSessions"] = SessionsByFilm(films, null);
             ViewData["News"] = news;
      
             return View(films);
@@ -212,7 +212,7 @@ namespace KINOv2.Controllers
                 .ThenInclude(s => s.Hall)
                 .Where(x => x.Archived != true);
 
-            ViewData["AllFilmSessions"] = SessionsByFilm(films);
+            ViewData["AllFilmSessions"] = SessionsByFilm(films, null);
 
             return View(films);
         }
@@ -232,6 +232,9 @@ namespace KINOv2.Controllers
                     throw new KeyNotFoundException();
 
                 session.Seats = DB.Seats.Where(s => s.SessionLINK == session.LINK).ToList();
+
+                if (session.SessionTime < DateTime.Now)
+                    return Forbid();
 
                 ViewData["Session"] = session;
             }
@@ -423,6 +426,7 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> SendMessage(int id, string msg, int replyid)
         {
             var film = await DB.Films.FindAsync(id);
@@ -459,6 +463,7 @@ namespace KINOv2.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult ToggleFavorite(int id)
         {
             var film = DB.Films.Include(x => x.FilmUsers)
@@ -490,6 +495,7 @@ namespace KINOv2.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult RateFilm(int id, string score)
         {
             string status = "";
@@ -608,8 +614,29 @@ namespace KINOv2.Controllers
             return PartialView("FilmSessions");
         }
 
-        public Dictionary<string, Dictionary<string, List<Session>>> SessionsByFilm(IEnumerable<Film> films)
+        public IActionResult FilmList(string date)
         {
+            if (!DateTime.TryParse(date, out DateTime selectedDate))
+                return null;
+
+            IEnumerable<Film> films = DB.Films
+                .Include(x => x.Genre)
+                .Include(x => x.AgeLimit)
+                .Include(x => x.Sessions)
+                .ThenInclude(s => s.Hall)
+                .Where(x => x.Archived != true 
+                    && x.ReleaseDate < selectedDate);
+
+            ViewData["AllFilmSessions"] = SessionsByFilm(films, selectedDate);
+
+            return PartialView("FilmList", films);
+        }
+
+        public Dictionary<string, Dictionary<string, List<Session>>> SessionsByFilm(IEnumerable<Film> films, DateTime? date)
+        {
+            if (date is null)
+                date = DateTime.Now.Date;
+
             Dictionary<string, List<Session>> sessionsByHall = new Dictionary<string, List<Session>>();
             Dictionary<string, Dictionary<string, List<Session>>> sessionsByFilm = new Dictionary<string, Dictionary<string, List<Session>>>();
 
@@ -620,7 +647,7 @@ namespace KINOv2.Controllers
                     sessionsByHall.Add(hall.Name, film.Sessions
                         .Where(x => x.Hall.Name == hall.Name
                         && x.Archived != true
-                        && x.SessionTime.Date == DateTime.Now.Date)
+                        && x.SessionTime.Date == date.Value)
                         .OrderBy(x => x.SessionTime)
                         .ToList()
                         );

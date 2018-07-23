@@ -235,6 +235,46 @@ footer {
     }
 }
 
+#sessions {
+    .sessions-empty {
+        font-size: 30px;
+    }
+}
+
+.comment {
+    max-width: 700px;
+    border-top: 2px solid #fbad50;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+
+    .comment-rate {
+        margin:auto 5px; 
+        padding-bottom:5px;
+
+        i {
+            font-size:20px; 
+            color:#3B708F
+        }
+    }
+
+    .comment-image {
+        width:100px !important; 
+        height:100px !important; 
+        object-fit:cover;
+    }
+
+    .comment-content {
+        font-family: Calibri,Verdana,Helvetica,sans-serif;
+    }
+}
+
+.session-link {
+    &.disabled {
+        cursor: not-allowed;
+        opacity: .6;
+    }
+}
+
 
 @media(max-width: 575px){
     .main-affiche {

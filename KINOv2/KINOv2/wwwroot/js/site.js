@@ -143,9 +143,16 @@ $('.session-date').click(function (e) {
     //$('#datetimepicker4').datetimepicker('viewDate', "01.01.1990 0:00:00");
 });
 
+$('.session-link').click(function (e) {
+    if ($(this).hasClass('disabled')) {
+        console.log('enter');
+        e.preventDefault();
+    }
+});
+
 $('#session-drop').click(function (e) {
     $('#datetimepicker4').datetimepicker('hide');
-})
+});
 
 $('#datetimepicker4').on("change.datetimepicker", function (e) {
     if (e != null) {

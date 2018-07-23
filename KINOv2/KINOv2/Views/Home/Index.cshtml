@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Film>
+
+@using System.Globalization
+
 @{
     List<News> news = ViewData["News"] as List<News>;
 
@@ -35,7 +38,7 @@
         <div class="col-12 mt-3 mb-4 d-flex align-items-center justify-content-between">
             <h1>Сегодня в кино</h1><span class="h2">Скоро</span>
         </div>
-        
+
         @await Html.PartialAsync("FilmList", Model)
 
     </section>
@@ -57,7 +60,7 @@
                     </div>
                     <div class="label d-flex flex-column justify-content-center align-items-center">
                         <div>@item.PublishDate.Date.ToString("dd")</div>
-                        <div>@item.PublishDate.Date.ToString("MMMM")</div>
+                        <div>@(new CultureInfo("ru-RU").DateTimeFormat.MonthGenitiveNames[Convert.ToInt32(item.PublishDate.Date.ToString("MM")) - 1])</div>
                     </div>
                     <div class="align-items-center d-flex justify-content-center news-header">
                         <h4 class="px-3">@item.Name</h4>

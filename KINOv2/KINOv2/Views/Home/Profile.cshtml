@@ -11,70 +11,73 @@
         imgPath = Url.Content("~/images/Profiles/" + Model.ProfileImage);
     }
 }
-<h1>Профиль</h1>
 
-<div class="row">
-    <hr class="d-none d-sm-none d-md-block ml-3 col-lg-9" />
-    <div class="col-12 col-sm-5 col-md-6 col-lg-4 order-md-1">
-        <img class="img-fluid img-thumbnail d-block mx-auto" src="@imgPath" style="width: 200px;height: 180px;object-fit: cover;" />
-    </div>
-    <div class="col-12 col-sm-7 col-md-6 col-lg-5 order-md-0 align-self-lg-center">
-        <div class="text-center mb-1">
-            <span class="h4 text-orange">@Model.Username</span>
+<div class="container px-0 px-sm-3">
+    <h1 class="col-12">Профиль</h1>
+
+    <div class="row">
+        <hr class="d-none d-sm-none d-md-block ml-3 col-lg-9" />
+        <div class="col-12 col-sm-5 col-md-6 col-lg-4 order-md-1">
+            <img class="img-fluid img-thumbnail d-block mx-auto" src="@imgPath" style="width: 200px;height: 180px;object-fit: cover;" />
         </div>
-        @if (Model.PersonalInfoVisible)
-        {
+        <div class="col-12 col-sm-7 col-md-6 col-lg-5 order-md-0 align-self-lg-center">
             <div class="text-center mb-1">
-                <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
+                <span class="h4 text-orange">@Model.Username</span>
             </div>
-            <div class="row">
-                <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
-                <span class="col">@Model.Email</span>
-            </div>
-            <div class="row">
-                <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
-                <span class="col">@Model.City</span>
-            </div>
-        }
-        else
-        {
-            <div class="text-center mb-1">
-                <span class="text-center text-info">Пользователь ограничил доступ к личным данным</span>
-            </div>
-        }
+            @if (Model.PersonalInfoVisible)
+            {
+                <div class="text-center mb-1">
+                    <span class="text-center">@Model.Name @Model.SurName, @Model.Age</span>
+                </div>
+                <div class="row">
+                    <label class="text-info col-4 text-right" asp-for="@Model.Email"></label>
+                    <span class="col">@Model.Email</span>
+                </div>
+                <div class="row">
+                    <label class="text-info col-4 text-right" asp-for="@Model.City"></label>
+                    <span class="col">@Model.City</span>
+                </div>
+            }
+            else
+            {
+                <div class="text-center mb-1">
+                    <span class="text-center text-info">Пользователь ограничил доступ к личным данным</span>
+                </div>
+            }
 
-    </div>
-    <h2 class="col-12 order-md-3">Избранные фильмы</h2>
-    <div class="col-12 col-lg-10 order-md-4">
-        @if (Model.SelectedFilmsVisible)
-        {
-        <table class="table table-sm table-striped">
-            <thead>
-                <tr>
-                    <td>Название фильма</td>
-                    <td class="w-25 text-center">Локальный рейтинг</td>
-                    <td class="w-25 text-center">Рейтинг</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var film in Model.Films)
-                {
-                    <tr>
-                        <td><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK" class="text-info">@film.Name</a></td>
-                        <td class="text-center">@film.LocalRating</td>
-                        <td class="text-center">@film.GlobalRating</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-        }
-        else
-        {
-            <p class="text-center text-info h3">
-                Пользователь ограничил доступ к избранным фильмам
-            </p>
-        }
+        </div>
+        <h2 class="col-12 order-md-3">Избранные фильмы</h2>
+        <div class="col-12 col-lg-10 order-md-4">
+            @if (Model.SelectedFilmsVisible)
+            {
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <td>Название фильма</td>
+                            <td class="w-25 text-center">Локальный рейтинг</td>
+                            <td class="w-25 text-center">Рейтинг</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var film in Model.Films)
+                        {
+                            <tr>
+                                <td><a asp-area="" asp-controller="Home" asp-action="Film" asp-route-id="@film.LINK" class="text-info">@film.Name</a></td>
+                                <td class="text-center">@film.LocalRating</td>
+                                <td class="text-center">@film.GlobalRating</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <p class="text-center text-info h3">
+                    Пользователь ограничил доступ к избранным фильмам
+                </p>
+            }
+        </div>
     </div>
 </div>

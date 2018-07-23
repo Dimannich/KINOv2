@@ -219,6 +219,43 @@ footer .contacts a[target="_blank"]:hover .fa-vk {
   color: #4c75a3;
 }
 
+#sessions .sessions-empty {
+  font-size: 30px;
+}
+
+.comment {
+  max-width: 700px;
+  border-top: 2px solid #fbad50;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+}
+
+.comment .comment-rate {
+  margin: auto 5px;
+  padding-bottom: 5px;
+}
+
+.comment .comment-rate i {
+  font-size: 20px;
+  color: #3B708F;
+}
+
+.comment .comment-image {
+  width: 100px !important;
+  height: 100px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.comment .comment-content {
+  font-family: Calibri,Verdana,Helvetica,sans-serif;
+}
+
+.session-link.disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
 @media (max-width: 575px) {
   .main-affiche h1 {
     font-size: 30px;
