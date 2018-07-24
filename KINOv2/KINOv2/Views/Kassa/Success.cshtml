@@ -3,12 +3,20 @@
     ViewData["Title"] = "Успешная оплата";
 }
 
-<h2>Заказ успешно оплачен</h2>
+<div class="container px-0 px-sm-3">
+    <div class="row">
+        <div class="col-12">
+            <h2>Заказ успешно оплачен</h2>
 
-<h2>Поздравляем!</h2>
+            <h2>Поздравляем!</h2>
 
-<p>Ваш номер заказа <span style="font-size: 24px">@ViewData["ValidationKey"].ToString()</span> , предъявите его в кассе и получите билет.</p>
-<p>Приходите еще!</p>
+            <p>Ваш номер заказа <span style="font-size: 24px">@ViewData["ValidationKey"].ToString()</span> , предъявите его в кассе и получите билет.</p>
+            <p>Приходите еще!</p>
+        </div>
+    </div>
+</div>
+
+
 <script>
     window.postMessage("success", window.location)
 </script>

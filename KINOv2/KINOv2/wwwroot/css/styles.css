@@ -256,6 +256,51 @@ footer .contacts a[target="_blank"]:hover .fa-vk {
   opacity: .6;
 }
 
+.footable-pagination-wrapper .pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 15px;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav, .footable-pagination-wrapper .pagination .footable-page {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #f6a21c;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav.disabled, .footable-pagination-wrapper .pagination .footable-page.disabled {
+  cursor: not-allowed;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav.disabled a, .footable-pagination-wrapper .pagination .footable-page.disabled a {
+  cursor: not-allowed;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav.active, .footable-pagination-wrapper .pagination .footable-page.active {
+  background: #f6a21c;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav.active a, .footable-pagination-wrapper .pagination .footable-page.active a {
+  color: white;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav.active a:hover, .footable-pagination-wrapper .pagination .footable-page.active a:hover {
+  color: white;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav a, .footable-pagination-wrapper .pagination .footable-page a {
+  color: #f6a21c;
+}
+
+.footable-pagination-wrapper .pagination .footable-page-nav a:hover, .footable-pagination-wrapper .pagination .footable-page a:hover {
+  color: #f6a21c;
+  text-decoration: none;
+}
+
 @media (max-width: 575px) {
   .comment .comment-image {
     width: 60px;

@@ -3,11 +3,18 @@
     ViewData["Title"] = "Не удалось оплатить";
 }
 
-<h2>Произошла ошибка при оплате</h2>
 
+<div class="container px-0 px-sm-3">
+    <div class="row">
+        <div class="col-12">
+            <h2>Произошла ошибка при оплате</h2>
 
-<p>Подробности можно увидеть в <a asp-controller="Manage" asp-action="History">личном кабинете</a></p>
-<p>Приходите еще!</p>
+            <p>Подробности можно увидеть в <a asp-controller="Manage" asp-action="History">личном кабинете</a></p>
+            <p>Приходите еще!</p>
+        </div>
+    </div>
+</div>
+
 <script>
     window.postMessage("fail", window.location)
 </script>

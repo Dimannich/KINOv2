@@ -275,6 +275,47 @@ footer {
     }
 }
 
+.footable-pagination-wrapper {
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+
+        .footable-page-nav, .footable-page {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #f6a21c;
+
+            &.disabled {
+                cursor: not-allowed;
+
+                a {
+                    cursor: not-allowed;
+                }
+            }
+
+            &.active {
+                background: #f6a21c;
+                a {
+                    color: white;
+
+                    &:hover {
+                        color: white;
+                    }
+                }
+            }
+
+            a {
+                color: #f6a21c;
+
+                &:hover {
+                    color: #f6a21c;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
 
 @media(max-width: 575px){
 

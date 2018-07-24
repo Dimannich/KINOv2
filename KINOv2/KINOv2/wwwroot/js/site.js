@@ -28,11 +28,22 @@ $('#datetimepicker4').datetimepicker({
     useCurrent: false
 });
 
-//$('#history-table').footable({
-//    "empty": "Заказы отсутсвтуют",
-//    "columns": $.get('/manage/HistoryColumns'),
-//    "rows": $.get('/manage/HistoryRows')
-//});
+
+if (document.getElementById('history-table') !== null) {
+    $('#history-table').footable({
+        "empty": "Заказы отсутсвтуют",
+        "columns": $.get('/manage/historycolumns'),
+        "rows": $.get('/manage/historyrows'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+
 //var results = $("#Results");
 //var onBegin = function () {
 //    results.html("<img src=\"/images/ajax-loader.gif\" alt=\"Loading\" />");

@@ -156,7 +156,7 @@ namespace KINOv2.Controllers
             foreach(var order in orders)
             {
                 UserOrdersHistoryModel orderModel = new UserOrdersHistoryModel();
-                orderModel.OrderDate = order.Date;
+                orderModel.OrderDate = order.Date.Value.ToString("dd.MM.yy HH:mm");
 
                 foreach(var seat in order.Seats)
                 {
@@ -173,7 +173,7 @@ namespace KINOv2.Controllers
                     continue;
 
                 orderModel.Cost = order.Cost;
-                orderModel.SessionDate = session.SessionTime.Date;
+                orderModel.SessionDate = session.SessionTime.Date.ToString("dd.MM.yy HH:mm");
                 orderModel.FilmName = session.Film.Name;
                 orderModel.HallName = session.Hall.Name;
 
@@ -656,7 +656,7 @@ namespace KINOv2.Controllers
             foreach (var order in orders)
             {
                 UserOrdersHistoryModel orderModel = new UserOrdersHistoryModel();
-                orderModel.OrderDate = order.Date;
+                orderModel.OrderDate = order.Date.Value.ToString("dd.MM.yy HH:mm");
 
                 foreach (var seat in order.Seats)
                 {
@@ -673,8 +673,7 @@ namespace KINOv2.Controllers
                     continue;
 
                 orderModel.Cost = order.Cost;
-                orderModel.SessionDate = session.SessionTime.Date;
-                orderModel.SessionDate = DateTime.Parse(orderModel.SessionDate.Value.ToString("dd.MM.yy HH:mm"));
+                orderModel.SessionDate = session.SessionTime.Date.ToString("dd.MM.yy HH:mm");
                 orderModel.FilmName = session.Film.Name;
                 orderModel.HallName = session.Hall.Name;
 

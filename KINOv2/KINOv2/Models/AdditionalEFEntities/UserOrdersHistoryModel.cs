@@ -10,10 +10,10 @@ namespace KINOv2.Models.AdditionalEFEntities
     {
         //Дата заказа
         [Display(Name = "Дата оформления заказа")]
-        public DateTime? OrderDate { get; set; }
+        public string OrderDate { get; set; }
         //Дата сеанса
         [Display(Name = "Дата сеанса")]
-        public DateTime? SessionDate { get; set; }
+        public string SessionDate { get; set; }
         //Название фильма
         [Display(Name = "Название фильма")]
         public string FilmName { get; set; }
