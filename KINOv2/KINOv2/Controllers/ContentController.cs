@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using KINOv2.Controllers.ApiControllers;
 using KINOv2.Data;
 using KINOv2.Models.ContentManageViewModels;
 using KINOv2.Models.MainModels;
@@ -25,10 +27,10 @@ namespace KINOv2.Controllers
         private ApplicationDbContext DB { get; set; }
         private IHostingEnvironment AppEnvironment { get; set; }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         //
         //GET: /Content/FilmManage
@@ -292,6 +294,125 @@ namespace KINOv2.Controllers
             DB.Entry(session).State = EntityState.Modified;
             await DB.SaveChangesAsync();
             return RedirectToAction("Film", "Home", new { id = filmID });
+        }
+
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult FilmColumns()
+        {
+            FilmSerializer fs = new FilmSerializer();
+
+            //var propList = new List<ColumnSerializer>();
+            //foreach(var prop in fs.GetType().GetProperties())
+            //{
+            //    if(prop.CustomAttributes.Count() > 0)
+            //    {
+            //        ColumnSerializer cs = new ColumnSerializer();
+            //        cs.name = char.ToLowerInvariant(prop.Name[0]) + prop.Name.Substring(1);
+
+            //        var attr = prop.CustomAttributes.First();
+            //        cs.title = attr.NamedArguments.First(x => x.MemberName == "Name").TypedValue.ToString().Replace("\"", "");
+            //        cs.breakpoints = attr.NamedArguments.FirstOrDefault(x => x.MemberName == "Description").TypedValue.ToString().Replace("\"", "");
+
+            //        propList.Add(cs);
+            //    }
+            //}
+
+            return Ok(GetColumns(fs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult SessionCoulmns()
+        {
+            SessionSerializer ss = new SessionSerializer();
+            return Ok(GetColumns(ss));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult NewsColumns()
+        {
+            NewsSerializer ns = new NewsSerializer();
+            return Ok(GetColumns(ns));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult UserColumns()
+        {
+            ExtendedUserSerializer eus = new ExtendedUserSerializer();
+            return Ok(GetColumns(eus));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult DirectorColumns()
+        {
+            DefaultRefBookSerializer drbs = new DefaultRefBookSerializer();
+            return Ok(GetColumns(drbs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult CountryColumns()
+        {
+            DefaultRefBookSerializer drbs = new DefaultRefBookSerializer();
+            return Ok(GetColumns(drbs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult QAColumns()
+        {
+            DefaultRefBookSerializer drbs = new DefaultRefBookSerializer();
+            return Ok(GetColumns(drbs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult SubjectColumns()
+        {
+            DefaultRefBookSerializer drbs = new DefaultRefBookSerializer();
+            return Ok(GetColumns(drbs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult HallColumns()
+        {
+            HallSerializer hs = new HallSerializer();
+            return Ok(GetColumns(hs));
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult AgeLimitColumns()
+        {
+            AgeLimitSerializer ns = new AgeLimitSerializer();
+            return Ok(GetColumns(ns));
+        }
+
+        public List<ColumnSerializer> GetColumns(object serializer)
+        {
+            var propList = new List<ColumnSerializer>();
+            foreach (var prop in serializer.GetType().GetProperties())
+            {
+                if (prop.CustomAttributes.Count() > 0)
+                {
+                    ColumnSerializer cs = new ColumnSerializer();
+                    cs.name = char.ToLowerInvariant(prop.Name[0]) + prop.Name.Substring(1);
+
+                    var attr = prop.CustomAttributes.First();
+                    cs.title = attr.NamedArguments.First(x => x.MemberName == "Name").TypedValue.ToString().Replace("\"", "");
+                    cs.breakpoints = attr.NamedArguments.FirstOrDefault(x => x.MemberName == "Description").TypedValue.ToString().Replace("\"", "");
+
+                    propList.Add(cs);
+                }
+            }
+
+            return propList;
         }
     }
 }

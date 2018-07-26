@@ -43,6 +43,136 @@ if (document.getElementById('history-table') !== null) {
     });
 }
 
+if (document.getElementById('film-table') !== null) {
+    $('#film-table').footable({
+        "columns": $.get('/content/filmcolumns'),
+        "rows": $.get('/api/film'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('session-table') !== null) {
+    $('#session-table').footable({
+        "columns": $.get('/content/sessioncoulmns'),
+        "rows": $.get('/api/session/all'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('news-table') !== null) {
+    $('#news-table').footable({
+        "columns": $.get('/content/newscolumns'),
+        "rows": $.get('/api/getnews'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('user-table') !== null) {
+    $('#user-table').footable({
+        "columns": $.get('/content/usercolumns'),
+        "rows": $.get('/api/getusers'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('director-table') !== null) {
+    $('#director-table').footable({
+        "columns": $.get('/content/directorcolumns'),
+        "rows": $.get('/api/getdirectors'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('country-table') !== null) {
+    $('#country-table').footable({
+        "columns": $.get('/content/countrycolumns'),
+        "rows": $.get('/api/getcountries'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('qa-table') !== null) {
+    $('#qa-table').footable({
+        "columns": $.get('/content/qacolumns'),
+        "rows": $.get('/api/getqas'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('subject-table') !== null) {
+    $('#subject-table').footable({
+        "columns": $.get('/content/subjectcolumns'),
+        "rows": $.get('/api/getsubjects'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('hall-table') !== null) {
+    $('#hall-table').footable({
+        "columns": $.get('/content/hallcolumns'),
+        "rows": $.get('/api/session'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
+if (document.getElementById('agelimit-table') !== null) {
+    $('#agelimit-table').footable({
+        "columns": $.get('/content/agelimitcolumns'),
+        "rows": $.get('/api/getagelimits'),
+        'on': {
+            'postinit.ft.table': function (e, ft) {
+                let label = document.getElementsByClassName('label-default')[0];
+                label.parentNode.removeChild(label);
+            }
+        }
+    });
+}
+
 
 //var results = $("#Results");
 //var onBegin = function () {
